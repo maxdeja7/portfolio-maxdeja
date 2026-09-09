@@ -3,276 +3,663 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio</title>
+  <title>MAXDEJA — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #F7F6F3;
-      --ink: #1A1A18;
-      --ink-soft: #6B6B67;
-      --accent: #2A52A0;
-      --card-bg: #ffffff;
-      --radius: 4px;
+      --yellow: #F4EF9A;
+      --black: #0D0D0D;
+      --white: #FFFFFF;
+      --gray: #444444;
+      --gray-light: #666666;
+      --shadow: 7px 7px 0px var(--black);
+      --shadow-sm: 4px 4px 0px var(--black);
+      --border: 2.5px solid var(--black);
+      --accent-1: #6BCEFF;
+      --accent-2: #FF6B6B;
+      --accent-3: #A8FF78;
+      --accent-4: #E056FD;
     }
 
-    body {
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      min-height: 100vh;
+      background: var(--yellow);
+      cursor: default;
+      user-select: none;
     }
 
-    header {
-      padding: 3rem 5vw 2rem;
+    /* ── BACKGROUND PATTERN ── */
+    #bg-pattern {
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='40' fill='%23F4EF9A'/%3E%3Ccircle cx='20' cy='20' r='2' fill='black' fill-opacity='0.1'/%3E%3C/svg%3E");
+      background-size: 40px 40px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── HEADER ── */
+    #header {
+      position: fixed;
+      top: 24px;
+      left: 0;
+      right: 0;
+      z-index: 100;
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      border-bottom: 1px solid rgba(26,26,24,0.1);
+      align-items: center;
+      padding: 0 24px;
+      pointer-events: none;
     }
 
-    .logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      letter-spacing: -0.02em;
-    }
-
-    nav a {
-      font-size: 0.85rem;
-      font-weight: 400;
-      color: var(--ink-soft);
+    .header-btn {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: var(--black);
+      background: var(--yellow);
+      border: var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 8px 14px;
+      pointer-events: all;
+      cursor: pointer;
       text-decoration: none;
-      margin-left: 2rem;
-      transition: color 0.2s;
+      display: inline-block;
+      transition: transform 0.1s, box-shadow 0.1s;
     }
-    nav a:hover { color: var(--ink); }
-
-    .hero {
-      padding: 5rem 5vw 3rem;
+    .header-btn:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px var(--black);
     }
-    .hero h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      max-width: 14ch;
-      margin-bottom: 1.5rem;
-    }
-    .hero p {
-      font-size: 1rem;
-      color: var(--ink-soft);
-      font-weight: 300;
-      max-width: 42ch;
-      line-height: 1.7;
+    .header-btn:active {
+      transform: translate(4px, 4px);
+      box-shadow: none;
     }
 
-    .grid-label {
-      padding: 0 5vw;
-      margin-bottom: 1.5rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      color: var(--ink-soft);
-      text-transform: uppercase;
+    /* ── CANVAS ── */
+    #canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      cursor: grab;
+    }
+    #canvas.dragging { cursor: grabbing; }
+
+    #world {
+      position: absolute;
+      width: 3000px;
+      height: 3000px;
+      top: 0;
+      left: 0;
+      transform-origin: 0 0;
     }
 
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 1px;
-      background: rgba(26,26,24,0.1);
-      border-top: 1px solid rgba(26,26,24,0.1);
-    }
-
+    /* ── CARDS ── */
     .project-card {
-      background: var(--card-bg);
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      overflow: hidden;
-      transition: background 0.2s;
+      position: absolute;
+      width: 300px;
+      background: var(--white);
+      border: 3px solid var(--black);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      will-change: transform;
     }
-    .project-card:hover { background: #f0efeb; }
-    .project-card:hover .card-img img { transform: scale(1.03); }
+    .project-card:hover {
+      transform: rotate(var(--rot)) translate(3px, 3px) !important;
+      box-shadow: 4px 4px 0px var(--black);
+    }
+    .project-card:active {
+      transform: rotate(var(--rot)) translate(7px, 7px) !important;
+      box-shadow: none;
+    }
 
-    .card-img {
-      width: 100%;
-      aspect-ratio: 16/9;
-      overflow: hidden;
-      background: #e8e7e3;
+    .card-accent {
+      height: 8px;
+      border-bottom: 3px solid var(--black);
+      flex-shrink: 0;
     }
-    .card-img img {
+
+    .card-img-wrap {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      border-bottom: 3px solid var(--black);
+      background: #e8e8e8;
+      flex-shrink: 0;
+    }
+    .card-img-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.5s ease;
-    }
-    .card-img .placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--ink-soft);
-      font-size: 0.8rem;
+      pointer-events: none;
     }
 
     .card-body {
-      padding: 1.5rem 1.75rem 2rem;
-    }
-    .card-meta {
-      font-size: 0.75rem;
-      color: var(--ink-soft);
-      margin-bottom: 0.5rem;
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
     .card-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.4rem;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-bottom: 0.75rem;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 24px;
+      color: var(--black);
+      line-height: 1.1;
     }
     .card-excerpt {
-      font-size: 0.875rem;
-      color: var(--ink-soft);
-      font-weight: 300;
-      line-height: 1.6;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: var(--gray);
+      line-height: 1.5;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .card-arrow {
-      display: inline-block;
-      margin-top: 1.25rem;
-      font-size: 0.8rem;
-      color: var(--accent);
-      font-weight: 500;
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 6px;
+    }
+    .card-client {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--gray-light);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .card-cta {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--yellow);
+      background: var(--black);
+      border: 2px solid var(--black);
+      padding: 6px 12px;
     }
 
-    .loading, .error {
-      padding: 5rem 5vw;
-      color: var(--ink-soft);
-      font-size: 0.9rem;
+    /* ── HINT ── */
+    #hint {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      background: var(--black);
+      border: var(--border);
+      box-shadow: 5px 5px 0px rgba(244,239,154,0.4);
+      padding: 11px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 1;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
+    #hint.hidden { opacity: 0; }
+    .hint-dot {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--yellow);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    #hint span {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--yellow);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
     }
 
-    footer {
-      padding: 3rem 5vw;
-      font-size: 0.8rem;
-      color: var(--ink-soft);
-      border-top: 1px solid rgba(26,26,24,0.1);
-      margin-top: 4rem;
+    /* ── ZOOM TRANSITION ── */
+    #zoom-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    #zoom-img {
+      position: absolute;
+      object-fit: cover;
+      transform-origin: top left;
+      transition: none;
+    }
+
+    /* ── LOADING / ERROR ── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--yellow);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 20px;
+      color: var(--black);
+    }
+
+    /* ════════════════════════════════
+       MOBILE
+    ════════════════════════════════ */
+    @media (max-width: 768px) {
+      html, body { overflow: auto; }
+
+      #bg-pattern { display: none; }
+      body { background: var(--yellow); }
+
+      #canvas { position: static; height: auto; cursor: default; }
+      #world {
+        position: static;
+        width: 100%;
+        height: auto;
+        transform: none !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 90px 20px 40px;
+      }
+
+      .project-card {
+        position: static !important;
+        transform: none !important;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 5px 5px 0px var(--black);
+      }
+      .project-card:hover {
+        transform: translate(2px, 2px) !important;
+        box-shadow: 3px 3px 0px var(--black);
+      }
+
+      #header {
+        top: 0;
+        background: var(--yellow);
+        border-bottom: var(--border);
+        padding: 12px 16px;
+      }
+      .header-logo-mobile {
+        font-family: 'Archivo Black', sans-serif;
+        font-size: 14px;
+        letter-spacing: 0.06em;
+        color: var(--black);
+      }
+      .header-btn.desktop-only { display: none; }
+
+      /* Burger */
+      #burger {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        pointer-events: all;
+        padding: 4px;
+      }
+      #burger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--black);
+      }
+
+      #mobile-menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--yellow);
+        z-index: 500;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        border-top: var(--border);
+      }
+      #mobile-menu.open { display: flex; }
+      #mobile-menu a, #mobile-menu button {
+        font-family: 'Archivo Black', sans-serif;
+        font-size: 24px;
+        color: var(--black);
+        text-decoration: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        letter-spacing: 0.04em;
+      }
+      #menu-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 28px !important;
+      }
+
+      #hint { display: none; }
+    }
+
+    @media (min-width: 769px) {
+      .header-logo-mobile { display: none; }
+      #burger { display: none; }
+      #mobile-menu { display: none !important; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">Votre Nom</div>
-  <nav>
-    <a href="index.html">Projets</a>
-    <a href="mailto:votre@email.com">Contact</a>
-  </nav>
+<div id="bg-pattern"></div>
+<div id="loader">Chargement…</div>
+
+<!-- HEADER -->
+<header id="header">
+  <!-- Mobile -->
+  <span class="header-logo-mobile">MAXDEJA</span>
+  <div id="burger" role="button" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+
+  <!-- Desktop -->
+  <a href="#" class="header-btn desktop-only">MAXDEJA — PORTFOLIO</a>
+  <a href="#" class="header-btn desktop-only" id="about-btn">À propos / Contactez-moi</a>
 </header>
 
-<section class="hero">
-  <h1>Designer UI/UX</h1>
-  <p>Études de cas, interfaces et expériences pensées pour les usages réels.</p>
-</section>
-
-<p class="grid-label">Projets sélectionnés</p>
-
-<div id="projects-container">
-  <div class="loading">Chargement des projets…</div>
+<!-- Mobile menu -->
+<div id="mobile-menu">
+  <button id="menu-close">✕</button>
+  <a href="#">Projets</a>
+  <a href="#" id="about-mobile">À propos / Contactez-moi</a>
 </div>
 
-<footer>
-  &copy; 2026 — Votre Nom
-</footer>
+<!-- CANVAS -->
+<div id="canvas">
+  <div id="world"></div>
+</div>
+
+<!-- HINT -->
+<div id="hint">
+  <div class="hint-dot"></div>
+  <span>Déplacez-vous dans le plan en maintenant le clic</span>
+</div>
+
+<!-- ZOOM OVERLAY -->
+<div id="zoom-overlay">
+  <img id="zoom-img" src="" alt="" />
+</div>
 
 <script>
-  const DATABASE_ID = '3d67b12f4b1880a1a4baee47680c227d';
   const PROXY = 'https://notion-proxy-brown.vercel.app/api/notion';
+  const DATABASE_ID = '3d67b12f4b1880a1a4baee47680c227d';
 
-  async function fetchProjects() {
-    try {
-      const res = await fetch(`${PROXY}?path=databases/${DATABASE_ID}/query`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ page_size: 20 })
-      });
+  const ACCENTS = ['#6BCEFF', '#FF6B6B', '#A8FF78', '#E056FD', '#FFB347', '#FF85C2'];
 
-      if (!res.ok) throw new Error(`Erreur API: ${res.status}`);
-      const data = await res.json();
-      renderProjects(data.results);
-    } catch (err) {
-      document.getElementById('projects-container').innerHTML =
-        `<div class="error">Impossible de charger les projets. Vérifie ton token Notion.<br><small>${err.message}</small></div>`;
-    }
-  }
-
+  // ── NOTION ──
   function getProp(props, name, type) {
     const p = props[name];
     if (!p) return null;
     if (type === 'title') return p.title?.map(t => t.plain_text).join('') || null;
     if (type === 'rich_text') return p.rich_text?.map(t => t.plain_text).join('') || null;
     if (type === 'url') return p.url || null;
-    if (type === 'files') {
-      const f = p.files?.[0];
-      if (!f) return null;
-      return f.type === 'external' ? f.external.url : f.file?.url || null;
-    }
     return null;
   }
 
-  function renderProjects(pages) {
-    if (!pages.length) {
-      document.getElementById('projects-container').innerHTML =
-        '<div class="loading">Aucun projet trouvé dans la base Notion.</div>';
-      return;
+  async function fetchProjects() {
+    const res = await fetch(`${PROXY}?path=databases/${DATABASE_ID}/query`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ page_size: 20 })
+    });
+    if (!res.ok) throw new Error(`${res.status}`);
+    const data = await res.json();
+    return data.results;
+  }
+
+  // ── LAYOUT — répartition quasi-aléatoire sans grille rigide ──
+  function layoutCards(count) {
+    const W = 3000, H = 3000;
+    const cx = W / 2, cy = H / 2;
+    const CARD_W = 300, CARD_H = 400, MARGIN = 60;
+
+    // Grille souple : on place en cercles concentriques légèrement perturbés
+    const positions = [];
+    const cols = Math.ceil(Math.sqrt(count));
+    const rows = Math.ceil(count / cols);
+    const cellW = Math.min(500, (W * 0.7) / cols);
+    const cellH = Math.min(520, (H * 0.65) / rows);
+    const startX = cx - (cols * cellW) / 2;
+    const startY = cy - (rows * cellH) / 2;
+
+    for (let i = 0; i < count; i++) {
+      const col = i % cols;
+      const row = Math.floor(i / cols);
+      const jitterX = (Math.random() - 0.5) * cellW * 0.35;
+      const jitterY = (Math.random() - 0.5) * cellH * 0.35;
+      positions.push({
+        x: startX + col * cellW + jitterX,
+        y: startY + row * cellH + jitterY,
+        rot: (Math.random() - 0.5) * 8
+      });
     }
+    return positions;
+  }
 
-    const grid = document.createElement('div');
-    grid.className = 'projects-grid';
+  // ── RENDER CARDS ──
+  function buildCards(pages) {
+    const world = document.getElementById('world');
+    world.innerHTML = '';
 
-    pages.forEach(page => {
+    const isMobile = window.innerWidth <= 768;
+    const positions = isMobile ? [] : layoutCards(pages.length);
+
+    pages.forEach((page, i) => {
       const props = page.properties;
       const titre = getProp(props, 'Titre', 'title') || getProp(props, 'Name', 'title') || 'Sans titre';
       const client = getProp(props, 'Client', 'rich_text') || '';
-      const contexte = getProp(props, 'Contexte', 'rich_text') || '';
-      const couverture = getProp(props, 'Couverture', 'url') || getProp(props, 'Couverture', 'files');
-      const pageId = page.id.replace(/-/g, '');
+      const solution = getProp(props, 'Solution', 'rich_text') || '';
+      const couverture = getProp(props, 'Couverture', 'url') || '';
+      const accent = ACCENTS[i % ACCENTS.length];
 
-      const card = document.createElement('a');
+      const card = document.createElement('div');
       card.className = 'project-card';
-      card.href = `projet.html?id=${page.id}`;
+
+      if (!isMobile) {
+        const pos = positions[i];
+        const rot = pos.rot;
+        card.style.setProperty('--rot', `${rot}deg`);
+        card.style.left = pos.x + 'px';
+        card.style.top = pos.y + 'px';
+        card.style.transform = `rotate(${rot}deg)`;
+      }
 
       card.innerHTML = `
-        <div class="card-img">
-          ${couverture
-            ? `<img src="${couverture}" alt="${titre}" loading="lazy" />`
-            : `<div class="placeholder">Aucune image</div>`
-          }
+        <div class="card-accent" style="background:${accent}"></div>
+        <div class="card-img-wrap">
+          ${couverture ? `<img src="${couverture}" alt="${titre}" loading="lazy" data-src="${couverture}" />` : ''}
         </div>
         <div class="card-body">
-          ${client ? `<p class="card-meta">${client}</p>` : ''}
-          <h2 class="card-title">${titre}</h2>
-          ${contexte ? `<p class="card-excerpt">${contexte}</p>` : ''}
-          <span class="card-arrow">Voir le projet →</span>
+          <div class="card-title">${titre}</div>
+          ${solution ? `<div class="card-excerpt">${solution}</div>` : ''}
+          <div class="card-footer">
+            <span class="card-client">${client}</span>
+            <span class="card-cta">VOIR →</span>
+          </div>
         </div>
       `;
 
-      grid.appendChild(card);
+      card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (wasDragging) return;
+        const img = couverture;
+        const target = `projet.html?id=${page.id}`;
+        zoomTransition(card, img, target);
+      });
+
+      world.appendChild(card);
     });
 
-    document.getElementById('projects-container').innerHTML = '';
-    document.getElementById('projects-container').appendChild(grid);
+    // Centre le canvas sur le monde
+    if (!isMobile) centerCanvas();
   }
 
-  fetchProjects();
-</script>
+  // ── CANVAS PAN ──
+  let panX = 0, panY = 0;
+  let startX, startY, startPanX, startPanY;
+  let isPanning = false;
+  let wasDragging = false;
 
+  function centerCanvas() {
+    const vw = window.innerWidth, vh = window.innerHeight;
+    panX = (vw - 3000) / 2;
+    panY = (vh - 3000) / 2;
+    applyPan();
+  }
+
+  function applyPan() {
+    document.getElementById('world').style.transform = `translate(${panX}px, ${panY}px)`;
+  }
+
+  const canvas = document.getElementById('canvas');
+
+  canvas.addEventListener('mousedown', (e) => {
+    if (window.innerWidth <= 768) return;
+    isPanning = true;
+    wasDragging = false;
+    startX = e.clientX;
+    startY = e.clientY;
+    startPanX = panX;
+    startPanY = panY;
+    canvas.classList.add('dragging');
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isPanning) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) wasDragging = true;
+    panX = startPanX + dx;
+    panY = startPanY + dy;
+    applyPan();
+  });
+
+  window.addEventListener('mouseup', () => {
+    isPanning = false;
+    canvas.classList.remove('dragging');
+    setTimeout(() => { wasDragging = false; }, 50);
+  });
+
+  // Touch pan
+  let touchStartX, touchStartY, touchStartPanX, touchStartPanY, touchMoved;
+  canvas.addEventListener('touchstart', (e) => {
+    if (window.innerWidth <= 768) return;
+    const t = e.touches[0];
+    touchStartX = t.clientX; touchStartY = t.clientY;
+    touchStartPanX = panX; touchStartPanY = panY;
+    touchMoved = false;
+  }, { passive: true });
+
+  canvas.addEventListener('touchmove', (e) => {
+    if (window.innerWidth <= 768) return;
+    const t = e.touches[0];
+    const dx = t.clientX - touchStartX;
+    const dy = t.clientY - touchStartY;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) touchMoved = true;
+    panX = touchStartPanX + dx;
+    panY = touchStartPanY + dy;
+    applyPan();
+  }, { passive: true });
+
+  canvas.addEventListener('touchend', () => {
+    wasDragging = touchMoved;
+    setTimeout(() => { wasDragging = false; }, 50);
+  });
+
+  // ── ZOOM TRANSITION ──
+  function zoomTransition(card, imgSrc, target) {
+    if (!imgSrc) { window.location.href = target; return; }
+
+    const overlay = document.getElementById('zoom-overlay');
+    const zoomImg = document.getElementById('zoom-img');
+
+    // Position de l'image dans la card
+    const imgWrap = card.querySelector('.card-img-wrap');
+    const rect = imgWrap.getBoundingClientRect();
+
+    zoomImg.src = imgSrc;
+    zoomImg.style.cssText = `
+      position: absolute;
+      left: ${rect.left}px;
+      top: ${rect.top}px;
+      width: ${rect.width}px;
+      height: ${rect.height}px;
+      object-fit: cover;
+      transform-origin: top left;
+      transition: none;
+    `;
+    overlay.style.pointerEvents = 'all';
+
+    // Force reflow
+    zoomImg.getBoundingClientRect();
+
+    // Anime vers plein écran
+    const vw = window.innerWidth, vh = window.innerHeight;
+    zoomImg.style.transition = 'left 0.5s cubic-bezier(0.4,0,0.2,1), top 0.5s cubic-bezier(0.4,0,0.2,1), width 0.5s cubic-bezier(0.4,0,0.2,1), height 0.5s cubic-bezier(0.4,0,0.2,1)';
+    zoomImg.style.left = '0px';
+    zoomImg.style.top = '0px';
+    zoomImg.style.width = vw + 'px';
+    zoomImg.style.height = vh + 'px';
+
+    setTimeout(() => {
+      // Précharge la page projet dans un iframe caché puis navigue
+      window.location.href = target + '&zoom=1&img=' + encodeURIComponent(imgSrc);
+    }, 500);
+  }
+
+  // ── HINT ──
+  let hintHidden = false;
+  canvas.addEventListener('mousedown', () => {
+    if (!hintHidden) {
+      hintHidden = true;
+      document.getElementById('hint').classList.add('hidden');
+    }
+  });
+
+  // ── BURGER MOBILE ──
+  document.getElementById('burger').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.add('open');
+  });
+  document.getElementById('menu-close').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.remove('open');
+  });
+
+  // ── INIT ──
+  async function init() {
+    try {
+      const pages = await fetchProjects();
+      buildCards(pages);
+      document.getElementById('loader').style.display = 'none';
+    } catch (err) {
+      document.getElementById('loader').textContent = 'Erreur de chargement. Vérifie la connexion Notion.';
+    }
+  }
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) centerCanvas();
+  });
+
+  init();
+</script>
 </body>
 </html>
