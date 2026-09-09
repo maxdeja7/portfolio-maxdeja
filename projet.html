@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projet — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F7F6F3;
+      --ink: #1A1A18;
+      --ink-soft: #6B6B67;
+      --accent: #2A52A0;
+      --radius: 4px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    /* NAV */
+    header {
+      padding: 2rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(26,26,24,0.1);
+    }
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .back {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .back:hover { color: var(--ink); }
+
+    /* ÉTAT CHARGEMENT */
+    .state {
+      padding: 6rem 5vw;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+
+    /* SECTION 1 — BANDEAU */
+    .s1-bandeau {
+      width: 100%;
+      aspect-ratio: 21/7;
+      overflow: hidden;
+      background: #e0deda;
+    }
+    .s1-bandeau img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* TITRE PROJET */
+    .projet-titre {
+      padding: 3rem 5vw 0;
+    }
+    .projet-titre h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    /* SECTION 2 — CONTEXTE + INFOS */
+    .s2-meta {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 4rem;
+      padding: 3rem 5vw;
+      border-bottom: 1px solid rgba(26,26,24,0.1);
+    }
+    @media (max-width: 720px) {
+      .s2-meta { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .s2-contexte h2 {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .s2-contexte p {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink);
+      max-width: 60ch;
+    }
+
+    .s2-infos {
+      padding-top: 0.25rem;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(26,26,24,0.08);
+      font-size: 0.875rem;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { color: var(--ink-soft); font-weight: 300; }
+    .info-val { font-weight: 500; text-align: right; }
+
+    /* SECTION 3 — 3 IMAGES */
+    .s3-trio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: rgba(26,26,24,0.08);
+      margin: 0;
+    }
+    .s3-trio .img-cell {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: #e0deda;
+    }
+    .s3-trio .img-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .s3-trio .img-cell:hover img { transform: scale(1.04); }
+    @media (max-width: 600px) {
+      .s3-trio { grid-template-columns: 1fr; }
+    }
+
+    /* SECTION 4 — SOLUTION */
+    .s4-solution {
+      padding: 4rem 5vw;
+      border-bottom: 1px solid rgba(26,26,24,0.1);
+    }
+    .s4-solution h2 {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .s4-solution p {
+      font-size: 1.15rem;
+      font-weight: 300;
+      line-height: 1.8;
+      max-width: 80ch;
+      color: var(--ink);
+    }
+
+    /* SECTION 5 — 2 IMAGES */
+    .s5-duo {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: rgba(26,26,24,0.08);
+    }
+    .s5-duo .img-cell {
+      aspect-ratio: 3/2;
+      overflow: hidden;
+      background: #e0deda;
+    }
+    .s5-duo .img-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .s5-duo .img-cell:hover img { transform: scale(1.04); }
+    @media (max-width: 600px) {
+      .s5-duo { grid-template-columns: 1fr; }
+    }
+
+    /* NAV BAS DE PAGE */
+    .projet-footer {
+      padding: 3rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(26,26,24,0.1);
+      margin-top: 4rem;
+    }
+    .projet-footer a {
+      font-size: 0.85rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .projet-footer span {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">Votre Nom</a>
+  <a href="index.html" class="back">← Tous les projets</a>
+</header>
+
+<div id="content">
+  <div class="state">Chargement du projet…</div>
+</div>
+
+<script>
+  const NOTION_TOKEN = 'REMPLACE_PAR_TON_TOKEN_SECRET';
+
+  function getPageId() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('id');
+  }
+
+  function getProp(props, name, type) {
+    const p = props[name];
+    if (!p) return null;
+    if (type === 'title') return p.title?.map(t => t.plain_text).join('') || null;
+    if (type === 'rich_text') return p.rich_text?.map(t => t.plain_text).join('') || null;
+    if (type === 'url') return p.url || null;
+    if (type === 'date') return p.date?.start || null;
+    if (type === 'select') return p.select?.name || null;
+    if (type === 'files') {
+      const f = p.files?.[0];
+      if (!f) return null;
+      return f.type === 'external' ? f.external.url : f.file?.url || null;
+    }
+    return null;
+  }
+
+  function imgCell(src, alt) {
+    if (!src) return `<div class="img-cell"></div>`;
+    return `<div class="img-cell"><img src="${src}" alt="${alt}" loading="lazy" /></div>`;
+  }
+
+  function formatDate(str) {
+    if (!str) return null;
+    return new Date(str).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  }
+
+  async function fetchPage(id) {
+    const res = await fetch(`https://api.notion.com/v1/pages/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${NOTION_TOKEN}`,
+        'Notion-Version': '2022-06-28'
+      }
+    });
+    if (!res.ok) throw new Error(`Erreur API: ${res.status}`);
+    return res.json();
+  }
+
+  async function render() {
+    const id = getPageId();
+    if (!id) {
+      document.getElementById('content').innerHTML =
+        '<div class="state">Aucun projet spécifié.</div>';
+      return;
+    }
+
+    try {
+      const page = await fetchPage(id);
+      const props = page.properties;
+
+      const titre     = getProp(props, 'Titre', 'title') || getProp(props, 'Name', 'title') || 'Sans titre';
+      const client    = getProp(props, 'Client', 'rich_text');
+      const contexte  = getProp(props, 'Contexte', 'rich_text');
+      const solution  = getProp(props, 'Solution', 'rich_text');
+      const couverture = getProp(props, 'Couverture', 'url');
+      const trio1     = getProp(props, 'Trio1', 'url');
+      const trio2     = getProp(props, 'Trio2', 'url');
+      const trio3     = getProp(props, 'Trio3', 'url');
+      const duo1      = getProp(props, 'Duo1', 'url');
+      const duo2      = getProp(props, 'Duo2', 'url');
+      const date      = getProp(props, 'Date', 'date');
+      const role      = getProp(props, 'Rôle', 'select') || getProp(props, 'Role', 'select');
+
+      document.title = `${titre} — Portfolio`;
+
+      const infoRows = [
+        client ? `<div class="info-row"><span class="info-label">Client</span><span class="info-val">${client}</span></div>` : '',
+        date   ? `<div class="info-row"><span class="info-label">Date</span><span class="info-val">${formatDate(date)}</span></div>` : '',
+        role   ? `<div class="info-row"><span class="info-label">Rôle</span><span class="info-val">${role}</span></div>` : '',
+      ].join('');
+
+      document.getElementById('content').innerHTML = `
+
+        <!-- Section 1 : Bandeau -->
+        ${couverture ? `
+        <div class="s1-bandeau">
+          <img src="${couverture}" alt="${titre}" />
+        </div>` : ''}
+
+        <!-- Titre -->
+        <div class="projet-titre">
+          <h1>${titre}</h1>
+        </div>
+
+        <!-- Section 2 : Contexte + Infos -->
+        <div class="s2-meta">
+          <div class="s2-contexte">
+            <h2>Contexte</h2>
+            ${contexte ? `<p>${contexte}</p>` : ''}
+          </div>
+          <div class="s2-infos">
+            ${infoRows}
+          </div>
+        </div>
+
+        <!-- Section 3 : 3 images -->
+        ${(trio1 || trio2 || trio3) ? `
+        <div class="s3-trio">
+          ${imgCell(trio1, 'Image 1')}
+          ${imgCell(trio2, 'Image 2')}
+          ${imgCell(trio3, 'Image 3')}
+        </div>` : ''}
+
+        <!-- Section 4 : Solution -->
+        ${solution ? `
+        <div class="s4-solution">
+          <h2>Solution</h2>
+          <p>${solution}</p>
+        </div>` : ''}
+
+        <!-- Section 5 : 2 images -->
+        ${(duo1 || duo2) ? `
+        <div class="s5-duo">
+          ${imgCell(duo1, 'Image A')}
+          ${imgCell(duo2, 'Image B')}
+        </div>` : ''}
+
+        <!-- Pied de page projet -->
+        <div class="projet-footer">
+          <a href="index.html">← Retour aux projets</a>
+          <span>Portfolio</span>
+        </div>
+      `;
+
+    } catch (err) {
+      document.getElementById('content').innerHTML =
+        `<div class="state">Impossible de charger ce projet.<br><small>${err.message}</small></div>`;
+    }
+  }
+
+  render();
+</script>
+
+</body>
+</html>
