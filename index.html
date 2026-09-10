@@ -133,12 +133,9 @@
     /* ── PANNEAU PROJET ── */
     #projet-panel {
       position: fixed; inset: 0; z-index: 200;
-      display: flex; flex-direction: column;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s ease;
+      display: none; flex-direction: column;
       overflow: hidden;
     }
-    #projet-panel.visible { opacity: 1; pointer-events: all; }
 
     /* Bandeau hero — reçoit l'image zoomée */
     #panel-bandeau {
@@ -151,7 +148,18 @@
     #panel-bandeau img {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
-      opacity: 1;
+    }
+
+    /* Fade-up du contenu */
+    .panel-fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    .panel-fade-up-active {
+      animation: fadeUp .5s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Barre de nav du panneau */
@@ -532,29 +540,42 @@ canvas.addEventListener('touchend', () => {
 
 // ── OPEN PROJECT (SPA) ──
 async function openProject(id, imgSrc, cardEl) {
-  // 1. Zoom image de la card vers plein écran
-  const clone = document.getElementById('zoom-clone');
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const BANDEAU_H = Math.round(vh * 0.42); // hauteur finale du bandeau
+
+  // ── PHASE 1 : l'image de la card zoome vers le plein écran ──
+  const hero = document.getElementById('zoom-clone');
   const imgWrap = cardEl.querySelector('.card-img-wrap');
   const r = imgWrap.getBoundingClientRect();
 
   if (imgSrc) {
-    clone.src = imgSrc;
-    clone.style.cssText = `
-      display:block; position:fixed;
+    // Position initiale = exactement la card img
+    hero.src = imgSrc;
+    hero.style.cssText = `
+      display:block; position:fixed; z-index:250; object-fit:cover;
       left:${r.left}px; top:${r.top}px;
       width:${r.width}px; height:${r.height}px;
-      transition:none; z-index:150; object-fit:cover;
+      transition:none;
     `;
-    clone.getBoundingClientRect(); // reflow
-    clone.style.transition = 'left .5s cubic-bezier(.4,0,.2,1), top .5s cubic-bezier(.4,0,.2,1), width .5s cubic-bezier(.4,0,.2,1), height .5s cubic-bezier(.4,0,.2,1)';
-    clone.style.left = '0'; clone.style.top = '0';
-    clone.style.width = window.innerWidth + 'px';
-    clone.style.height = window.innerHeight + 'px';
+    hero.getBoundingClientRect(); // force reflow
+
+    // → Plein écran
+    hero.style.transition = 'left .5s cubic-bezier(.4,0,.2,1), top .5s cubic-bezier(.4,0,.2,1), width .5s cubic-bezier(.4,0,.2,1), height .5s cubic-bezier(.4,0,.2,1)';
+    hero.style.left = '0';
+    hero.style.top = '0';
+    hero.style.width = vw + 'px';
+    hero.style.height = vh + 'px';
   }
 
-  // 2. Fetch données
+  // Pendant la phase 1 : préparer le panneau en arrière-plan (invisible)
+  const panel = document.getElementById('projet-panel');
+  panel.style.opacity = '0';
+  panel.style.pointerEvents = 'none';
+  panel.style.display = 'flex';
+
+  // Remplir le contenu en parallèle
   let page;
-  try { page = await fetchPage(id); } catch(e) { clone.style.display='none'; return; }
+  try { page = await fetchPage(id); } catch(e) { hero.style.display='none'; panel.style.display=''; return; }
   const props = page.properties;
 
   const titre    = getProp(props,'Titre','title') || getProp(props,'Name','title') || 'Sans titre';
@@ -572,8 +593,9 @@ async function openProject(id, imgSrc, cardEl) {
 
   document.title = `${titre} — MAXDEJA Portfolio`;
 
-  // 3. Remplir le panneau — image déjà visible via le clone, on la charge silencieusement
+  // Bandeau caché (l'image hero le remplace visuellement pendant la transition)
   const bandeauImg = document.getElementById('panel-bandeau-img');
+  bandeauImg.style.opacity = '0';
   bandeauImg.src = couverture || '';
 
   const infoRows = [
@@ -583,43 +605,66 @@ async function openProject(id, imgSrc, cardEl) {
   ].join('');
 
   document.getElementById('panel-body').innerHTML = `
-    <div class="panel-titre"><h1>${titre}</h1></div>
-    <div class="s2-meta">
+    <div class="panel-titre panel-fade-up"><h1>${titre}</h1></div>
+    <div class="s2-meta panel-fade-up" style="animation-delay:.08s">
       <div class="s2-contexte">
         <h2>Contexte</h2>
         ${contexte ? `<p>${contexte}</p>` : ''}
       </div>
       <div class="s2-infos">${infoRows}</div>
     </div>
-    ${(trio1||trio2||trio3) ? `<div class="s3-trio">${imgCell(trio1,'1')}${imgCell(trio2,'2')}${imgCell(trio3,'3')}</div>` : ''}
-    ${solution ? `<div class="s4-solution"><h2>Solution</h2><p>${solution}</p></div>` : ''}
-    ${(duo1||duo2) ? `<div class="s5-duo">${imgCell(duo1,'A')}${imgCell(duo2,'B')}</div>` : ''}
-    <div class="panel-footer"><button id="panel-close-bottom">← Retour aux projets</button></div>
+    ${(trio1||trio2||trio3) ? `<div class="s3-trio panel-fade-up" style="animation-delay:.14s">${imgCell(trio1,'1')}${imgCell(trio2,'2')}${imgCell(trio3,'3')}</div>` : ''}
+    ${solution ? `<div class="s4-solution panel-fade-up" style="animation-delay:.18s"><h2>Solution</h2><p>${solution}</p></div>` : ''}
+    ${(duo1||duo2) ? `<div class="s5-duo panel-fade-up" style="animation-delay:.22s">${imgCell(duo1,'A')}${imgCell(duo2,'B')}</div>` : ''}
+    <div class="panel-footer panel-fade-up" style="animation-delay:.26s"><button id="panel-close-bottom">← Retour aux projets</button></div>
   `;
   document.getElementById('panel-content').scrollTop = 0;
   document.getElementById('panel-close-bottom').addEventListener('click', closeProject);
+  history.pushState({ projetId: id }, titre, `?projet=${id.replace(/-/g,'')}`);
 
-  // 4. Afficher le panneau après le zoom — sans clignotement
+  // ── PHASE 2 : après le zoom plein écran, l'image se rogne vers le bandeau ──
   setTimeout(() => {
-    const panel = document.getElementById('projet-panel');
-    // Le panneau apparaît d'abord (par-dessus le clone)
-    panel.classList.add('visible');
-    history.pushState({ projetId: id }, titre, `?projet=${id.replace(/-/g,'')}`);
-    // Le clone disparaît seulement après que le panneau est affiché
-    setTimeout(() => { clone.style.display = 'none'; }, 200);
-  }, 460);
+    // Panneau visible mais contenu invisible (géré par fade-up)
+    panel.style.transition = 'none';
+    panel.style.opacity = '1';
+    panel.style.pointerEvents = 'all';
+
+    // L'image hero se contracte de vh → BANDEAU_H (même position top:0)
+    hero.style.transition = 'height .55s cubic-bezier(.4,0,.2,1)';
+    hero.style.height = BANDEAU_H + 'px';
+
+    // ── PHASE 3 : contenu monte + fade in, bandeau réel prend le relais ──
+    setTimeout(() => {
+      // Le bandeau réel apparaît (même image, même position) → swap invisible
+      bandeauImg.style.transition = 'none';
+      bandeauImg.style.opacity = '1';
+      // L'image hero disparaît : elle est maintenant couverte par le bandeau réel
+      hero.style.display = 'none';
+
+      // Déclenche les animations fade-up sur le contenu
+      document.querySelectorAll('.panel-fade-up').forEach(el => {
+        el.classList.add('panel-fade-up-active');
+      });
+    }, 560);
+
+  }, 480);
 }
 
 // ── CLOSE PROJECT ──
 function closeProject() {
   const panel = document.getElementById('projet-panel');
-  panel.classList.remove('visible');
+  panel.style.opacity = '0';
+  panel.style.transition = 'opacity .25s ease';
   document.title = 'MAXDEJA — Portfolio';
   history.pushState({}, 'Portfolio', window.location.pathname);
   setTimeout(() => {
+    panel.style.display = 'none';
+    panel.style.opacity = '';
+    panel.style.transition = '';
     document.getElementById('panel-body').innerHTML = '';
     document.getElementById('panel-bandeau-img').src = '';
-  }, 350);
+    document.getElementById('panel-bandeau-img').style.opacity = '';
+  }, 280);
 }
 
 document.getElementById('panel-close').addEventListener('click', closeProject);
@@ -682,7 +727,12 @@ async function openProjectDirect(id, imgSrc) {
   `;
   document.getElementById('panel-content').scrollTop = 0;
   document.getElementById('panel-close-bottom').addEventListener('click', closeProject);
-  document.getElementById('projet-panel').classList.add('visible');
+  const panel2 = document.getElementById('projet-panel');
+  panel2.style.display = 'flex';
+  panel2.style.opacity = '1';
+  panel2.style.pointerEvents = 'all';
+  document.getElementById('panel-bandeau-img').style.opacity = '1';
+  document.querySelectorAll('.panel-fade-up').forEach(el => el.classList.add('panel-fade-up-active'));
 }
 
 // ── HINT ──
