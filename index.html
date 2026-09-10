@@ -151,9 +151,8 @@
     #panel-bandeau img {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
-      opacity: 0; transition: opacity 0.2s ease 0.1s;
+      opacity: 1;
     }
-    #panel-bandeau img.loaded { opacity: 1; }
 
     /* Barre de nav du panneau */
     #panel-nav {
@@ -287,18 +286,21 @@
       .project-card:hover { transform: translate(2px,2px) !important; box-shadow: 3px 3px 0 var(--black); }
       #header { top: 0; background: var(--yellow); border-bottom: var(--border); }
       .hbtn.desktop-only { display: none; }
+      .hbtn-burger { display: flex; }
       #hint { display: none; }
       #panel-bandeau { height: 35vw; min-height: 200px; }
       .s2-meta { grid-template-columns: 1fr; gap: 2rem; }
     }
     @media (min-width: 769px) {
-      .mobile-only { display: none; }
+      .mobile-only { display: none !important; }
     }
 
     /* Burger mobile */
     .hbtn-burger {
-      display: flex; flex-direction: column; gap: 5px;
+      display: none; flex-direction: column; gap: 5px;
       padding: 10px 12px; pointer-events: all;
+      background: var(--yellow); border: var(--border); box-shadow: var(--shadow-sm);
+      cursor: pointer;
     }
     .hbtn-burger span { display: block; width: 20px; height: 2px; background: var(--black); }
     #mobile-menu {
@@ -570,11 +572,9 @@ async function openProject(id, imgSrc, cardEl) {
 
   document.title = `${titre} — MAXDEJA Portfolio`;
 
-  // 3. Remplir le panneau
+  // 3. Remplir le panneau — image déjà visible via le clone, on la charge silencieusement
   const bandeauImg = document.getElementById('panel-bandeau-img');
-  bandeauImg.classList.remove('loaded');
   bandeauImg.src = couverture || '';
-  if (couverture) bandeauImg.onload = () => bandeauImg.classList.add('loaded');
 
   const infoRows = [
     client ? `<div class="info-row"><span class="info-label">Client</span><span class="info-val">${client}</span></div>` : '',
@@ -599,14 +599,15 @@ async function openProject(id, imgSrc, cardEl) {
   document.getElementById('panel-content').scrollTop = 0;
   document.getElementById('panel-close-bottom').addEventListener('click', closeProject);
 
-  // 4. Afficher le panneau après le zoom
+  // 4. Afficher le panneau après le zoom — sans clignotement
   setTimeout(() => {
-    clone.style.display = 'none';
     const panel = document.getElementById('projet-panel');
+    // Le panneau apparaît d'abord (par-dessus le clone)
     panel.classList.add('visible');
-    // Mise à jour URL sans rechargement
     history.pushState({ projetId: id }, titre, `?projet=${id.replace(/-/g,'')}`);
-  }, 480);
+    // Le clone disparaît seulement après que le panneau est affiché
+    setTimeout(() => { clone.style.display = 'none'; }, 200);
+  }, 460);
 }
 
 // ── CLOSE PROJECT ──
@@ -661,7 +662,6 @@ async function openProjectDirect(id, imgSrc) {
   document.title = `${titre} — MAXDEJA Portfolio`;
   const bandeauImg = document.getElementById('panel-bandeau-img');
   bandeauImg.src = couverture || '';
-  if (couverture) bandeauImg.onload = () => bandeauImg.classList.add('loaded');
 
   const infoRows = [
     client ? `<div class="info-row"><span class="info-label">Client</span><span class="info-val">${client}</span></div>` : '',
