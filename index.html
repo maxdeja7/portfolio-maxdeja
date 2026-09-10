@@ -18,370 +18,325 @@
       --shadow: 7px 7px 0px var(--black);
       --shadow-sm: 4px 4px 0px var(--black);
       --border: 2.5px solid var(--black);
-      --accent-1: #6BCEFF;
-      --accent-2: #FF6B6B;
-      --accent-3: #A8FF78;
-      --accent-4: #E056FD;
+      --accents: #6BCEFF, #FF6B6B, #A8FF78, #E056FD, #FFB347, #FF85C2;
     }
 
     html, body {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       overflow: hidden;
       font-family: 'DM Sans', sans-serif;
       background: var(--yellow);
-      cursor: default;
       user-select: none;
     }
 
-    /* ── BACKGROUND PATTERN ── */
-    #bg-pattern {
-      position: fixed;
-      inset: 0;
+    /* ── BACKGROUND ── */
+    #bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='40' fill='%23F4EF9A'/%3E%3Ccircle cx='20' cy='20' r='2' fill='black' fill-opacity='0.1'/%3E%3C/svg%3E");
       background-size: 40px 40px;
-      z-index: 0;
-      pointer-events: none;
     }
 
     /* ── HEADER ── */
     #header {
-      position: fixed;
-      top: 24px;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 24px;
-      pointer-events: none;
+      position: fixed; top: 24px; left: 0; right: 0;
+      z-index: 100; display: flex;
+      justify-content: space-between; align-items: center;
+      padding: 0 24px; pointer-events: none;
     }
-
-    .header-btn {
+    .hbtn {
       font-family: 'Archivo Black', sans-serif;
-      font-size: 13px;
-      letter-spacing: 0.04em;
-      color: var(--black);
-      background: var(--yellow);
-      border: var(--border);
-      box-shadow: var(--shadow-sm);
-      padding: 8px 14px;
-      pointer-events: all;
-      cursor: pointer;
-      text-decoration: none;
+      font-size: 13px; letter-spacing: 0.04em;
+      color: var(--black); background: var(--yellow);
+      border: var(--border); box-shadow: var(--shadow-sm);
+      padding: 8px 14px; pointer-events: all;
+      cursor: pointer; text-decoration: none;
       display: inline-block;
       transition: transform 0.1s, box-shadow 0.1s;
     }
-    .header-btn:hover {
-      transform: translate(2px, 2px);
-      box-shadow: 2px 2px 0px var(--black);
-    }
-    .header-btn:active {
-      transform: translate(4px, 4px);
-      box-shadow: none;
-    }
+    .hbtn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+    .hbtn:active { transform: translate(4px,4px); box-shadow: none; }
 
     /* ── CANVAS ── */
     #canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
+      position: fixed; inset: 0; z-index: 1;
       cursor: grab;
     }
     #canvas.dragging { cursor: grabbing; }
-
     #world {
       position: absolute;
-      width: 3000px;
-      height: 3000px;
-      top: 0;
-      left: 0;
+      width: 3000px; height: 3000px;
+      top: 0; left: 0;
       transform-origin: 0 0;
     }
 
     /* ── CARDS ── */
     .project-card {
-      position: absolute;
-      width: 300px;
+      position: absolute; width: 300px;
       background: var(--white);
       border: 3px solid var(--black);
       box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transition: box-shadow 0.15s ease;
       will-change: transform;
     }
     .project-card:hover {
-      transform: rotate(var(--rot)) translate(3px, 3px) !important;
-      box-shadow: 4px 4px 0px var(--black);
+      box-shadow: 4px 4px 0 var(--black);
+      transform: rotate(var(--rot)) translate(3px,3px) !important;
     }
     .project-card:active {
-      transform: rotate(var(--rot)) translate(7px, 7px) !important;
       box-shadow: none;
+      transform: rotate(var(--rot)) translate(7px,7px) !important;
     }
-
-    .card-accent {
-      height: 8px;
-      border-bottom: 3px solid var(--black);
-      flex-shrink: 0;
-    }
-
+    .card-accent { height: 8px; border-bottom: 3px solid var(--black); flex-shrink: 0; }
     .card-img-wrap {
-      width: 100%;
-      height: 180px;
-      overflow: hidden;
+      width: 100%; height: 180px; overflow: hidden;
       border-bottom: 3px solid var(--black);
-      background: #e8e8e8;
-      flex-shrink: 0;
+      background: #e8e8e8; flex-shrink: 0;
     }
-    .card-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      pointer-events: none;
-    }
-
-    .card-body {
-      padding: 14px 16px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .card-title {
-      font-family: 'Archivo Black', sans-serif;
-      font-size: 24px;
-      color: var(--black);
-      line-height: 1.1;
-    }
+    .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+    .card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; }
+    .card-title { font-family: 'Archivo Black', sans-serif; font-size: 24px; color: var(--black); line-height: 1.1; }
     .card-excerpt {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 12px;
-      color: var(--gray);
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 12px; color: var(--gray); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
     }
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-top: 6px;
-    }
-    .card-client {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--gray-light);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .card-cta {
-      font-family: 'Archivo Black', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.04em;
-      color: var(--yellow);
-      background: var(--black);
-      border: 2px solid var(--black);
-      padding: 6px 12px;
-    }
+    .card-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 6px; }
+    .card-client { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gray-light); letter-spacing: 0.12em; text-transform: uppercase; }
+    .card-cta { font-family: 'Archivo Black', sans-serif; font-size: 11px; letter-spacing: 0.04em; color: var(--yellow); background: var(--black); border: 2px solid var(--black); padding: 6px 12px; }
 
     /* ── HINT ── */
     #hint {
-      position: fixed;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-      background: var(--black);
-      border: var(--border);
-      box-shadow: 5px 5px 0px rgba(244,239,154,0.4);
-      padding: 11px 22px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      opacity: 1;
-      transition: opacity 1s ease;
-      pointer-events: none;
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      z-index: 100; background: var(--black); border: var(--border);
+      box-shadow: 5px 5px 0 rgba(244,239,154,0.4);
+      padding: 11px 22px; display: flex; align-items: center; gap: 10px;
+      opacity: 1; transition: opacity 0.8s ease; pointer-events: none;
     }
     #hint.hidden { opacity: 0; }
-    .hint-dot {
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--yellow);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    #hint span {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--yellow);
-      letter-spacing: 0.04em;
-      white-space: nowrap;
+    .hint-dot { width: 16px; height: 16px; border: 2px solid var(--yellow); border-radius: 50%; flex-shrink: 0; }
+    #hint span { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--yellow); letter-spacing: 0.04em; white-space: nowrap; }
+
+    /* ── ZOOM IMAGE (transition sortante) ── */
+    #zoom-clone {
+      position: fixed; z-index: 150;
+      object-fit: cover; pointer-events: none;
+      transition: left 0.5s cubic-bezier(0.4,0,0.2,1),
+                  top 0.5s cubic-bezier(0.4,0,0.2,1),
+                  width 0.5s cubic-bezier(0.4,0,0.2,1),
+                  height 0.5s cubic-bezier(0.4,0,0.2,1),
+                  opacity 0.3s ease;
+      display: none;
     }
 
-    /* ── ZOOM TRANSITION ── */
-    #zoom-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      pointer-events: none;
+    /* ── PANNEAU PROJET ── */
+    #projet-panel {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
       overflow: hidden;
     }
-    #zoom-img {
-      position: absolute;
-      object-fit: cover;
-      transform-origin: top left;
-      transition: none;
+    #projet-panel.visible { opacity: 1; pointer-events: all; }
+
+    /* Bandeau hero — reçoit l'image zoomée */
+    #panel-bandeau {
+      width: 100%; flex-shrink: 0;
+      background: #e0deda;
+      position: relative; overflow: hidden;
+      height: 42vh;
+      border-bottom: var(--border);
+    }
+    #panel-bandeau img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      opacity: 0; transition: opacity 0.2s ease 0.1s;
+    }
+    #panel-bandeau img.loaded { opacity: 1; }
+
+    /* Barre de nav du panneau */
+    #panel-nav {
+      position: absolute; top: 0; left: 0; right: 0;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 24px; z-index: 10;
+    }
+    .panel-logo {
+      font-family: 'Archivo Black', sans-serif; font-size: 13px;
+      letter-spacing: 0.05em; color: var(--black);
+      background: var(--yellow); border: var(--border);
+      box-shadow: var(--shadow-sm); padding: 8px 14px;
+      text-decoration: none;
+    }
+    #panel-close {
+      font-family: 'Archivo Black', sans-serif; font-size: 11px;
+      letter-spacing: 0.04em; color: var(--black);
+      background: var(--yellow); border: var(--border);
+      box-shadow: var(--shadow-sm); padding: 8px 14px;
+      cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;
+    }
+    #panel-close:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+
+    /* Contenu scrollable */
+    #panel-content {
+      flex: 1; overflow-y: auto;
+      background: #F7F6F3;
+      scroll-behavior: smooth;
     }
 
-    /* ── LOADING / ERROR ── */
-    #loader {
-      position: fixed;
-      inset: 0;
-      z-index: 300;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--yellow);
+    .panel-titre {
+      padding: 3rem 5vw 0;
+      background: #F7F6F3;
+    }
+    .panel-titre h1 {
       font-family: 'Archivo Black', sans-serif;
-      font-size: 20px;
+      font-size: clamp(2rem, 5vw, 4rem);
+      letter-spacing: -0.02em; line-height: 1.05;
       color: var(--black);
     }
 
-    /* ════════════════════════════════
-       MOBILE
-    ════════════════════════════════ */
-    @media (max-width: 768px) {
-      html, body { overflow: auto; }
+    .s2-meta {
+      display: grid; grid-template-columns: 1fr 260px;
+      gap: 4rem; padding: 3rem 5vw;
+      border-bottom: 1px solid rgba(13,13,13,0.12);
+      background: #F7F6F3;
+    }
+    @media (max-width: 720px) { .s2-meta { grid-template-columns: 1fr; gap: 2rem; } }
 
-      #bg-pattern { display: none; }
-      body { background: var(--yellow); }
+    .s2-contexte h2, .s4-solution h2 {
+      font-family: 'DM Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.1em; color: var(--gray-light);
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .s2-contexte p, .s4-solution p {
+      font-size: 1.05rem; font-weight: 300;
+      line-height: 1.75; color: var(--black); max-width: 60ch;
+    }
+    .s4-solution p { max-width: 80ch; font-size: 1.15rem; line-height: 1.8; }
 
-      #canvas { position: static; height: auto; cursor: default; }
-      #world {
-        position: static;
-        width: 100%;
-        height: auto;
-        transform: none !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        padding: 90px 20px 40px;
-      }
+    .s2-infos { padding-top: 0.25rem; }
+    .info-row {
+      display: flex; justify-content: space-between;
+      padding: 0.75rem 0; border-bottom: 1px solid rgba(13,13,13,0.1);
+      font-size: 0.875rem;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-light); }
+    .info-val { font-weight: 500; color: var(--black); }
 
-      .project-card {
-        position: static !important;
-        transform: none !important;
-        width: 100%;
-        max-width: 400px;
-        box-shadow: 5px 5px 0px var(--black);
-      }
-      .project-card:hover {
-        transform: translate(2px, 2px) !important;
-        box-shadow: 3px 3px 0px var(--black);
-      }
+    .s3-trio {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 3px; background: var(--black);
+    }
+    .s5-duo {
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 3px; background: var(--black);
+    }
+    .img-cell { overflow: hidden; background: #e0deda; }
+    .s3-trio .img-cell { aspect-ratio: 4/3; }
+    .s5-duo .img-cell { aspect-ratio: 3/2; }
+    .img-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
+    .img-cell:hover img { transform: scale(1.04); }
+    @media (max-width: 600px) { .s3-trio, .s5-duo { grid-template-columns: 1fr; } }
 
-      #header {
-        top: 0;
-        background: var(--yellow);
-        border-bottom: var(--border);
-        padding: 12px 16px;
-      }
-      .header-logo-mobile {
-        font-family: 'Archivo Black', sans-serif;
-        font-size: 14px;
-        letter-spacing: 0.06em;
-        color: var(--black);
-      }
-      .header-btn.desktop-only { display: none; }
-
-      /* Burger */
-      #burger {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        cursor: pointer;
-        pointer-events: all;
-        padding: 4px;
-      }
-      #burger span {
-        display: block;
-        width: 22px;
-        height: 2px;
-        background: var(--black);
-      }
-
-      #mobile-menu {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: var(--yellow);
-        z-index: 500;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 24px;
-        border-top: var(--border);
-      }
-      #mobile-menu.open { display: flex; }
-      #mobile-menu a, #mobile-menu button {
-        font-family: 'Archivo Black', sans-serif;
-        font-size: 24px;
-        color: var(--black);
-        text-decoration: none;
-        background: none;
-        border: none;
-        cursor: pointer;
-        letter-spacing: 0.04em;
-      }
-      #menu-close {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        font-size: 28px !important;
-      }
-
-      #hint { display: none; }
+    .s4-solution {
+      padding: 4rem 5vw;
+      border-bottom: 1px solid rgba(13,13,13,0.12);
+      background: var(--yellow);
     }
 
+    .panel-footer {
+      padding: 2rem 5vw; display: flex;
+      justify-content: flex-start;
+      border-top: var(--border); background: #F7F6F3;
+    }
+    .panel-footer button {
+      font-family: 'Archivo Black', sans-serif; font-size: 11px;
+      letter-spacing: 0.04em; color: var(--black);
+      background: var(--yellow); border: var(--border);
+      box-shadow: var(--shadow-sm); padding: 8px 14px;
+      cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .panel-footer button:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+
+    /* ── LOADER ── */
+    #loader {
+      position: fixed; inset: 0; z-index: 400;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--yellow);
+      font-family: 'Archivo Black', sans-serif; font-size: 20px; color: var(--black);
+    }
+
+    /* ════════ MOBILE ════════ */
+    @media (max-width: 768px) {
+      html, body { overflow: auto; }
+      #bg { display: none; }
+      #canvas { position: static; height: auto; cursor: default; }
+      #world {
+        position: static; width: 100%; height: auto;
+        transform: none !important;
+        display: flex; flex-direction: column;
+        align-items: center; gap: 20px;
+        padding: 90px 20px 40px;
+      }
+      .project-card {
+        position: static !important; transform: none !important;
+        width: 100%; max-width: 400px;
+        box-shadow: 5px 5px 0 var(--black);
+      }
+      .project-card:hover { transform: translate(2px,2px) !important; box-shadow: 3px 3px 0 var(--black); }
+      #header { top: 0; background: var(--yellow); border-bottom: var(--border); }
+      .hbtn.desktop-only { display: none; }
+      #hint { display: none; }
+      #panel-bandeau { height: 35vw; min-height: 200px; }
+      .s2-meta { grid-template-columns: 1fr; gap: 2rem; }
+    }
     @media (min-width: 769px) {
-      .header-logo-mobile { display: none; }
-      #burger { display: none; }
-      #mobile-menu { display: none !important; }
+      .mobile-only { display: none; }
+    }
+
+    /* Burger mobile */
+    .hbtn-burger {
+      display: flex; flex-direction: column; gap: 5px;
+      padding: 10px 12px; pointer-events: all;
+    }
+    .hbtn-burger span { display: block; width: 20px; height: 2px; background: var(--black); }
+    #mobile-menu {
+      display: none; position: fixed; inset: 0;
+      background: var(--yellow); z-index: 500;
+      flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+      border-top: var(--border);
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      font-family: 'Archivo Black', sans-serif; font-size: 22px;
+      color: var(--black); text-decoration: none; letter-spacing: 0.04em;
+    }
+    #menu-close {
+      position: absolute; top: 16px; right: 20px;
+      font-family: 'Archivo Black', sans-serif; font-size: 24px;
+      background: none; border: none; cursor: pointer; color: var(--black);
     }
   </style>
 </head>
 <body>
 
-<div id="bg-pattern"></div>
+<div id="bg"></div>
 <div id="loader">Chargement…</div>
 
 <!-- HEADER -->
 <header id="header">
-  <!-- Mobile -->
-  <span class="header-logo-mobile">MAXDEJA</span>
-  <div id="burger" role="button" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </div>
-
-  <!-- Desktop -->
-  <a href="#" class="header-btn desktop-only">MAXDEJA — PORTFOLIO</a>
-  <a href="#" class="header-btn desktop-only" id="about-btn">À propos / Contactez-moi</a>
+  <span class="mobile-only hbtn" style="font-family:'Archivo Black',sans-serif;font-size:13px;letter-spacing:.05em">MAXDEJA</span>
+  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a href="#" class="hbtn desktop-only">MAXDEJA — PORTFOLIO</a>
+  <a href="#" class="hbtn desktop-only" id="about-btn">À propos / Contactez-moi</a>
 </header>
 
 <!-- Mobile menu -->
 <div id="mobile-menu">
   <button id="menu-close">✕</button>
   <a href="#">Projets</a>
-  <a href="#" id="about-mobile">À propos / Contactez-moi</a>
+  <a href="#">À propos / Contactez-moi</a>
 </div>
 
 <!-- CANVAS -->
@@ -395,271 +350,364 @@
   <span>Déplacez-vous dans le plan en maintenant le clic</span>
 </div>
 
-<!-- ZOOM OVERLAY -->
-<div id="zoom-overlay">
-  <img id="zoom-img" src="" alt="" />
+<!-- IMAGE CLONE pour transition zoom -->
+<img id="zoom-clone" src="" alt="" />
+
+<!-- PANNEAU PROJET -->
+<div id="projet-panel">
+  <div id="panel-bandeau">
+    <div id="panel-nav">
+      <span class="panel-logo">MAXDEJA — PORTFOLIO</span>
+      <button id="panel-close">✕ Fermer</button>
+    </div>
+    <img id="panel-bandeau-img" src="" alt="" />
+  </div>
+  <div id="panel-content">
+    <div id="panel-body"></div>
+  </div>
 </div>
 
 <script>
-  const PROXY = 'https://notion-proxy-brown.vercel.app/api/notion';
-  const DATABASE_ID = '3d67b12f4b1880a1a4baee47680c227d';
+const PROXY = 'https://notion-proxy-brown.vercel.app/api/notion';
+const DATABASE_ID = '3d67b12f4b1880a1a4baee47680c227d';
+const ACCENTS = ['#6BCEFF','#FF6B6B','#A8FF78','#E056FD','#FFB347','#FF85C2'];
 
-  const ACCENTS = ['#6BCEFF', '#FF6B6B', '#A8FF78', '#E056FD', '#FFB347', '#FF85C2'];
+// ── UTILS ──
+function getProp(props, name, type) {
+  const p = props[name];
+  if (!p) return null;
+  if (type === 'title') return p.title?.map(t => t.plain_text).join('') || null;
+  if (type === 'rich_text') return p.rich_text?.map(t => t.plain_text).join('') || null;
+  if (type === 'url') return p.url || null;
+  if (type === 'date') return p.date?.start || null;
+  if (type === 'select') return p.select?.name || null;
+  return null;
+}
+function imgCell(src, alt) {
+  if (!src) return `<div class="img-cell"></div>`;
+  return `<div class="img-cell"><img src="${src}" alt="${alt}" loading="lazy"/></div>`;
+}
+function fmtDate(str) {
+  if (!str) return null;
+  return new Date(str).toLocaleDateString('fr-FR', { month:'long', year:'numeric' });
+}
 
-  // ── NOTION ──
-  function getProp(props, name, type) {
-    const p = props[name];
-    if (!p) return null;
-    if (type === 'title') return p.title?.map(t => t.plain_text).join('') || null;
-    if (type === 'rich_text') return p.rich_text?.map(t => t.plain_text).join('') || null;
-    if (type === 'url') return p.url || null;
-    return null;
-  }
+// ── FETCH ──
+async function fetchProjects() {
+  const res = await fetch(`${PROXY}?path=databases/${DATABASE_ID}/query`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ page_size: 20 })
+  });
+  if (!res.ok) throw new Error(res.status);
+  return (await res.json()).results;
+}
 
-  async function fetchProjects() {
-    const res = await fetch(`${PROXY}?path=databases/${DATABASE_ID}/query`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ page_size: 20 })
-    });
-    if (!res.ok) throw new Error(`${res.status}`);
-    const data = await res.json();
-    return data.results;
-  }
+async function fetchPage(id) {
+  const res = await fetch(`${PROXY}?path=pages/${id}`);
+  if (!res.ok) throw new Error(res.status);
+  return res.json();
+}
 
-  // ── LAYOUT — répartition quasi-aléatoire sans grille rigide ──
-  function layoutCards(count) {
-    const W = 3000, H = 3000;
-    const cx = W / 2, cy = H / 2;
-    const CARD_W = 300, CARD_H = 400, MARGIN = 60;
+// ── LAYOUT CARDS ──
+function layoutCards(count) {
+  const cx = 1500, cy = 1500;
+  const cols = Math.ceil(Math.sqrt(count));
+  const rows = Math.ceil(count / cols);
+  const cellW = Math.min(480, 1800 / cols);
+  const cellH = Math.min(500, 1600 / rows);
+  const startX = cx - (cols * cellW) / 2;
+  const startY = cy - (rows * cellH) / 2;
+  return Array.from({ length: count }, (_, i) => ({
+    x: startX + (i % cols) * cellW + (Math.random() - 0.5) * cellW * 0.3,
+    y: startY + Math.floor(i / cols) * cellH + (Math.random() - 0.5) * cellH * 0.3,
+    rot: (Math.random() - 0.5) * 8
+  }));
+}
 
-    // Grille souple : on place en cercles concentriques légèrement perturbés
-    const positions = [];
-    const cols = Math.ceil(Math.sqrt(count));
-    const rows = Math.ceil(count / cols);
-    const cellW = Math.min(500, (W * 0.7) / cols);
-    const cellH = Math.min(520, (H * 0.65) / rows);
-    const startX = cx - (cols * cellW) / 2;
-    const startY = cy - (rows * cellH) / 2;
+// ── BUILD CARDS ──
+let pages = [];
+function buildCards(data) {
+  pages = data;
+  const world = document.getElementById('world');
+  world.innerHTML = '';
+  const isMobile = window.innerWidth <= 768;
+  const positions = isMobile ? [] : layoutCards(data.length);
 
-    for (let i = 0; i < count; i++) {
-      const col = i % cols;
-      const row = Math.floor(i / cols);
-      const jitterX = (Math.random() - 0.5) * cellW * 0.35;
-      const jitterY = (Math.random() - 0.5) * cellH * 0.35;
-      positions.push({
-        x: startX + col * cellW + jitterX,
-        y: startY + row * cellH + jitterY,
-        rot: (Math.random() - 0.5) * 8
-      });
+  data.forEach((page, i) => {
+    const props = page.properties;
+    const titre = getProp(props,'Titre','title') || getProp(props,'Name','title') || 'Sans titre';
+    const client = getProp(props,'Client','rich_text') || '';
+    const solution = getProp(props,'Solution','rich_text') || '';
+    const couverture = getProp(props,'Couverture','url') || '';
+    const accent = ACCENTS[i % ACCENTS.length];
+
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.dataset.id = page.id;
+    card.dataset.img = couverture;
+
+    if (!isMobile) {
+      const { x, y, rot } = positions[i];
+      card.style.cssText = `left:${x}px;top:${y}px;transform:rotate(${rot}deg);--rot:${rot}deg`;
     }
-    return positions;
-  }
 
-  // ── RENDER CARDS ──
-  function buildCards(pages) {
-    const world = document.getElementById('world');
-    world.innerHTML = '';
-
-    const isMobile = window.innerWidth <= 768;
-    const positions = isMobile ? [] : layoutCards(pages.length);
-
-    pages.forEach((page, i) => {
-      const props = page.properties;
-      const titre = getProp(props, 'Titre', 'title') || getProp(props, 'Name', 'title') || 'Sans titre';
-      const client = getProp(props, 'Client', 'rich_text') || '';
-      const solution = getProp(props, 'Solution', 'rich_text') || '';
-      const couverture = getProp(props, 'Couverture', 'url') || '';
-      const accent = ACCENTS[i % ACCENTS.length];
-
-      const card = document.createElement('div');
-      card.className = 'project-card';
-
-      if (!isMobile) {
-        const pos = positions[i];
-        const rot = pos.rot;
-        card.style.setProperty('--rot', `${rot}deg`);
-        card.style.left = pos.x + 'px';
-        card.style.top = pos.y + 'px';
-        card.style.transform = `rotate(${rot}deg)`;
-      }
-
-      card.innerHTML = `
-        <div class="card-accent" style="background:${accent}"></div>
-        <div class="card-img-wrap">
-          ${couverture ? `<img src="${couverture}" alt="${titre}" loading="lazy" data-src="${couverture}" />` : ''}
+    card.innerHTML = `
+      <div class="card-accent" style="background:${accent}"></div>
+      <div class="card-img-wrap">
+        ${couverture ? `<img src="${couverture}" alt="${titre}" loading="lazy"/>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-title">${titre}</div>
+        ${solution ? `<div class="card-excerpt">${solution}</div>` : ''}
+        <div class="card-footer">
+          <span class="card-client">${client}</span>
+          <span class="card-cta">VOIR →</span>
         </div>
-        <div class="card-body">
-          <div class="card-title">${titre}</div>
-          ${solution ? `<div class="card-excerpt">${solution}</div>` : ''}
-          <div class="card-footer">
-            <span class="card-client">${client}</span>
-            <span class="card-cta">VOIR →</span>
-          </div>
-        </div>
-      `;
+      </div>`;
 
-      card.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (wasDragging) return;
-        const img = couverture;
-        const target = `projet.html?id=${page.id}`;
-        zoomTransition(card, img, target);
-      });
-
-      world.appendChild(card);
+    card.addEventListener('click', () => {
+      if (wasDragging) return;
+      openProject(page.id, couverture, card);
     });
 
-    // Centre le canvas sur le monde
-    if (!isMobile) centerCanvas();
-  }
-
-  // ── CANVAS PAN ──
-  let panX = 0, panY = 0;
-  let startX, startY, startPanX, startPanY;
-  let isPanning = false;
-  let wasDragging = false;
-
-  function centerCanvas() {
-    const vw = window.innerWidth, vh = window.innerHeight;
-    panX = (vw - 3000) / 2;
-    panY = (vh - 3000) / 2;
-    applyPan();
-  }
-
-  function applyPan() {
-    document.getElementById('world').style.transform = `translate(${panX}px, ${panY}px)`;
-  }
-
-  const canvas = document.getElementById('canvas');
-
-  canvas.addEventListener('mousedown', (e) => {
-    if (window.innerWidth <= 768) return;
-    isPanning = true;
-    wasDragging = false;
-    startX = e.clientX;
-    startY = e.clientY;
-    startPanX = panX;
-    startPanY = panY;
-    canvas.classList.add('dragging');
+    world.appendChild(card);
   });
 
-  window.addEventListener('mousemove', (e) => {
-    if (!isPanning) return;
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) wasDragging = true;
-    panX = startPanX + dx;
-    panY = startPanY + dy;
-    applyPan();
-  });
+  if (!isMobile) centerCanvas();
+}
 
-  window.addEventListener('mouseup', () => {
-    isPanning = false;
-    canvas.classList.remove('dragging');
-    setTimeout(() => { wasDragging = false; }, 50);
-  });
+// ── CANVAS PAN ──
+let panX = 0, panY = 0, isPanning = false, wasDragging = false;
+let sx, sy, spx, spy;
 
-  // Touch pan
-  let touchStartX, touchStartY, touchStartPanX, touchStartPanY, touchMoved;
-  canvas.addEventListener('touchstart', (e) => {
-    if (window.innerWidth <= 768) return;
-    const t = e.touches[0];
-    touchStartX = t.clientX; touchStartY = t.clientY;
-    touchStartPanX = panX; touchStartPanY = panY;
-    touchMoved = false;
-  }, { passive: true });
+function centerCanvas() {
+  panX = (window.innerWidth - 3000) / 2;
+  panY = (window.innerHeight - 3000) / 2;
+  applyPan();
+}
+function applyPan() {
+  document.getElementById('world').style.transform = `translate(${panX}px,${panY}px)`;
+}
 
-  canvas.addEventListener('touchmove', (e) => {
-    if (window.innerWidth <= 768) return;
-    const t = e.touches[0];
-    const dx = t.clientX - touchStartX;
-    const dy = t.clientY - touchStartY;
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) touchMoved = true;
-    panX = touchStartPanX + dx;
-    panY = touchStartPanY + dy;
-    applyPan();
-  }, { passive: true });
+const canvas = document.getElementById('canvas');
 
-  canvas.addEventListener('touchend', () => {
-    wasDragging = touchMoved;
-    setTimeout(() => { wasDragging = false; }, 50);
-  });
+canvas.addEventListener('mousedown', e => {
+  if (window.innerWidth <= 768 || e.target.closest('.project-card')) return;
+  isPanning = true; wasDragging = false;
+  sx = e.clientX; sy = e.clientY; spx = panX; spy = panY;
+  canvas.classList.add('dragging');
+});
+window.addEventListener('mousemove', e => {
+  if (!isPanning) return;
+  const dx = e.clientX - sx, dy = e.clientY - sy;
+  if (Math.abs(dx) > 3 || Math.abs(dy) > 3) wasDragging = true;
+  panX = spx + dx; panY = spy + dy; applyPan();
+});
+window.addEventListener('mouseup', () => {
+  isPanning = false; canvas.classList.remove('dragging');
+  setTimeout(() => { wasDragging = false; }, 50);
+});
 
-  // ── ZOOM TRANSITION ──
-  function zoomTransition(card, imgSrc, target) {
-    if (!imgSrc) { window.location.href = target; return; }
+// Touch
+let tx0, ty0, tpx, tpy, tmoved;
+canvas.addEventListener('touchstart', e => {
+  if (window.innerWidth <= 768) return;
+  const t = e.touches[0];
+  tx0 = t.clientX; ty0 = t.clientY; tpx = panX; tpy = panY; tmoved = false;
+}, { passive: true });
+canvas.addEventListener('touchmove', e => {
+  if (window.innerWidth <= 768) return;
+  const t = e.touches[0];
+  const dx = t.clientX - tx0, dy = t.clientY - ty0;
+  if (Math.abs(dx) > 3 || Math.abs(dy) > 3) tmoved = true;
+  panX = tpx + dx; panY = tpy + dy; applyPan();
+}, { passive: true });
+canvas.addEventListener('touchend', () => {
+  wasDragging = tmoved;
+  setTimeout(() => { wasDragging = false; }, 50);
+});
 
-    const overlay = document.getElementById('zoom-overlay');
-    const zoomImg = document.getElementById('zoom-img');
+// ── OPEN PROJECT (SPA) ──
+async function openProject(id, imgSrc, cardEl) {
+  // 1. Zoom image de la card vers plein écran
+  const clone = document.getElementById('zoom-clone');
+  const imgWrap = cardEl.querySelector('.card-img-wrap');
+  const r = imgWrap.getBoundingClientRect();
 
-    // Position de l'image dans la card
-    const imgWrap = card.querySelector('.card-img-wrap');
-    const rect = imgWrap.getBoundingClientRect();
-
-    zoomImg.src = imgSrc;
-    zoomImg.style.cssText = `
-      position: absolute;
-      left: ${rect.left}px;
-      top: ${rect.top}px;
-      width: ${rect.width}px;
-      height: ${rect.height}px;
-      object-fit: cover;
-      transform-origin: top left;
-      transition: none;
+  if (imgSrc) {
+    clone.src = imgSrc;
+    clone.style.cssText = `
+      display:block; position:fixed;
+      left:${r.left}px; top:${r.top}px;
+      width:${r.width}px; height:${r.height}px;
+      transition:none; z-index:150; object-fit:cover;
     `;
-    overlay.style.pointerEvents = 'all';
-
-    // Force reflow
-    zoomImg.getBoundingClientRect();
-
-    // Anime vers plein écran
-    const vw = window.innerWidth, vh = window.innerHeight;
-    zoomImg.style.transition = 'left 0.5s cubic-bezier(0.4,0,0.2,1), top 0.5s cubic-bezier(0.4,0,0.2,1), width 0.5s cubic-bezier(0.4,0,0.2,1), height 0.5s cubic-bezier(0.4,0,0.2,1)';
-    zoomImg.style.left = '0px';
-    zoomImg.style.top = '0px';
-    zoomImg.style.width = vw + 'px';
-    zoomImg.style.height = vh + 'px';
-
-    setTimeout(() => {
-      // Précharge la page projet dans un iframe caché puis navigue
-      window.location.href = target + '&zoom=1&img=' + encodeURIComponent(imgSrc);
-    }, 500);
+    clone.getBoundingClientRect(); // reflow
+    clone.style.transition = 'left .5s cubic-bezier(.4,0,.2,1), top .5s cubic-bezier(.4,0,.2,1), width .5s cubic-bezier(.4,0,.2,1), height .5s cubic-bezier(.4,0,.2,1)';
+    clone.style.left = '0'; clone.style.top = '0';
+    clone.style.width = window.innerWidth + 'px';
+    clone.style.height = window.innerHeight + 'px';
   }
 
-  // ── HINT ──
-  let hintHidden = false;
-  canvas.addEventListener('mousedown', () => {
-    if (!hintHidden) {
-      hintHidden = true;
-      document.getElementById('hint').classList.add('hidden');
-    }
-  });
+  // 2. Fetch données
+  let page;
+  try { page = await fetchPage(id); } catch(e) { clone.style.display='none'; return; }
+  const props = page.properties;
 
-  // ── BURGER MOBILE ──
-  document.getElementById('burger').addEventListener('click', () => {
-    document.getElementById('mobile-menu').classList.add('open');
-  });
-  document.getElementById('menu-close').addEventListener('click', () => {
-    document.getElementById('mobile-menu').classList.remove('open');
-  });
+  const titre    = getProp(props,'Titre','title') || getProp(props,'Name','title') || 'Sans titre';
+  const client   = getProp(props,'Client','rich_text');
+  const contexte = getProp(props,'Contexte','rich_text');
+  const solution = getProp(props,'Solution','rich_text');
+  const couverture = getProp(props,'Couverture','url') || imgSrc;
+  const trio1    = getProp(props,'Trio1','url');
+  const trio2    = getProp(props,'Trio2','url');
+  const trio3    = getProp(props,'Trio3','url');
+  const duo1     = getProp(props,'Duo1','url');
+  const duo2     = getProp(props,'Duo2','url');
+  const date     = getProp(props,'Date','date');
+  const role     = getProp(props,'Rôle','select') || getProp(props,'Role','select');
 
-  // ── INIT ──
-  async function init() {
-    try {
-      const pages = await fetchProjects();
-      buildCards(pages);
-      document.getElementById('loader').style.display = 'none';
-    } catch (err) {
-      document.getElementById('loader').textContent = 'Erreur de chargement. Vérifie la connexion Notion.';
-    }
+  document.title = `${titre} — MAXDEJA Portfolio`;
+
+  // 3. Remplir le panneau
+  const bandeauImg = document.getElementById('panel-bandeau-img');
+  bandeauImg.classList.remove('loaded');
+  bandeauImg.src = couverture || '';
+  if (couverture) bandeauImg.onload = () => bandeauImg.classList.add('loaded');
+
+  const infoRows = [
+    client ? `<div class="info-row"><span class="info-label">Client</span><span class="info-val">${client}</span></div>` : '',
+    date   ? `<div class="info-row"><span class="info-label">Date</span><span class="info-val">${fmtDate(date)}</span></div>` : '',
+    role   ? `<div class="info-row"><span class="info-label">Rôle</span><span class="info-val">${role}</span></div>` : '',
+  ].join('');
+
+  document.getElementById('panel-body').innerHTML = `
+    <div class="panel-titre"><h1>${titre}</h1></div>
+    <div class="s2-meta">
+      <div class="s2-contexte">
+        <h2>Contexte</h2>
+        ${contexte ? `<p>${contexte}</p>` : ''}
+      </div>
+      <div class="s2-infos">${infoRows}</div>
+    </div>
+    ${(trio1||trio2||trio3) ? `<div class="s3-trio">${imgCell(trio1,'1')}${imgCell(trio2,'2')}${imgCell(trio3,'3')}</div>` : ''}
+    ${solution ? `<div class="s4-solution"><h2>Solution</h2><p>${solution}</p></div>` : ''}
+    ${(duo1||duo2) ? `<div class="s5-duo">${imgCell(duo1,'A')}${imgCell(duo2,'B')}</div>` : ''}
+    <div class="panel-footer"><button id="panel-close-bottom">← Retour aux projets</button></div>
+  `;
+  document.getElementById('panel-content').scrollTop = 0;
+  document.getElementById('panel-close-bottom').addEventListener('click', closeProject);
+
+  // 4. Afficher le panneau après le zoom
+  setTimeout(() => {
+    clone.style.display = 'none';
+    const panel = document.getElementById('projet-panel');
+    panel.classList.add('visible');
+    // Mise à jour URL sans rechargement
+    history.pushState({ projetId: id }, titre, `?projet=${id.replace(/-/g,'')}`);
+  }, 480);
+}
+
+// ── CLOSE PROJECT ──
+function closeProject() {
+  const panel = document.getElementById('projet-panel');
+  panel.classList.remove('visible');
+  document.title = 'MAXDEJA — Portfolio';
+  history.pushState({}, 'Portfolio', window.location.pathname);
+  setTimeout(() => {
+    document.getElementById('panel-body').innerHTML = '';
+    document.getElementById('panel-bandeau-img').src = '';
+  }, 350);
+}
+
+document.getElementById('panel-close').addEventListener('click', closeProject);
+
+// Retour navigateur
+window.addEventListener('popstate', e => {
+  if (!e.state?.projetId) closeProject();
+});
+
+// Lien direct vers un projet via URL
+async function openFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const rawId = params.get('projet');
+  if (!rawId) return;
+  // Reformate l'UUID
+  const id = rawId.replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, '$1-$2-$3-$4-$5');
+  const match = pages.find(p => p.id === id);
+  const imgSrc = match ? getProp(match.properties,'Couverture','url') || '' : '';
+  // Ouvre sans animation zoom
+  await openProjectDirect(id, imgSrc);
+}
+
+async function openProjectDirect(id, imgSrc) {
+  let page;
+  try { page = await fetchPage(id); } catch(e) { return; }
+  const props = page.properties;
+  const titre    = getProp(props,'Titre','title') || getProp(props,'Name','title') || 'Sans titre';
+  const client   = getProp(props,'Client','rich_text');
+  const contexte = getProp(props,'Contexte','rich_text');
+  const solution = getProp(props,'Solution','rich_text');
+  const couverture = getProp(props,'Couverture','url') || imgSrc;
+  const trio1    = getProp(props,'Trio1','url');
+  const trio2    = getProp(props,'Trio2','url');
+  const trio3    = getProp(props,'Trio3','url');
+  const duo1     = getProp(props,'Duo1','url');
+  const duo2     = getProp(props,'Duo2','url');
+  const date     = getProp(props,'Date','date');
+  const role     = getProp(props,'Rôle','select') || getProp(props,'Role','select');
+
+  document.title = `${titre} — MAXDEJA Portfolio`;
+  const bandeauImg = document.getElementById('panel-bandeau-img');
+  bandeauImg.src = couverture || '';
+  if (couverture) bandeauImg.onload = () => bandeauImg.classList.add('loaded');
+
+  const infoRows = [
+    client ? `<div class="info-row"><span class="info-label">Client</span><span class="info-val">${client}</span></div>` : '',
+    date   ? `<div class="info-row"><span class="info-label">Date</span><span class="info-val">${fmtDate(date)}</span></div>` : '',
+    role   ? `<div class="info-row"><span class="info-label">Rôle</span><span class="info-val">${role}</span></div>` : '',
+  ].join('');
+
+  document.getElementById('panel-body').innerHTML = `
+    <div class="panel-titre"><h1>${titre}</h1></div>
+    <div class="s2-meta">
+      <div class="s2-contexte"><h2>Contexte</h2>${contexte ? `<p>${contexte}</p>` : ''}</div>
+      <div class="s2-infos">${infoRows}</div>
+    </div>
+    ${(trio1||trio2||trio3) ? `<div class="s3-trio">${imgCell(trio1,'1')}${imgCell(trio2,'2')}${imgCell(trio3,'3')}</div>` : ''}
+    ${solution ? `<div class="s4-solution"><h2>Solution</h2><p>${solution}</p></div>` : ''}
+    ${(duo1||duo2) ? `<div class="s5-duo">${imgCell(duo1,'A')}${imgCell(duo2,'B')}</div>` : ''}
+    <div class="panel-footer"><button id="panel-close-bottom">← Retour aux projets</button></div>
+  `;
+  document.getElementById('panel-content').scrollTop = 0;
+  document.getElementById('panel-close-bottom').addEventListener('click', closeProject);
+  document.getElementById('projet-panel').classList.add('visible');
+}
+
+// ── HINT ──
+canvas.addEventListener('mousedown', () => {
+  document.getElementById('hint').classList.add('hidden');
+}, { once: true });
+
+// ── BURGER MOBILE ──
+document.getElementById('burger').addEventListener('click', () => document.getElementById('mobile-menu').classList.add('open'));
+document.getElementById('menu-close').addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'));
+
+// ── INIT ──
+async function init() {
+  try {
+    const data = await fetchProjects();
+    buildCards(data);
+    document.getElementById('loader').style.display = 'none';
+    await openFromUrl();
+  } catch(err) {
+    document.getElementById('loader').textContent = 'Erreur de chargement Notion.';
   }
+}
 
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) centerCanvas();
-  });
-
-  init();
+window.addEventListener('resize', () => { if (window.innerWidth > 768) centerCanvas(); });
+init();
 </script>
 </body>
 </html>
