@@ -552,16 +552,27 @@ canvas.addEventListener('touchend', () => {
 // ── OPEN PROJECT (SPA) ──
 async function openProject(id, imgSrc, cardEl) {
   const vw = window.innerWidth, vh = window.innerHeight;
-  const navH = document.getElementById('panel-nav')?.offsetHeight || 57;
-  const BANDEAU_H = Math.round(vh * 0.42); // hauteur finale du bandeau (hors nav)
 
-  // ── PHASE 1 : l'image de la card zoome vers le plein écran ──
+  // ── ÉTAPE 0 : header apparaît immédiatement ──
+  const panel = document.getElementById('projet-panel');
+  const panelNav = document.getElementById('panel-nav');
+  panel.style.display = 'flex';
+  panel.style.opacity = '1';
+  panel.style.pointerEvents = 'all';
+  panelNav.style.opacity = '1';
+  // Bandeau et contenu invisibles pour l'instant
+  document.getElementById('panel-bandeau').style.opacity = '0';
+  document.getElementById('panel-content').style.overflow = 'hidden';
+
+  const navH = panelNav.offsetHeight;
+  const BANDEAU_H = Math.round(vh * 0.42);
+
+  // ── PHASE 1 : l'image de la card zoome vers le plein écran (hors header) ──
   const hero = document.getElementById('zoom-clone');
   const imgWrap = cardEl.querySelector('.card-img-wrap');
   const r = imgWrap.getBoundingClientRect();
 
   if (imgSrc) {
-    // Position initiale = exactement la card img
     hero.src = imgSrc;
     hero.style.cssText = `
       display:block; position:fixed; z-index:250; object-fit:cover;
@@ -569,25 +580,19 @@ async function openProject(id, imgSrc, cardEl) {
       width:${r.width}px; height:${r.height}px;
       transition:none;
     `;
-    hero.getBoundingClientRect(); // force reflow
+    hero.getBoundingClientRect();
 
-    // → Plein écran
+    // → Zone sous le header
     hero.style.transition = 'left .5s cubic-bezier(.4,0,.2,1), top .5s cubic-bezier(.4,0,.2,1), width .5s cubic-bezier(.4,0,.2,1), height .5s cubic-bezier(.4,0,.2,1)';
     hero.style.left = '0';
-    hero.style.top = '0';
+    hero.style.top = navH + 'px';
     hero.style.width = vw + 'px';
-    hero.style.height = vh + 'px';
+    hero.style.height = (vh - navH) + 'px';
   }
 
-  // Pendant la phase 1 : préparer le panneau en arrière-plan (invisible)
-  const panel = document.getElementById('projet-panel');
-  panel.style.opacity = '0';
-  panel.style.pointerEvents = 'none';
-  panel.style.display = 'flex';
-
-  // Remplir le contenu en parallèle
+  // Fetch en parallèle
   let page;
-  try { page = await fetchPage(id); } catch(e) { hero.style.display='none'; panel.style.display=''; return; }
+  try { page = await fetchPage(id); } catch(e) { hero.style.display='none'; panel.style.display='none'; return; }
   const props = page.properties;
 
   const titre    = getProp(props,'Titre','title') || getProp(props,'Name','title') || 'Sans titre';
@@ -605,7 +610,6 @@ async function openProject(id, imgSrc, cardEl) {
 
   document.title = `${titre} — MAXDEJA Portfolio`;
 
-  // Bandeau caché (l'image hero le remplace visuellement pendant la transition)
   const bandeauImg = document.getElementById('panel-bandeau-img');
   bandeauImg.style.opacity = '0';
   bandeauImg.src = couverture || '';
@@ -619,10 +623,7 @@ async function openProject(id, imgSrc, cardEl) {
   document.getElementById('panel-body').innerHTML = `
     <div class="panel-titre panel-fade-up"><h1>${titre}</h1></div>
     <div class="s2-meta panel-fade-up" style="animation-delay:.08s">
-      <div class="s2-contexte">
-        <h2>Contexte</h2>
-        ${contexte ? `<p>${contexte}</p>` : ''}
-      </div>
+      <div class="s2-contexte"><h2>Contexte</h2>${contexte ? `<p>${contexte}</p>` : ''}</div>
       <div class="s2-infos">${infoRows}</div>
     </div>
     ${(trio1||trio2||trio3) ? `<div class="s3-trio panel-fade-up" style="animation-delay:.14s">${imgCell(trio1,'1')}${imgCell(trio2,'2')}${imgCell(trio3,'3')}</div>` : ''}
@@ -634,29 +635,18 @@ async function openProject(id, imgSrc, cardEl) {
   document.getElementById('panel-close-bottom').addEventListener('click', closeProject);
   history.pushState({ projetId: id }, titre, `?projet=${id.replace(/-/g,'')}`);
 
-  // ── PHASE 2 : après le zoom plein écran, l'image se rogne vers le bandeau ──
+  // ── PHASE 2 : l'image se rogne vers la hauteur du bandeau ──
   setTimeout(() => {
-    // Panneau visible mais contenu invisible (géré par fade-up)
-    panel.style.transition = 'none';
-    panel.style.opacity = '1';
-    panel.style.pointerEvents = 'all';
-
-    // L'image hero se contracte de vh → BANDEAU_H (même position top:0)
     hero.style.transition = 'height .55s cubic-bezier(.4,0,.2,1)';
     hero.style.height = BANDEAU_H + 'px';
 
-    // ── PHASE 3 : contenu monte + fade in, bandeau réel prend le relais ──
+    // ── PHASE 3 : swap hero → bandeau réel, fade-up contenu ──
     setTimeout(() => {
-      // Le bandeau réel apparaît (même image, même position) → swap invisible
-      bandeauImg.style.transition = 'none';
       bandeauImg.style.opacity = '1';
-      // L'image hero disparaît : elle est maintenant couverte par le bandeau réel
+      document.getElementById('panel-bandeau').style.opacity = '1';
+      document.getElementById('panel-content').style.overflow = '';
       hero.style.display = 'none';
-
-      // Déclenche les animations fade-up sur le contenu
-      document.querySelectorAll('.panel-fade-up').forEach(el => {
-        el.classList.add('panel-fade-up-active');
-      });
+      document.querySelectorAll('.panel-fade-up').forEach(el => el.classList.add('panel-fade-up-active'));
     }, 560);
 
   }, 480);
