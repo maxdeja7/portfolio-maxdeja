@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { cursor: none !important; }
 
     :root {
       --yellow: #F4EF9A;
@@ -27,6 +27,7 @@
       font-family: 'DM Sans', sans-serif;
       background: var(--yellow);
       user-select: none;
+      cursor: none;
     }
 
     /* ── BACKGROUND ── */
@@ -106,17 +107,54 @@
     .card-client { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gray-light); letter-spacing: 0.12em; text-transform: uppercase; }
     .card-cta { font-family: 'Archivo Black', sans-serif; font-size: 11px; letter-spacing: 0.04em; color: var(--yellow); background: var(--black); border: 2px solid var(--black); padding: 6px 12px; }
 
-    /* ── HINT ── */
-    #hint {
-      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
-      z-index: 100; background: var(--black); border: var(--border);
-      box-shadow: 5px 5px 0 rgba(244,239,154,0.4);
-      padding: 11px 22px; display: flex; align-items: center; gap: 10px;
-      opacity: 1; transition: opacity 0.8s ease; pointer-events: none;
+    /* ── PANNEAU MENTIONS LÉGALES ── */
+    #sign {
+      position: fixed;
+      bottom: -30px; left: 40px;
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: bottom center;
+      cursor: pointer;
+      will-change: transform;
+      filter: drop-shadow(7px 7px 0 var(--black));
     }
-    #hint.hidden { opacity: 0; }
-    .hint-dot { width: 16px; height: 16px; border: 2px solid var(--yellow); border-radius: 50%; flex-shrink: 0; }
-    #hint span { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--yellow); letter-spacing: 0.04em; white-space: nowrap; }
+    #sign-board {
+      background: #FF693B;
+      border: 3px solid var(--black);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+      margin-bottom: -3px;
+      position: relative;
+      z-index: 2;
+    }
+    #sign-board p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      line-height: 19.5px;
+      letter-spacing: 0.52px;
+      color: var(--black);
+      white-space: nowrap;
+      margin: 0;
+    }
+    #sign-board p:first-child { font-weight: 500; }
+    #sign-post {
+      background: #FF693B;
+      border: 3px solid var(--black);
+      border-bottom: none;
+      width: 18.5px;
+      height: 110px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      #sign { display: none; }
+    }
 
     /* ── ZOOM IMAGE (transition sortante) ── */
     #zoom-clone {
@@ -135,25 +173,47 @@
       position: fixed; inset: 0; z-index: 200;
       display: none; flex-direction: column;
       overflow: hidden;
+      background: var(--yellow);
     }
 
-    /* Nav sticky indépendante */
+    /* Nav sticky */
     #panel-nav {
       position: relative; z-index: 10; flex-shrink: 0;
       display: flex; justify-content: space-between; align-items: center;
       padding: 16px 24px;
       background: var(--yellow);
-      border-bottom: var(--border);
     }
+    .panel-logo {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 13px; letter-spacing: 0.52px;
+      color: var(--black);
+      background: none; border: none; box-shadow: none;
+      padding: 0; text-decoration: none;
+    }
+    #panel-close {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 13px; letter-spacing: 0.52px;
+      color: var(--black);
+      background: #fff;
+      border: 2.5px solid var(--black);
+      box-shadow: 4px 4px 0 var(--black);
+      padding: 8px 16px;
+      display: flex; align-items: center; gap: 4px;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    #panel-close:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+    #panel-close svg { width: 20px; height: 20px; }
 
-    /* Contenu scrollable — contient le bandeau + tout le reste */
+    /* Contenu scrollable */
     #panel-content {
       flex: 1; overflow-y: auto;
-      background: #F7F6F3;
+      background: var(--yellow);
       scroll-behavior: smooth;
+      padding-bottom: 24px;
     }
 
-    /* Bandeau — dans le flux scrollable */
+    /* Bandeau */
     #panel-bandeau {
       width: 100%; flex-shrink: 0;
       background: #e0deda;
@@ -163,6 +223,105 @@
     #panel-bandeau img {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
+    }
+
+    #panel-body {
+      padding: 24px;
+      display: flex; flex-direction: column; gap: 24px;
+    }
+
+    /* Ligne titre + client */
+    .p-head {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 24px; flex-wrap: wrap;
+    }
+    .p-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(28px, 4.2vw, 48px);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 4px 0 var(--black), 2px 0 0 var(--black), -2px 0 0 var(--black), 0 -2px 0 var(--black);
+      line-height: 1.1;
+      margin: 0;
+    }
+    .p-client {
+      display: flex; align-items: center; gap: 4px;
+      flex-shrink: 0;
+    }
+    .p-client-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; color: #6A6A6A;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .p-client-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 500;
+      color: var(--black);
+      white-space: nowrap;
+    }
+
+    /* Blocs texte */
+    .p-block { display: flex; flex-direction: column; gap: 4px; }
+    .p-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; color: #6A6A6A;
+      text-transform: uppercase;
+    }
+    .p-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 500;
+      color: var(--black);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Grilles images */
+    .p-trio, .p-duo {
+      display: grid; gap: 24px;
+    }
+    .p-trio { grid-template-columns: repeat(3, 1fr); }
+    .p-duo  { grid-template-columns: repeat(2, 1fr); }
+    .p-trio .p-cell { height: 240px; }
+    .p-duo  .p-cell { height: 320px; }
+    .p-cell {
+      background: #d9d9d9;
+      overflow: hidden;
+    }
+    .p-cell img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.5s;
+    }
+    .p-cell:hover img { transform: scale(1.04); }
+
+    /* Footer navigation projets */
+    .p-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .p-nav-btn {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 13px; letter-spacing: 0.52px;
+      color: var(--black);
+      background: #fff;
+      border: 2.5px solid var(--black);
+      box-shadow: 4px 4px 0 var(--black);
+      padding: 8px 16px;
+      display: flex; align-items: center; gap: 4px;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .p-nav-btn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+    .p-nav-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .p-nav-btn:disabled { opacity: 0.35; cursor: default; }
+    .p-nav-btn:disabled:hover { transform: none; box-shadow: 4px 4px 0 var(--black); }
+
+    @media (max-width: 720px) {
+      .p-trio, .p-duo { grid-template-columns: 1fr; }
+      .p-trio .p-cell, .p-duo .p-cell { height: 220px; }
+      .p-head { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
 
     /* Fade-up du contenu */
@@ -177,103 +336,97 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .panel-logo {
-      font-family: 'Archivo Black', sans-serif; font-size: 13px;
-      letter-spacing: 0.05em; color: var(--black);
-      background: var(--yellow); border: var(--border);
-      box-shadow: var(--shadow-sm); padding: 8px 14px;
-      text-decoration: none;
+    /* ── POUBELLE ── */
+    #trash {
+      position: fixed;
+      bottom: 32px; right: 32px;
+      z-index: 90;
+      width: 64px; height: 72px;
+      cursor: default;
+      transition: transform 0.2s;
     }
-    #panel-close {
-      font-family: 'Archivo Black', sans-serif; font-size: 11px;
-      letter-spacing: 0.04em; color: var(--black);
-      background: var(--yellow); border: var(--border);
-      box-shadow: var(--shadow-sm); padding: 8px 14px;
-      cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;
+    #trash .trash-body {
+      transition: fill 0.2s;
     }
-    #panel-close:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+    #trash.over .trash-body { fill: #E24B4A; }
+    #trash.over { transform: scale(1.12) rotate(-4deg); animation: trashShake 0.25s ease infinite alternate; }
+    @keyframes trashShake {
+      0% { transform: scale(1.12) rotate(-5deg); }
+      100% { transform: scale(1.12) rotate(5deg); }
+    }
+    #trash-label {
+      position: fixed;
+      bottom: 110px; right: 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    #trash-label.visible { opacity: 1; }
 
-    /* Contenu scrollable */
-    #panel-content {
-      flex: 1; overflow-y: auto;
-      background: #F7F6F3;
-      scroll-behavior: smooth;
+    /* ── DRAG CARD ── */
+    .project-card.dragged {
+      position: fixed !important;
+      z-index: 300;
+      pointer-events: none;
+      box-shadow: 12px 12px 0 var(--black);
+      transform: rotate(4deg) scale(1.04) !important;
+      transition: box-shadow 0.1s !important;
+      opacity: 0.95;
+    }
+    .project-card.drag-ghost {
+      opacity: 0.25;
+      pointer-events: none;
     }
 
-    .panel-titre {
-      padding: 3rem 5vw 0;
-      background: #F7F6F3;
+    /* ── CURSEUR FANTÔME ── */
+    #ghost-cursor {
+      position: fixed;
+      z-index: 150;
+      pointer-events: none;
+      will-change: transform;
+      display: none;
     }
-    .panel-titre h1 {
+    #ghost-cursor svg { display: block; }
+    #ghost-label-tag {
+      position: absolute;
+      top: 18px; left: 8px;
+      background: #2A52A0;
+      color: #fff;
       font-family: 'Archivo Black', sans-serif;
-      font-size: clamp(2rem, 5vw, 4rem);
-      letter-spacing: -0.02em; line-height: 1.05;
-      color: var(--black);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
     }
-
-    .s2-meta {
-      display: grid; grid-template-columns: 1fr 260px;
-      gap: 4rem; padding: 3rem 5vw;
-      border-bottom: 1px solid rgba(13,13,13,0.12);
-      background: #F7F6F3;
+    #ghost-bubble {
+      position: fixed;
+      z-index: 151;
+      pointer-events: none;
+      background: var(--black);
+      color: var(--yellow);
+      font-family: 'DM Mono', monospace;
+      font-size: 13px; font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 4px;
+      border: 2.5px solid var(--black);
+      box-shadow: 3px 3px 0 var(--black);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.15s;
+      display: none;
     }
-    @media (max-width: 720px) { .s2-meta { grid-template-columns: 1fr; gap: 2rem; } }
-
-    .s2-contexte h2, .s4-solution h2 {
-      font-family: 'DM Mono', monospace; font-size: 0.7rem;
-      letter-spacing: 0.1em; color: var(--gray-light);
-      text-transform: uppercase; margin-bottom: 1rem;
+    #ghost-bubble.visible { opacity: 1; }
+    #ghost-bubble::after {
+      content: '|';
+      animation: blink 0.55s step-end infinite;
     }
-    .s2-contexte p, .s4-solution p {
-      font-size: 1.05rem; font-weight: 300;
-      line-height: 1.75; color: var(--black); max-width: 60ch;
-    }
-    .s4-solution p { max-width: 80ch; font-size: 1.15rem; line-height: 1.8; }
-
-    .s2-infos { padding-top: 0.25rem; }
-    .info-row {
-      display: flex; justify-content: space-between;
-      padding: 0.75rem 0; border-bottom: 1px solid rgba(13,13,13,0.1);
-      font-size: 0.875rem;
-    }
-    .info-row:last-child { border-bottom: none; }
-    .info-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-light); }
-    .info-val { font-weight: 500; color: var(--black); }
-
-    .s3-trio {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 3px; background: var(--black);
-    }
-    .s5-duo {
-      display: grid; grid-template-columns: repeat(2,1fr);
-      gap: 3px; background: var(--black);
-    }
-    .img-cell { overflow: hidden; background: #e0deda; }
-    .s3-trio .img-cell { aspect-ratio: 4/3; }
-    .s5-duo .img-cell { aspect-ratio: 3/2; }
-    .img-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
-    .img-cell:hover img { transform: scale(1.04); }
-    @media (max-width: 600px) { .s3-trio, .s5-duo { grid-template-columns: 1fr; } }
-
-    .s4-solution {
-      padding: 4rem 5vw;
-      border-bottom: 1px solid rgba(13,13,13,0.12);
-      background: var(--yellow);
-    }
-
-    .panel-footer {
-      padding: 2rem 5vw; display: flex;
-      justify-content: flex-start;
-      border-top: var(--border); background: #F7F6F3;
-    }
-    .panel-footer button {
-      font-family: 'Archivo Black', sans-serif; font-size: 11px;
-      letter-spacing: 0.04em; color: var(--black);
-      background: var(--yellow); border: var(--border);
-      box-shadow: var(--shadow-sm); padding: 8px 14px;
-      cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;
-    }
-    .panel-footer button:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+    #ghost-bubble.done::after { display: none; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     /* ── LOADER ── */
     #loader {
@@ -363,21 +516,51 @@
   <div id="world"></div>
 </div>
 
-<!-- HINT -->
-<div id="hint">
-  <div class="hint-dot"></div>
-  <span>Déplacez-vous dans le plan en maintenant le clic</span>
+<!-- PANNEAU MENTIONS LÉGALES -->
+<div id="sign">
+  <div id="sign-board">
+    <p>Mentions légales</p>
+    <p>© 2026 Maxence Dejaegher</p>
+  </div>
+  <div id="sign-post"></div>
 </div>
 
 <!-- IMAGE CLONE pour transition zoom -->
 <img id="zoom-clone" src="" alt="" />
+
+<!-- POUBELLE -->
+<div id="trash" role="img" aria-label="Corbeille">
+  <svg viewBox="0 0 64 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="8" y="18" width="48" height="50" rx="3" class="trash-body" fill="#F4EF9A" stroke="#0D0D0D" stroke-width="3"/>
+    <rect x="2" y="10" width="60" height="11" rx="2" fill="#F4EF9A" stroke="#0D0D0D" stroke-width="3"/>
+    <rect x="22" y="2" width="20" height="10" rx="2" fill="#F4EF9A" stroke="#0D0D0D" stroke-width="3"/>
+    <line x1="22" y1="28" x2="22" y2="58" stroke="#0D0D0D" stroke-width="3" stroke-linecap="round"/>
+    <line x1="32" y1="28" x2="32" y2="58" stroke="#0D0D0D" stroke-width="3" stroke-linecap="round"/>
+    <line x1="42" y1="28" x2="42" y2="58" stroke="#0D0D0D" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+</div>
+<div id="trash-label">Glisser ici</div>
+
+<!-- CURSEUR FANTÔME -->
+<div id="ghost-cursor">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path d="M4 2L16 10L10 11.5L7.5 17L4 2Z" fill="#2A52A0" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+  </svg>
+  <div id="ghost-label-tag">Maxdeja</div>
+</div>
+<div id="ghost-bubble"></div>
 
 <!-- PANNEAU PROJET -->
 <div id="projet-panel">
   <!-- Nav sticky -->
   <div id="panel-nav">
     <span class="panel-logo">MAXDEJA — PORTFOLIO</span>
-    <button id="panel-close">✕ Fermer</button>
+    <button id="panel-close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
+      </svg>
+      Fermer
+    </button>
   </div>
   <!-- Contenu scrollable (bandeau inclus) -->
   <div id="panel-content">
@@ -461,12 +644,14 @@ function buildCards(data) {
     const client = getProp(props,'Client','rich_text') || '';
     const solution = getProp(props,'Solution','rich_text') || '';
     const couverture = getProp(props,'Couverture','url') || '';
+    const anecdote = getProp(props,'Anecdote','rich_text') || '';
     const accent = ACCENTS[i % ACCENTS.length];
 
     const card = document.createElement('div');
     card.className = 'project-card';
     card.dataset.id = page.id;
     card.dataset.img = couverture;
+    card.dataset.anecdote = anecdote;
 
     if (!isMobile) {
       const { x, y, rot } = positions[i];
@@ -487,11 +672,6 @@ function buildCards(data) {
         </div>
       </div>`;
 
-    card.addEventListener('click', () => {
-      if (wasDragging) return;
-      openProject(page.id, couverture, card);
-    });
-
     world.appendChild(card);
   });
 
@@ -500,6 +680,7 @@ function buildCards(data) {
 
 // ── CANVAS PAN ──
 let panX = 0, panY = 0, isPanning = false, wasDragging = false;
+let isDraggingCard = false;
 let sx, sy, spx, spy;
 
 function centerCanvas() {
@@ -514,7 +695,9 @@ function applyPan() {
 const canvas = document.getElementById('canvas');
 
 canvas.addEventListener('mousedown', e => {
-  if (window.innerWidth <= 768 || e.target.closest('.project-card')) return;
+  if (window.innerWidth <= 768) return;
+  if (isDraggingCard) return;
+  if (e.target.closest('.project-card')) return;
   isPanning = true; wasDragging = false;
   sx = e.clientX; sy = e.clientY; spx = panX; spy = panY;
   canvas.classList.add('dragging');
@@ -524,6 +707,7 @@ window.addEventListener('mousemove', e => {
   const dx = e.clientX - sx, dy = e.clientY - sy;
   if (Math.abs(dx) > 3 || Math.abs(dy) > 3) wasDragging = true;
   panX = spx + dx; panY = spy + dy; applyPan();
+  if (typeof signReactToPan === 'function') signReactToPan();
 });
 window.addEventListener('mouseup', () => {
   isPanning = false; canvas.classList.remove('dragging');
@@ -560,7 +744,8 @@ async function openProject(id, imgSrc, cardEl) {
   panel.style.opacity = '1';
   panel.style.pointerEvents = 'all';
   panelNav.style.opacity = '1';
-  // Bandeau et contenu invisibles pour l'instant
+  // Suspend le curseur fantôme pendant la consultation du détail
+  ghostSuspend();
   document.getElementById('panel-bandeau').style.opacity = '0';
   document.getElementById('panel-content').style.overflow = 'hidden';
 
@@ -593,47 +778,11 @@ async function openProject(id, imgSrc, cardEl) {
   // Fetch en parallèle
   let page;
   try { page = await fetchPage(id); } catch(e) { hero.style.display='none'; panel.style.display='none'; return; }
-  const props = page.properties;
 
-  const titre    = getProp(props,'Titre','title') || getProp(props,'Name','title') || 'Sans titre';
-  const client   = getProp(props,'Client','rich_text');
-  const contexte = getProp(props,'Contexte','rich_text');
-  const solution = getProp(props,'Solution','rich_text');
-  const couverture = getProp(props,'Couverture','url') || imgSrc;
-  const trio1    = getProp(props,'Trio1','url');
-  const trio2    = getProp(props,'Trio2','url');
-  const trio3    = getProp(props,'Trio3','url');
-  const duo1     = getProp(props,'Duo1','url');
-  const duo2     = getProp(props,'Duo2','url');
-  const date     = getProp(props,'Date','date');
-  const role     = getProp(props,'Rôle','select') || getProp(props,'Role','select');
-
-  document.title = `${titre} — MAXDEJA Portfolio`;
+  renderPanelBody(page, id, imgSrc, true);
+  history.pushState({ projetId: id }, document.title, `?projet=${id.replace(/-/g,'')}`);
 
   const bandeauImg = document.getElementById('panel-bandeau-img');
-  bandeauImg.style.opacity = '0';
-  bandeauImg.src = couverture || '';
-
-  const infoRows = [
-    client ? `<div class="info-row"><span class="info-label">Client</span><span class="info-val">${client}</span></div>` : '',
-    date   ? `<div class="info-row"><span class="info-label">Date</span><span class="info-val">${fmtDate(date)}</span></div>` : '',
-    role   ? `<div class="info-row"><span class="info-label">Rôle</span><span class="info-val">${role}</span></div>` : '',
-  ].join('');
-
-  document.getElementById('panel-body').innerHTML = `
-    <div class="panel-titre panel-fade-up"><h1>${titre}</h1></div>
-    <div class="s2-meta panel-fade-up" style="animation-delay:.08s">
-      <div class="s2-contexte"><h2>Contexte</h2>${contexte ? `<p>${contexte}</p>` : ''}</div>
-      <div class="s2-infos">${infoRows}</div>
-    </div>
-    ${(trio1||trio2||trio3) ? `<div class="s3-trio panel-fade-up" style="animation-delay:.14s">${imgCell(trio1,'1')}${imgCell(trio2,'2')}${imgCell(trio3,'3')}</div>` : ''}
-    ${solution ? `<div class="s4-solution panel-fade-up" style="animation-delay:.18s"><h2>Solution</h2><p>${solution}</p></div>` : ''}
-    ${(duo1||duo2) ? `<div class="s5-duo panel-fade-up" style="animation-delay:.22s">${imgCell(duo1,'A')}${imgCell(duo2,'B')}</div>` : ''}
-    <div class="panel-footer panel-fade-up" style="animation-delay:.26s"><button id="panel-close-bottom">← Retour aux projets</button></div>
-  `;
-  document.getElementById('panel-content').scrollTop = 0;
-  document.getElementById('panel-close-bottom').addEventListener('click', closeProject);
-  history.pushState({ projetId: id }, titre, `?projet=${id.replace(/-/g,'')}`);
 
   // ── PHASE 2 : l'image se rogne vers la hauteur du bandeau ──
   setTimeout(() => {
@@ -652,6 +801,105 @@ async function openProject(id, imgSrc, cardEl) {
   }, 480);
 }
 
+// ── RENDU DU CONTENU DU PANNEAU (partagé) ──
+function renderPanelBody(page, id, fallbackImg, animated) {
+  const props = page.properties;
+
+  const titre    = getProp(props,'Titre','title') || getProp(props,'Name','title') || 'Sans titre';
+  const client   = getProp(props,'Client','rich_text');
+  const contexte = getProp(props,'Contexte','rich_text');
+  const solution = getProp(props,'Solution','rich_text');
+  const couverture = getProp(props,'Couverture','url') || fallbackImg || '';
+  const logoClient = getProp(props,'LogoClient','url') || '';
+  const trio1    = getProp(props,'Trio1','url');
+  const trio2    = getProp(props,'Trio2','url');
+  const trio3    = getProp(props,'Trio3','url');
+  const duo1     = getProp(props,'Duo1','url');
+  const duo2     = getProp(props,'Duo2','url');
+
+  document.title = `${titre} — MAXDEJA Portfolio`;
+
+  const bandeauImg = document.getElementById('panel-bandeau-img');
+  if (animated) bandeauImg.style.opacity = '0';
+  else bandeauImg.style.opacity = '1';
+  bandeauImg.src = couverture;
+
+  // Navigation projet précédent / suivant
+  const idx = pages.findIndex(p => p.id === id);
+  const prev = idx > 0 ? pages[idx - 1] : null;
+  const next = idx >= 0 && idx < pages.length - 1 ? pages[idx + 1] : null;
+
+  const arrowLeft  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>`;
+  const arrowRight = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+
+  const cell = src => `<div class="p-cell">${src ? `<img src="${src}" alt="" loading="lazy"/>` : ''}</div>`;
+  const fade = animated ? 'panel-fade-up' : '';
+
+  document.getElementById('panel-body').innerHTML = `
+    <div class="p-head ${fade}">
+      <h1 class="p-title">${titre}</h1>
+      ${client ? `
+      <div class="p-client">
+        <span class="p-client-label">Client :</span>
+        <span class="p-client-name">${client}</span>
+      </div>` : ''}
+    </div>
+
+    ${contexte ? `
+    <div class="p-block ${fade}" style="animation-delay:.08s">
+      <span class="p-label">Contexte</span>
+      <p class="p-text">${contexte}</p>
+    </div>` : ''}
+
+    ${(trio1||trio2||trio3) ? `
+    <div class="p-trio ${fade}" style="animation-delay:.14s">
+      ${cell(trio1)}${cell(trio2)}${cell(trio3)}
+    </div>` : ''}
+
+    ${solution ? `
+    <div class="p-block ${fade}" style="animation-delay:.18s">
+      <span class="p-label">Solution</span>
+      <p class="p-text">${solution}</p>
+    </div>` : ''}
+
+    ${(duo1||duo2) ? `
+    <div class="p-duo ${fade}" style="animation-delay:.22s">
+      ${cell(duo1)}${cell(duo2)}
+    </div>` : ''}
+
+    <div class="p-nav ${fade}" style="animation-delay:.26s">
+      <button class="p-nav-btn" id="p-prev" ${prev ? '' : 'disabled'}>
+        ${arrowLeft} Projet précédent
+      </button>
+      <button class="p-nav-btn" id="p-next" ${next ? '' : 'disabled'}>
+        Projet suivant ${arrowRight}
+      </button>
+    </div>
+  `;
+
+  document.getElementById('panel-content').scrollTop = 0;
+
+  if (prev) document.getElementById('p-prev').addEventListener('click', () => switchProject(prev.id));
+  if (next) document.getElementById('p-next').addEventListener('click', () => switchProject(next.id));
+}
+
+// Change de projet sans fermer le panneau
+async function switchProject(newId) {
+  const content = document.getElementById('panel-content');
+  content.style.transition = 'opacity .2s';
+  content.style.opacity = '0';
+  setTimeout(async () => {
+    try {
+      const page = await fetchPage(newId);
+      renderPanelBody(page, newId, '', false);
+      history.pushState({ projetId: newId }, document.title, `?projet=${newId.replace(/-/g,'')}`);
+      content.style.opacity = '1';
+    } catch(e) {
+      content.style.opacity = '1';
+    }
+  }, 200);
+}
+
 // ── CLOSE PROJECT ──
 function closeProject() {
   const panel = document.getElementById('projet-panel');
@@ -666,6 +914,9 @@ function closeProject() {
     document.getElementById('panel-body').innerHTML = '';
     document.getElementById('panel-bandeau-img').src = '';
     document.getElementById('panel-bandeau-img').style.opacity = '';
+    document.getElementById('panel-content').style.opacity = '';
+    document.getElementById('panel-content').style.transition = '';
+    ghostResume();
   }, 280);
 }
 
@@ -692,55 +943,463 @@ async function openFromUrl() {
 async function openProjectDirect(id, imgSrc) {
   let page;
   try { page = await fetchPage(id); } catch(e) { return; }
-  const props = page.properties;
-  const titre    = getProp(props,'Titre','title') || getProp(props,'Name','title') || 'Sans titre';
-  const client   = getProp(props,'Client','rich_text');
-  const contexte = getProp(props,'Contexte','rich_text');
-  const solution = getProp(props,'Solution','rich_text');
-  const couverture = getProp(props,'Couverture','url') || imgSrc;
-  const trio1    = getProp(props,'Trio1','url');
-  const trio2    = getProp(props,'Trio2','url');
-  const trio3    = getProp(props,'Trio3','url');
-  const duo1     = getProp(props,'Duo1','url');
-  const duo2     = getProp(props,'Duo2','url');
-  const date     = getProp(props,'Date','date');
-  const role     = getProp(props,'Rôle','select') || getProp(props,'Role','select');
 
-  document.title = `${titre} — MAXDEJA Portfolio`;
-  const bandeauImg = document.getElementById('panel-bandeau-img');
-  bandeauImg.src = couverture || '';
+  renderPanelBody(page, id, imgSrc, false);
 
-  const infoRows = [
-    client ? `<div class="info-row"><span class="info-label">Client</span><span class="info-val">${client}</span></div>` : '',
-    date   ? `<div class="info-row"><span class="info-label">Date</span><span class="info-val">${fmtDate(date)}</span></div>` : '',
-    role   ? `<div class="info-row"><span class="info-label">Rôle</span><span class="info-val">${role}</span></div>` : '',
-  ].join('');
-
-  document.getElementById('panel-body').innerHTML = `
-    <div class="panel-titre"><h1>${titre}</h1></div>
-    <div class="s2-meta">
-      <div class="s2-contexte"><h2>Contexte</h2>${contexte ? `<p>${contexte}</p>` : ''}</div>
-      <div class="s2-infos">${infoRows}</div>
-    </div>
-    ${(trio1||trio2||trio3) ? `<div class="s3-trio">${imgCell(trio1,'1')}${imgCell(trio2,'2')}${imgCell(trio3,'3')}</div>` : ''}
-    ${solution ? `<div class="s4-solution"><h2>Solution</h2><p>${solution}</p></div>` : ''}
-    ${(duo1||duo2) ? `<div class="s5-duo">${imgCell(duo1,'A')}${imgCell(duo2,'B')}</div>` : ''}
-    <div class="panel-footer"><button id="panel-close-bottom">← Retour aux projets</button></div>
-  `;
-  document.getElementById('panel-content').scrollTop = 0;
-  document.getElementById('panel-close-bottom').addEventListener('click', closeProject);
   const panel2 = document.getElementById('projet-panel');
   panel2.style.display = 'flex';
   panel2.style.opacity = '1';
   panel2.style.pointerEvents = 'all';
-  document.getElementById('panel-bandeau-img').style.opacity = '1';
-  document.querySelectorAll('.panel-fade-up').forEach(el => el.classList.add('panel-fade-up-active'));
+  document.getElementById('panel-bandeau').style.opacity = '1';
+  document.getElementById('panel-content').style.overflow = '';
+  if (typeof ghostSuspend === 'function') ghostSuspend();
 }
 
-// ── HINT ──
-canvas.addEventListener('mousedown', () => {
-  document.getElementById('hint').classList.add('hidden');
-}, { once: true });
+// ════════════════════════════════════════
+// PANNEAU : OSCILLATION AU VENT + RÉACTION AU PAN
+// ════════════════════════════════════════
+const signEl = document.getElementById('sign');
+const SIGN_BASE = 3.44;        // inclinaison de repos (deg)
+let signWind = 0;
+let signPush = 0;              // impulsion du pan
+let signPushVel = 0;
+let lastSignPanX = 0;
+
+function signLoop(now) {
+  // Vent : deux sinusoïdes de périodes différentes → mouvement irrégulier naturel
+  const t = now / 1000;
+  signWind = Math.sin(t * 0.7) * 0.8 + Math.sin(t * 1.9 + 1.3) * 0.35;
+
+  // Ressort amorti pour le retour élastique après un pan
+  signPushVel += (0 - signPush) * 0.12;
+  signPushVel *= 0.82;
+  signPush    += signPushVel;
+
+  signEl.style.transform = `rotate(${SIGN_BASE + signWind + signPush}deg)`;
+  requestAnimationFrame(signLoop);
+}
+requestAnimationFrame(signLoop);
+
+// Le panneau se penche à l'inverse du mouvement du plan
+function signReactToPan() {
+  const delta = panX - lastSignPanX;
+  lastSignPanX = panX;
+  const impulse = Math.max(-9, Math.min(9, -delta * 0.22));
+  signPush += impulse * 0.35;
+}
+
+// ════════════════════════════════════════
+// CURSEUR CUSTOM UTILISATEUR (orange)
+// ════════════════════════════════════════
+const userCursorEl = document.createElement('div');
+userCursorEl.id = 'user-cursor';
+userCursorEl.innerHTML = `<svg width="27" height="27" viewBox="0 0 20 20" fill="none">
+  <path d="M4 2L16 10L10 11.5L7.5 17L4 2Z" fill="#FFB347" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>`;
+userCursorEl.style.cssText = 'position:fixed;z-index:500;pointer-events:none;transform:translate(-100px,-100px);';
+document.body.appendChild(userCursorEl);
+document.body.style.cursor = 'none';
+document.querySelectorAll('a,button,.hbtn,.project-card').forEach(el => el.style.cursor = 'none');
+window.addEventListener('mousemove', e => {
+  userCursorEl.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
+});
+
+// ════════════════════════════════════════
+// DRAG & DROP CARDS + POUBELLE
+// ════════════════════════════════════════
+const trash = document.getElementById('trash');
+const trashLabel = document.getElementById('trash-label');
+
+let dragCard = null;       // clone visuel qui suit la souris
+let dragGhost = null;      // card originale (fantôme)
+let dragOffX = 0, dragOffY = 0;
+let dragOrigPos = null;
+
+function getTrashRect() { return trash.getBoundingClientRect(); }
+function isOverTrash(x, y) {
+  const r = getTrashRect();
+  return x > r.left - 30 && x < r.right + 30 && y > r.top - 30 && y < r.bottom + 30;
+}
+
+// Délégation : UN SEUL listener sur le world, valable pour toutes les cards
+// présentes et futures — impossible de le perdre.
+function enableCardDrag(card) {
+  // Ne fait plus rien : la délégation gère tout.
+  // Conservé pour compatibilité avec les appels existants.
+  if (card) card.classList.remove('drag-ghost');
+}
+
+document.getElementById('world').addEventListener('mousedown', onCardMouseDown);
+
+// État "en attente" : on ne sait pas encore si c'est un clic ou un drag
+let pendingDrag = null;
+let pendingTimer = null;
+const DRAG_THRESHOLD = 5;   // px de mouvement pour déclencher le drag
+const DRAG_HOLD_MS   = 180; // ms de maintien pour déclencher le drag
+
+function onCardMouseDown(e) {
+  if (e.button !== 0) return;
+  if (document.getElementById('projet-panel').style.display === 'flex') return;
+
+  const card = e.target.closest('.project-card');
+  if (!card) return;
+
+  const rect = card.getBoundingClientRect();
+
+  // On mémorise tout, mais on ne démarre PAS le drag tout de suite
+  pendingDrag = {
+    card,
+    rect,
+    startX: e.clientX,
+    startY: e.clientY,
+    offX: e.clientX - rect.left,
+    offY: e.clientY - rect.top
+  };
+
+  // Maintien long → drag
+  clearTimeout(pendingTimer);
+  pendingTimer = setTimeout(() => {
+    if (pendingDrag) startRealDrag(pendingDrag.startX, pendingDrag.startY);
+  }, DRAG_HOLD_MS);
+
+  e.stopPropagation();
+  e.preventDefault();
+}
+
+function startRealDrag(clientX, clientY) {
+  if (!pendingDrag || dragCard) return;
+  const { card, rect, offX, offY } = pendingDrag;
+
+  clearTimeout(pendingTimer);
+
+  dragOffX = offX;
+  dragOffY = offY;
+  dragOrigPos = {
+    worldLeft: card.style.left,
+    worldTop:  card.style.top,
+    rot:       card.style.getPropertyValue('--rot') || '0deg'
+  };
+
+  dragGhost = card;
+  dragCard = card.cloneNode(true);
+  dragCard.classList.add('dragged');
+  dragCard.classList.remove('drag-ghost');
+  dragCard.style.cssText += `position:fixed;left:${clientX - offX}px;top:${clientY - offY}px;width:${rect.width}px;z-index:300;transform:rotate(4deg) scale(1.04);pointer-events:none;box-shadow:12px 12px 0 #0D0D0D;opacity:0.95;`;
+  document.body.appendChild(dragCard);
+
+  dragGhost.classList.add('drag-ghost');
+  trashLabel.classList.add('visible');
+
+  isDraggingCard = true;
+  wasDragging = true;
+  pendingDrag = null;
+}
+
+window.addEventListener('mousemove', e => {
+  // Seuil de mouvement → déclenche le drag
+  if (pendingDrag && !dragCard) {
+    const dx = e.clientX - pendingDrag.startX;
+    const dy = e.clientY - pendingDrag.startY;
+    if (Math.hypot(dx, dy) > DRAG_THRESHOLD) {
+      startRealDrag(e.clientX, e.clientY);
+    }
+    return;
+  }
+
+  if (!dragCard) return;
+  dragCard.style.left = (e.clientX - dragOffX) + 'px';
+  dragCard.style.top  = (e.clientY - dragOffY) + 'px';
+  if (isOverTrash(e.clientX, e.clientY)) trash.classList.add('over');
+  else trash.classList.remove('over');
+});
+
+window.addEventListener('mouseup', e => {
+  clearTimeout(pendingTimer);
+
+  // Relâché avant le seuil → c'était un CLIC SIMPLE → ouvre le projet
+  if (pendingDrag && !dragCard) {
+    const card = pendingDrag.card;
+    pendingDrag = null;
+    const id  = card.dataset.id;
+    const img = card.dataset.img || '';
+    if (id) openProject(id, img, card);
+    return;
+  }
+
+  if (!dragCard) return;
+
+  trash.classList.remove('over');
+  trashLabel.classList.remove('visible');
+
+  if (isOverTrash(e.clientX, e.clientY)) {
+    dropInTrash();
+  } else {
+    const newWorldX = e.clientX - dragOffX - panX;
+    const newWorldY = e.clientY - dragOffY - panY;
+    dragGhost.style.left = newWorldX + 'px';
+    dragGhost.style.top  = newWorldY + 'px';
+    dragOrigPos.worldLeft = newWorldX + 'px';
+    dragOrigPos.worldTop  = newWorldY + 'px';
+    dragCard.remove();
+    dragGhost.classList.remove('drag-ghost');
+    dragCard = null;
+    dragGhost = null;
+    isDraggingCard = false;
+    setTimeout(() => { wasDragging = false; }, 50);
+  }
+});
+
+function dropInTrash() {
+  if (!dragCard || !dragGhost) return;
+
+  const trashR = getTrashRect();
+  dragCard.style.transition = 'left 0.3s ease, top 0.3s ease, opacity 0.3s ease, transform 0.3s ease';
+  dragCard.style.left = (trashR.left + trashR.width/2 - 150) + 'px';
+  dragCard.style.top  = (trashR.top - 20) + 'px';
+  dragCard.style.opacity   = '0';
+  dragCard.style.transform = 'rotate(10deg) scale(0.4)';
+
+  const ghostRef = dragGhost;
+  const origPos  = { ...dragOrigPos };
+  const cardClone = dragCard;
+
+  dragCard = null;
+  dragGhost = null;
+  isDraggingCard = false;
+
+  setTimeout(() => {
+    cardClone.remove();
+    // CRITIQUE : retire drag-ghost (qui porte pointer-events:none)
+    ghostRef.classList.remove('drag-ghost');
+    ghostRef.style.opacity    = '0';
+    ghostRef.style.transition = 'opacity 0.15s';
+    ghostRef.style.display    = '';
+    setTimeout(() => {
+      ghostRef.style.display = 'none';
+      ghostGrumble(ghostRef, origPos);
+    }, 160);
+  }, 320);
+
+  setTimeout(() => { wasDragging = false; }, 50);
+}
+
+// ════════════════════════════════════════
+// CURSEUR FANTÔME
+// ════════════════════════════════════════
+const ghostEl     = document.getElementById('ghost-cursor');
+const ghostBubble = document.getElementById('ghost-bubble');
+let gx = window.innerWidth * 0.15, gy = window.innerHeight * 0.5;
+let ghostRafId = null;
+let ghostBusy  = false;
+let ghostPaused = false;
+let wanderTimeout = null;
+let hoverTimer = null;
+let hoverTyping = false;
+
+function setGhost(x, y) {
+  gx = x; gy = y;
+  ghostEl.style.transform = `translate(${x}px, ${y}px)`;
+  // Bulle : s'affiche à gauche si proche du bord droit
+  const bubW = 260;
+  const bx = (x + 28 + bubW > window.innerWidth - 10) ? x - bubW - 8 : x + 28;
+  ghostBubble.style.left = bx + 'px';
+  ghostBubble.style.top  = (y - 10) + 'px';
+}
+
+function ghostAnimTo(x0, y0, x1, y1, dur, easeFn, cb) {
+  cancelAnimationFrame(ghostRafId);
+  const t0 = performance.now();
+  const tick = now => {
+    let t = Math.min((now - t0) / dur, 1);
+    t = easeFn(t);
+    setGhost(x0 + (x1 - x0) * t, y0 + (y1 - y0) * t);
+    if (t < 1) ghostRafId = requestAnimationFrame(tick);
+    else if (cb) cb();
+  };
+  ghostRafId = requestAnimationFrame(tick);
+}
+
+const gEaseOut   = t => 1 - Math.pow(1 - t, 3);
+const gEaseInOut = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+
+function ghostShowBubble(msg, cb) {
+  ghostBubble.textContent = '';
+  ghostBubble.classList.remove('done');
+  ghostBubble.style.display = 'block';
+  ghostBubble.classList.add('visible');
+  let i = 0;
+  const next = () => {
+    if (i < msg.length) {
+      ghostBubble.textContent = msg.slice(0, ++i);
+      // micro-jitter pendant la frappe
+      setGhost(gx + (Math.random()-.5)*4, gy + (Math.random()-.5)*3);
+      setTimeout(next, 40 + Math.random() * 33);
+    } else {
+      ghostBubble.classList.add('done');
+      if (cb) setTimeout(cb, 1400);
+    }
+  };
+  next();
+}
+
+function ghostHideBubble(cb) {
+  ghostBubble.classList.remove('visible');
+  setTimeout(() => {
+    ghostBubble.style.display = 'none';
+    ghostBubble.textContent   = '';
+    ghostBubble.classList.remove('done');
+    if (cb) cb();
+  }, 200);
+}
+
+function ghostCircles(cb) {
+  const cx = gx, cy = gy, rx = 30, ry = 18;
+  const rounds = 3.5, dur = 600;
+  const t0 = performance.now();
+  const tick = now => {
+    const t = (now - t0) / dur;
+    if (t >= rounds) { setGhost(cx, cy); if (cb) cb(); return; }
+    setGhost(cx + Math.cos(t * Math.PI * 2) * rx, cy + Math.sin(t * Math.PI * 2) * ry);
+    ghostRafId = requestAnimationFrame(tick);
+  };
+  ghostRafId = requestAnimationFrame(tick);
+}
+
+function ghostWander() {
+  if (ghostBusy || ghostPaused) return;
+  clearTimeout(wanderTimeout);
+  const w = window.innerWidth, h = window.innerHeight;
+  const p = { x: 80 + Math.random() * (w - 200), y: 80 + Math.random() * (h - 160) };
+  const dist = Math.hypot(p.x - gx, p.y - gy);
+  ghostAnimTo(gx, gy, p.x, p.y, 500 + dist * 1.2, gEaseInOut, () => {
+    wanderTimeout = setTimeout(ghostWander, 80 + Math.random() * 600);
+  });
+}
+
+// Suspend / reprend le fantôme (pendant la consultation d'un projet)
+function ghostSuspend() {
+  ghostPaused = true;
+  clearTimeout(wanderTimeout);
+  clearTimeout(hoverTimer);
+  cancelAnimationFrame(ghostRafId);
+  ghostEl.style.display = 'none';
+  ghostBubble.style.display = 'none';
+  ghostBubble.classList.remove('visible', 'done');
+  ghostBubble.textContent = '';
+}
+
+function ghostResume() {
+  if (!ghostPaused) return;
+  ghostPaused = false;
+  ghostEl.style.display = 'block';
+  setTimeout(ghostWander, 400);
+}
+
+// Séquence accueil
+function ghostWelcome() {
+  ghostEl.style.display = 'block';
+  ghostBubble.style.display = 'none';
+  setGhost(window.innerWidth * 0.15, window.innerHeight * 0.5);
+  ghostAnimTo(gx, gy, window.innerWidth * 0.35, window.innerHeight * 0.45, 900, gEaseOut, () => {
+    ghostShowBubble('Bienvenue ! Déplacez-vous dans le plan en maintenant le clic =)', () => {
+      ghostCircles(() => {
+        ghostHideBubble(() => ghostWander());
+      });
+    });
+  });
+}
+
+// Séquence récupération card depuis la poubelle
+function ghostGrumble(cardEl, origPos) {
+  ghostBusy = true;
+  clearTimeout(wanderTimeout);
+  cancelAnimationFrame(ghostRafId);
+  ghostEl.style.display = 'block';
+  ghostBubble.style.display = 'none';
+
+  const trashR  = getTrashRect();
+  const targetX = trashR.left - 40;
+  const targetY = trashR.top  - 20;
+
+  ghostAnimTo(gx, gy, targetX, targetY, 700, gEaseOut, () => {
+    ghostShowBubble('Eh ! On ne jette pas les projets clients !', () => {
+      ghostHideBubble(() => {
+        // Ressort la card de la poubelle : scale 0 → 1 avec rebond
+        // Nettoyage complet de l'état laissé par le drag
+        cardEl.classList.remove('drag-ghost', 'dragged');
+        cardEl.style.display      = '';
+        cardEl.style.opacity      = '1';
+        cardEl.style.pointerEvents = '';
+        cardEl.style.transition   = 'none';
+        cardEl.style.transform    = `rotate(${origPos.rot}) scale(0)`;
+
+        // Double RAF pour forcer le navigateur à peindre scale(0) avant d'animer
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            cardEl.style.transition = 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1)';
+            cardEl.style.transform  = `rotate(${origPos.rot}) scale(1)`;
+          });
+        });
+
+        // Le curseur va "chercher" la card et l'accompagne à sa place
+        const cardScreenX = parseFloat(origPos.worldLeft) + panX + 150;
+        const cardScreenY = parseFloat(origPos.worldTop)  + panY + 100;
+
+        ghostAnimTo(gx, gy, cardScreenX, cardScreenY, 700, gEaseOut, () => {
+          setTimeout(() => {
+            cardEl.style.transition = '';
+            cardEl.style.transform  = `rotate(${origPos.rot}) scale(1)`;
+            cardEl.classList.remove('drag-ghost', 'dragged');
+            cardEl.style.pointerEvents = '';
+            ghostBusy = false;
+            setTimeout(ghostWander, 300);
+          }, 560);
+        });
+      });
+    });
+  });
+}
+
+// ── ANECDOTE AU SURVOL ──
+
+function onCardHover(anecdote) {
+  if (!anecdote || ghostBusy || ghostPaused) return;
+  clearTimeout(hoverTimer);
+  hoverTimer = setTimeout(() => {
+    if (ghostBusy || ghostPaused) return;
+    hoverTyping = true;
+    // Pause : le ghost finit son pas en cours (on annule le wander suivant)
+    clearTimeout(wanderTimeout);
+    cancelAnimationFrame(ghostRafId);
+    // Tape l'anecdote sans bouger
+    ghostShowBubble(anecdote, () => {
+      hoverTyping = false;
+      // Affiche 2.5s puis reprend la promenade
+      setTimeout(() => {
+        ghostHideBubble(() => ghostWander());
+      }, 2500);
+    });
+  }, 500);
+}
+
+function onCardLeave() {
+  clearTimeout(hoverTimer);
+}
+
+// Active le drag + hover anecdote sur les cards après buildCards
+const _origBuildCards = buildCards;
+function buildCardsWithDrag(data) {
+  _origBuildCards(data);
+  document.querySelectorAll('.project-card').forEach(card => {
+    enableCardDrag(card);
+    const anecdote = card.dataset.anecdote || '';
+    if (anecdote) {
+      card.addEventListener('mouseenter', () => onCardHover(anecdote));
+      card.addEventListener('mouseleave', onCardLeave);
+    }
+  });
+  setTimeout(ghostWelcome, 800);
+}
 
 // ── BURGER MOBILE ──
 document.getElementById('burger').addEventListener('click', () => document.getElementById('mobile-menu').classList.add('open'));
@@ -750,7 +1409,7 @@ document.getElementById('menu-close').addEventListener('click', () => document.g
 async function init() {
   try {
     const data = await fetchProjects();
-    buildCards(data);
+    buildCardsWithDrag(data);
     document.getElementById('loader').style.display = 'none';
     await openFromUrl();
   } catch(err) {
