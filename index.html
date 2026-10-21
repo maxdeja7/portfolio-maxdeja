@@ -104,6 +104,7 @@
       display: inline-flex; align-items: center; gap: 10px;
       padding: 9px 16px; line-height: 1;
       overflow: visible;
+      background: var(--white);
     }
     .hbtn-logo img {
       height: 20px; width: auto; display: block;
@@ -207,7 +208,17 @@
     }
 
     @media (max-width: 768px) {
-      #sign { display: none; }
+      #sign {
+        left: 50%; bottom: -34px;
+        transform: translate(-50%, 190%) rotate(3.44deg);
+        transition: transform .55s cubic-bezier(.34,1.22,.64,1);
+        filter: drop-shadow(5px 5px 0 var(--black));
+        pointer-events: none;
+      }
+      #sign.visible { transform: translate(-50%, 0) rotate(3.44deg); pointer-events: all; }
+      #sign-board { padding: 12px 16px; }
+      #sign-board p { font-size: 12px; line-height: 17px; }
+      #sign-post { height: 80px; }
     }
 
     /* ── ZOOM IMAGE (transition sortante) ── */
@@ -352,7 +363,7 @@
     }
     .p-title {
       font-family: 'Archivo Black', sans-serif;
-      font-size: clamp(28px, 4.2vw, 48px);
+      font-size: clamp(23px, 6vw, 48px);
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #fff;
@@ -432,9 +443,10 @@
     .p-nav-btn:disabled { opacity: 0.35; cursor: default; }
     .p-nav-btn:disabled:hover { transform: none; box-shadow: 4px 4px 0 var(--black); }
 
-    @media (max-width: 720px) {
-      .p-trio, .p-duo { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+      .p-trio, .p-duo { grid-template-columns: 1fr; gap: 16px; }
       .p-head { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .p-title { -webkit-text-stroke-width: 3px; }
     }
 
     /* Fade-up du contenu */
@@ -568,28 +580,66 @@
 
     /* ════════ MOBILE ════════ */
     @media (max-width: 768px) {
-      html, body { overflow: auto; }
+      html, body {
+        height: auto; min-height: 100%;
+        overflow-x: hidden; overflow-y: visible;
+        margin: 0; width: 100%;
+      }
+      /* Curseur natif rendu : pas de pointeur à remplacer au doigt */
+      * { cursor: auto !important; }
+      a, button { cursor: pointer !important; }
+      #user-cursor, #ghost-cursor, #ghost-bubble,
+      #trash, #trash-label { display: none !important; }
+
       #bg { display: none; }
+
+      /* Plus aucune mécanique de plan : simple liste verticale */
       #canvas { position: static; height: auto; cursor: default; }
       #world {
-        position: static; width: 100%; height: auto;
+        position: static; box-sizing: border-box;
+        width: 100%; height: auto;
         transform: none !important;
         display: flex; flex-direction: column;
         align-items: center; gap: 20px;
-        padding: 90px 20px 40px;
+        padding: 88px 24px 200px;
       }
       .project-card {
         position: static !important; transform: none !important;
-        width: 100%; max-width: 400px;
+        width: 100%; max-width: 460px;
         box-shadow: 5px 5px 0 var(--black);
       }
       .project-card:hover { transform: translate(2px,2px) !important; box-shadow: 3px 3px 0 var(--black); }
-      #header { top: 0; background: var(--yellow); border-bottom: var(--border); }
+      .card-title { font-size: 21px; }
+
+      /* Header compact */
+      #header {
+        top: 0; background: var(--yellow);
+        border-bottom: var(--border);
+        padding: 12px 24px; gap: 12px;
+      }
       .hbtn.desktop-only { display: none; }
-      .hbtn-burger { display: flex; }
+      #header .hbtn-burger { display: flex; }
+      .hbtn-logo { padding: 7px 12px; gap: 8px; font-size: 12px; }
+      .hbtn-logo img { height: 17px; }
+
       #hint { display: none; }
-      #panel-bandeau { height: 35vw; min-height: 200px; }
+
+      /* Panneau projet */
+      #panel-nav { padding: 12px 24px; }
+      .panel-logo { font-size: 12px; max-width: 58vw; }
+      #panel-close { padding: 7px 12px; font-size: 12px; }
+      #panel-close svg { width: 16px; height: 16px; }
+      #panel-bandeau { height: 46vw; min-height: 170px; }
+      #panel-body { padding: 24px; gap: 20px; }
+      .p-nav-btn { font-size: 12px; padding: 8px 13px; }
       .s2-meta { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    /* ════════ TABLETTE ════════ */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      #panel-body { padding: 24px; }
+      .p-trio { gap: 16px; }
+      .p-duo  { gap: 16px; }
     }
     @media (min-width: 769px) {
       .mobile-only { display: none !important; }
@@ -631,10 +681,9 @@
 
 <!-- HEADER -->
 <header id="header">
-  <span class="mobile-only hbtn" style="font-family:'Archivo Black',sans-serif;font-size:13px;letter-spacing:.05em">MAXDEJA</span>
-  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-  <a href="#" class="hbtn hbtn-logo desktop-only"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
+  <a href="#" class="hbtn hbtn-logo"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
   <a href="contact.html" class="hbtn desktop-only" id="about-btn">À propos / Contactez-moi</a>
+  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
 </header>
 
 <!-- Mobile menu -->
@@ -1156,7 +1205,18 @@ let signPush = 0;              // impulsion du pan
 let signPushVel = 0;
 let lastSignPanX = 0;
 
+const isMobile = () => window.innerWidth <= 768;
+let signCleared = false;
+
 function signLoop(now) {
+  if (isMobile()) {
+    // On rend la main au CSS : la transform inline écraserait la classe .visible
+    if (!signCleared) { signEl.style.transform = ''; signCleared = true; }
+    requestAnimationFrame(signLoop);
+    return;
+  }
+  signCleared = false;
+
   // Vent : deux sinusoïdes de périodes différentes → mouvement irrégulier naturel
   const t = now / 1000;
   signWind = Math.sin(t * 0.7) * 0.8 + Math.sin(t * 1.9 + 1.3) * 0.35;
@@ -1170,6 +1230,16 @@ function signLoop(now) {
   requestAnimationFrame(signLoop);
 }
 requestAnimationFrame(signLoop);
+
+// Sur mobile, le panneau sort du bas quand on atteint la fin de la page
+function checkSignMobile() {
+  if (!isMobile()) { signEl.classList.remove('visible'); return; }
+  const atBottom = scrollY + innerHeight >= document.documentElement.scrollHeight - 10;
+  signEl.classList.toggle('visible', atBottom);
+}
+addEventListener('scroll', checkSignMobile, { passive: true });
+addEventListener('resize', checkSignMobile);
+checkSignMobile();
 
 // Le panneau se penche à l'inverse du mouvement du plan
 function signReactToPan() {
@@ -1237,6 +1307,7 @@ const DRAG_HOLD_MS   = 180; // ms de maintien pour déclencher le drag
 
 function onCardMouseDown(e) {
   if (e.button !== 0) return;
+  if (isMobile()) return;          // mobile : simple tap, pas de glisser
   if (document.getElementById('projet-panel').style.display === 'flex') return;
 
   const card = e.target.closest('.project-card');
@@ -1591,7 +1662,16 @@ function onCardLeave() {
 const _origBuildCards = buildCards;
 function buildCardsWithDrag(data) {
   _origBuildCards(data);
+  const mob = isMobile();
+
   document.querySelectorAll('.project-card').forEach(card => {
+    if (mob) {
+      // Liste simple : un tap ouvre le projet, rien d'autre
+      card.addEventListener('click', () => {
+        openProject(card.dataset.id, card.dataset.img || '', card);
+      });
+      return;
+    }
     enableCardDrag(card);
     const anecdote = card.dataset.anecdote || '';
     if (anecdote) {
@@ -1599,7 +1679,9 @@ function buildCardsWithDrag(data) {
       card.addEventListener('mouseleave', onCardLeave);
     }
   });
-  setTimeout(ghostWelcome, 800);
+
+  if (!mob) setTimeout(ghostWelcome, 800);
+  checkSignMobile();
 }
 
 // ── BURGER MOBILE ──

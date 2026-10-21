@@ -75,6 +75,7 @@
   .hbtn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
   .hbtn:active { transform: translate(4px,4px); box-shadow: none; }
   .hbtn.desktop-only { background: var(--white); }
+  .hbtn-logo { background: var(--white); }
   .hbtn-logo {
     display: inline-flex; align-items: center; gap: 10px;
     padding: 9px 16px; line-height: 1; overflow: visible;
@@ -165,8 +166,25 @@
     #user-cursor { display: none !important; }
     * { cursor: auto !important; }
     a, button { cursor: pointer !important; }
-    main { padding-top: 104px; }
+    main { padding: 104px 24px 70px; }
+    .wrap { max-width: 100%; }
     .row { grid-template-columns: 1fr; gap: 2px; }
+
+    /* Typo ramenée à la largeur de l'écran, jamais sous 12px */
+    h1 {
+      font-size: clamp(24px, 8vw, 40px);
+      letter-spacing: 1px;
+      -webkit-text-stroke-width: 3.5px;
+      filter: drop-shadow(0 4px 0 var(--black));
+      line-height: 1.05; margin-bottom: 30px;
+      overflow-wrap: break-word;
+    }
+    h2 { font-size: 16px; }
+    p, .row { font-size: 14px; }
+    .back { margin-top: 36px; }
+
+    /* Aucun débordement horizontal possible */
+    html, body { max-width: 100%; overflow-x: hidden; }
   }
   @media (min-width: 769px) { .mobile-only { display: none !important; } }
 </style>
@@ -176,10 +194,9 @@
 <div id="bg"></div>
 
 <header id="header">
-  <span class="mobile-only hbtn" style="font-family:'Archivo Black',sans-serif;font-size:13px;letter-spacing:.05em">MAXDEJA</span>
-  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-  <a href="index.html" class="hbtn hbtn-logo desktop-only"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
+  <a href="index.html" class="hbtn hbtn-logo"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
   <a href="contact.html" class="hbtn desktop-only">À propos / Contactez-moi</a>
+  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
 </header>
 
 <div id="mobile-menu">

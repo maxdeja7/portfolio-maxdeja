@@ -105,6 +105,7 @@
   .hbtn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
   .hbtn:active { transform: translate(4px,4px); box-shadow: none; }
   .hbtn.desktop-only { background: var(--white); }
+  .hbtn-logo { background: var(--white); }
   .hbtn-logo {
     display: inline-flex; align-items: center; gap: 10px;
     padding: 9px 16px; line-height: 1;
@@ -161,8 +162,11 @@
   #hero {
     padding: 160px 0 56px;
     display: grid; grid-template-columns: 1fr 340px;
-    gap: 56px; align-items: start;
+    column-gap: 56px; row-gap: 0; align-items: start;
   }
+  #hero > .hero-title { grid-column: 1; grid-row: 1; }
+  #hero > #hero-texts { grid-column: 1; grid-row: 2; }
+  #hero > #carte-wrap { grid-column: 2; grid-row: 1 / span 2; }
   .hero-title {
     font-family: 'Archivo Black', sans-serif;
     font-size: clamp(46px, 8.5vw, 96px);
@@ -391,7 +395,16 @@
 
   /* ─────────── RESPONSIVE ─────────── */
   @media (max-width: 900px) {
-    #hero { grid-template-columns: 1fr; gap: 40px; padding-top: 120px; }
+    #hero {
+      grid-template-columns: 1fr;
+      row-gap: 32px; padding-top: 120px;
+    }
+    #hero > .hero-title,
+    #hero > #hero-texts,
+    #hero > #carte-wrap { grid-column: 1; grid-row: auto; }
+    #hero > .hero-title  { order: 1; margin-bottom: 0; }
+    #hero > #carte-wrap  { order: 2; }
+    #hero > #hero-texts  { order: 3; }
     #carte-wrap { max-width: 340px; transform: rotate(-1.5deg); }
     .duo { grid-template-columns: 1fr; }
     .stats { grid-template-columns: repeat(2, 1fr); }
@@ -405,8 +418,26 @@
     * { cursor: auto !important; }
     a, button { cursor: pointer !important; }
     section { padding: 52px 0; }
-    #hero { padding-top: 104px; }
+    #hero { padding-top: 104px; row-gap: 26px; }
     #outils { padding-bottom: 200px; }
+
+    /* Typo ramenée à la largeur de l'écran, jamais sous 12px */
+    .hero-title {
+      font-size: clamp(38px, 13vw, 64px);
+      -webkit-text-stroke-width: 4px;
+      filter: drop-shadow(0 4px 0 var(--black));
+    }
+    .sec-title {
+      font-size: clamp(22px, 7.4vw, 32px);
+      -webkit-text-stroke-width: 2.5px;
+      margin-bottom: 26px;
+    }
+    .hero-lede { font-size: 17px; max-width: none; }
+    .hero-text { font-size: 14px; max-width: none; }
+    #carte-wrap { max-width: 100%; }
+
+    /* Aucun débordement horizontal possible */
+    html, body { max-width: 100%; overflow-x: hidden; }
     #end-panels { gap: 20px; }
     .ep-board { padding: 11px 14px; }
     .ep-board p { font-size: 12px; }
@@ -434,10 +465,9 @@
 <div id="bg"></div>
 
 <header id="header">
-  <span class="mobile-only hbtn" style="font-family:'Archivo Black',sans-serif;font-size: 13px;letter-spacing:.05em">MAXDEJA</span>
-  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-  <a href="index.html" class="hbtn hbtn-logo desktop-only"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
+  <a href="index.html" class="hbtn hbtn-logo"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
   <a href="#carte-wrap" class="hbtn desktop-only">À propos / Contactez-moi</a>
+  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
 </header>
 
 <div id="mobile-menu">
@@ -452,9 +482,9 @@
   <!-- ══════════ HERO ══════════ -->
   <div class="wrap">
     <section id="hero">
-      <div>
-        <h1 class="hero-title">À propos</h1>
+      <h1 class="hero-title">À propos</h1>
 
+      <div id="hero-texts">
         <p class="hero-lede">
           UI/UX Designer à Lille. Je dessine des interfaces et des identités
           visuelles qui tiennent debout, du premier croquis jusqu'à l'écran livré.
