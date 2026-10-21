@@ -412,9 +412,16 @@
   }
   @media (max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
     #bg { display: none; }
-    #header { top: 0; background: var(--yellow); border-bottom: var(--border); }
+    #header {
+      top: 0; background: var(--yellow);
+      border-bottom: var(--border);
+      padding: 12px 24px; gap: 12px;
+    }
     .hbtn.desktop-only { display: none !important; }
     .mobile-only { display: inline-block; }
+    .hbtn-logo { padding: 7px 12px; gap: 8px; font-size: 12px; }
+    .hbtn-logo img { height: 17px; }
+    .hbtn.mobile-only { padding: 7px 12px; font-size: 12px; }
     #user-cursor { display: none !important; }
     * { cursor: auto !important; }
     a, button { cursor: pointer !important; }
