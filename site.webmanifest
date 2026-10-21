@@ -1,0 +1,16 @@
+{
+  "name": "MAXDEJA : Portfolio UI/UX de Maxence Dejaegher",
+  "short_name": "MAXDEJA",
+  "description": "Portfolio de Maxence Dejaegher, UI/UX Designer à Lille.",
+  "lang": "fr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F4EF9A",
+  "theme_color": "#F4EF9A",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

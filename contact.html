@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>À propos de Maxence Dejaegher, UI/UX Designer à Lille</title>
+<meta name="description" content="UI/UX Designer à Lille, diplômé d'un Master en Design Interactif avec la plus grande distinction. Design d'interface, identité visuelle et motion design sur Figma et la suite Adobe." />
+<meta name="author" content="Maxence Dejaegher" />
+<link rel="canonical" href="https://www.maxdeja.com/contact.html" />
+
+<meta property="og:type" content="profile" />
+<meta property="og:title" content="À propos de Maxence Dejaegher, UI/UX Designer" />
+<meta property="og:description" content="Designer d'interfaces et d'identités visuelles basé à Lille. Master en Design Interactif, lauréat de la fondation Horlait-Dapsens 2023." />
+<meta property="og:url" content="https://www.maxdeja.com/contact.html" />
+<meta property="og:site_name" content="MAXDEJA : Portfolio UI/UX de Maxence Dejaegher" />
+<meta property="og:locale" content="fr_FR" />
+<meta property="og:image" content="https://www.maxdeja.com/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="favicon.ico" sizes="32x32" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#F4EF9A" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono&display=swap" rel="stylesheet" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Maxence Dejaegher",
+  "alternateName": "Maxdeja",
+  "jobTitle": "UI/UX Designer",
+  "url": "https://www.maxdeja.com",
+  "email": "maxdeja@gmail.com",
+  "address": { "@type": "PostalAddress", "addressLocality": "Lille", "addressRegion": "Hauts-de-France", "addressCountry": "FR" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "Académie royale des Beaux-Arts et des Arts décoratifs de Tournai" },
+  "knowsAbout": ["UI Design","UX Design","Design d'interface","Identité visuelle","Motion design","Figma","Prototypage","Design system","Vibe coding"],
+  "sameAs": ["https://www.linkedin.com/in/maxence-dejaegher-46160622a"],
+  "knowsLanguage": ["fr","en"]
+}
+</script>
+
+<style>
+  * { cursor: none !important; }
+  a, img, svg, button { -webkit-user-drag: none; user-drag: none; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --yellow: #F4EF9A;
+    --black: #0D0D0D;
+    --white: #FFFFFF;
+    --gray: #444444;
+    --gray-light: #666666;
+    --orange: #FF693B;
+    --shadow: 7px 7px 0px var(--black);
+    --shadow-sm: 4px 4px 0px var(--black);
+    --border: 2.5px solid var(--black);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--yellow);
+    color: var(--black);
+    user-select: none;
+  }
+
+  #bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='40' fill='%23F4EF9A'/%3E%3Ccircle cx='20' cy='20' r='2' fill='black' fill-opacity='0.1'/%3E%3C/svg%3E");
+    background-size: 40px 40px;
+  }
+
+  /* ─────────── CURSEUR ─────────── */
+  #user-cursor {
+    position: fixed; top: 0; left: 0;
+    width: 27px; height: 27px; line-height: 0;
+    z-index: 9999; pointer-events: none;
+    transform: translate(-100px, -100px);
+  }
+
+  /* ─────────── HEADER (identique à l'accueil) ─────────── */
+  #header {
+    position: fixed; top: 24px; left: 0; right: 0;
+    z-index: 100; display: flex;
+    justify-content: space-between; align-items: center;
+    padding: 0 24px; pointer-events: none;
+  }
+  .hbtn {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 13px; letter-spacing: 0.04em;
+    color: var(--black); background: var(--yellow);
+    border: var(--border); box-shadow: var(--shadow-sm);
+    padding: 8px 14px; pointer-events: all;
+    cursor: pointer; text-decoration: none;
+    display: inline-block;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .hbtn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+  .hbtn:active { transform: translate(4px,4px); box-shadow: none; }
+  .hbtn.desktop-only { background: var(--white); }
+  .hbtn-logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 9px 16px; line-height: 1;
+    overflow: visible;
+  }
+  .hbtn-logo img {
+    height: 20px; width: auto; display: block;
+    object-fit: contain; flex-shrink: 0;
+  }
+
+  .hbtn-burger {
+    display: none; flex-direction: column; gap: 5px;
+    padding: 10px 12px; pointer-events: all;
+    background: var(--yellow); border: var(--border); box-shadow: var(--shadow-sm);
+    cursor: pointer;
+  }
+  .hbtn-burger span { display: block; width: 20px; height: 2px; background: var(--black); }
+
+  #mobile-menu {
+    display: none; position: fixed; inset: 0;
+    background: var(--yellow); z-index: 500;
+    flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+  }
+  #mobile-menu.open { display: flex; }
+  #mobile-menu a {
+    font-family: 'Archivo Black', sans-serif; font-size: 22px;
+    color: var(--black); text-decoration: none; letter-spacing: .04em;
+  }
+  #menu-close {
+    position: absolute; top: 16px; right: 20px;
+    font-family: 'Archivo Black', sans-serif; font-size: 24px;
+    background: none; border: none; color: var(--black);
+  }
+
+  /* ─────────── LAYOUT ─────────── */
+  main { position: relative; z-index: 1; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+  section { padding: 72px 0; }
+  #outils { padding-bottom: 240px; }
+
+  .sec-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(26px, 3.6vw, 42px);
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--white);
+    -webkit-text-stroke: 3.5px var(--black);
+    paint-order: stroke fill;
+    filter: drop-shadow(0 4px 0 var(--black));
+    line-height: 1.1; margin-bottom: 36px;
+  }
+
+  /* ─────────── HERO ─────────── */
+  #hero {
+    padding: 160px 0 56px;
+    display: grid; grid-template-columns: 1fr 340px;
+    gap: 56px; align-items: start;
+  }
+  .hero-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(46px, 8.5vw, 96px);
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--white);
+    -webkit-text-stroke: 6px var(--black);
+    paint-order: stroke fill;
+    filter: drop-shadow(0 6px 0 var(--black));
+    line-height: .95; margin-bottom: 28px;
+  }
+  .hero-lede {
+    font-size: 19px; line-height: 1.65; font-weight: 500;
+    max-width: 54ch; margin-bottom: 18px;
+  }
+  .hero-text { font-size: 15px; line-height: 1.75; max-width: 62ch; color: var(--gray); }
+  .hero-text + .hero-text { margin-top: 14px; }
+  .hl { background: var(--orange); padding: 1px 6px; font-weight: 500; color: var(--black); }
+
+  /* ─────────── CARTE CONTACT (tilt 3D) ─────────── */
+  #carte-wrap {
+    perspective: 1000px;
+    transform: rotate(2.5deg);
+    scroll-margin-top: 120px;
+  }
+  #carte {
+    background: var(--white);
+    border: 3px solid var(--black);
+    box-shadow: var(--shadow);
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform .25s cubic-bezier(.22,.7,.3,1);
+  }
+  #carte.live { transition: transform .08s linear; }
+  .idc-strip { height: 10px; background: #6BCEFF; border-bottom: 3px solid var(--black); }
+  .idc-body { padding: 20px 20px 20px; }
+  .idc-name { font-family: 'Archivo Black', sans-serif; font-size: 23px; line-height: 1.15; }
+  .idc-role { font-size: 13.5px; color: var(--gray); margin-top: 6px; }
+  .idc-rows { margin-top: 16px; }
+  .idc-row {
+    display: flex; justify-content: space-between; gap: 10px;
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    padding: 4px 0; color: var(--gray-light);
+  }
+  .idc-row b { color: var(--black); font-weight: 400; }
+  .idc-links {
+    margin-top: 18px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .idc-link {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    background: var(--orange); border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    padding: 12px 14px; text-decoration: none; color: var(--black);
+    font-family: 'Archivo Black', sans-serif; font-size: 12.5px;
+    transition: transform .13s, box-shadow .13s;
+  }
+  .idc-link:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+  .idc-link em {
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    font-style: normal; color: var(--black); opacity: .72;
+  }
+
+  /* ─────────── STATS ─────────── */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .stat {
+    background: var(--white); border: 3px solid var(--black);
+    box-shadow: 5px 5px 0 var(--black);
+    padding: 20px 18px;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .stat:hover { transform: translate(2px,2px); box-shadow: 3px 3px 0 var(--black); }
+  .stat-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 42px; line-height: 1; margin-bottom: 8px;
+  }
+  .stat-lab {
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--gray-light); line-height: 1.5;
+  }
+
+  /* ─────────── FRISE ─────────── */
+  .frise { list-style: none; }
+  .fr-item {
+    display: grid;
+    grid-template-columns: 128px 30px 1fr;
+    gap: 0 18px;
+  }
+  .fr-date {
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    letter-spacing: .05em; text-transform: uppercase;
+    color: var(--black); text-align: right;
+    padding-top: 1px; line-height: 1.5;
+  }
+  .fr-date span { color: var(--gray-light); display: block; }
+
+  .fr-rail { position: relative; display: flex; justify-content: center; }
+  .fr-rail::before {
+    content: ''; position: absolute;
+    top: 0; bottom: -4px; left: 50%;
+    width: 3px; margin-left: -1.5px; background: var(--black);
+  }
+  .fr-item:last-child .fr-rail::before { bottom: auto; height: 16px; }
+  .fr-dot {
+    position: relative; z-index: 2;
+    width: 17px; height: 17px; margin-top: 1px;
+    border: 3px solid var(--black); background: var(--white);
+    transition: transform .18s cubic-bezier(.34,1.5,.64,1);
+  }
+  .fr-item:first-child .fr-dot { background: var(--orange); }
+  .fr-item:hover .fr-dot { transform: scale(1.45) rotate(45deg); }
+
+  .fr-content { padding-bottom: 36px; }
+  .fr-item:last-child .fr-content { padding-bottom: 0; }
+  .fr-role {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 19px; line-height: 1.2; margin-bottom: 5px;
+  }
+  .fr-org {
+    font-size: 14.5px; font-weight: 500;
+    display: flex; align-items: center; gap: 9px; flex-wrap: wrap;
+  }
+  .fr-badge {
+    font-family: 'Archivo Black', sans-serif; font-size: 12px;
+    letter-spacing: .06em; background: var(--black); color: var(--yellow);
+    padding: 4px 9px;
+  }
+  .fr-place {
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    color: var(--gray-light); margin-top: 5px;
+  }
+  .fr-desc {
+    font-size: 14px; line-height: 1.65; color: var(--gray);
+    margin-top: 9px; max-width: 64ch;
+  }
+
+  /* ─────────── FORMATION ─────────── */
+  .duo { display: grid; grid-template-columns: 1.35fr 1fr; gap: 22px; align-items: start; }
+  .block {
+    background: var(--white); border: 3px solid var(--black);
+    box-shadow: var(--shadow); padding: 26px 26px 28px;
+  }
+  .block-yellow { background: var(--yellow); }
+  .block h3 { font-family: 'Archivo Black', sans-serif; font-size: 20px; line-height: 1.25; margin-bottom: 6px; }
+  .block .sub { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .block .meta { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray-light); letter-spacing: .06em; }
+  .block p { font-size: 14px; line-height: 1.65; color: var(--gray); margin-top: 14px; }
+
+  .award { display: flex; gap: 14px; align-items: flex-start; }
+  .award + .award { margin-top: 20px; padding-top: 20px; border-top: 2px solid var(--black); }
+  .award-badge {
+    width: 44px; height: 44px; flex-shrink: 0;
+    border: 3px solid var(--black); background: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Archivo Black', sans-serif; font-size: 18px;
+  }
+  .award-t { font-family: 'Archivo Black', sans-serif; font-size: 15px; line-height: 1.3; }
+  .award-d { font-size: 13px; color: var(--gray); line-height: 1.55; margin-top: 4px; }
+
+  /* ─────────── OUTILS ─────────── */
+  .tool-group + .tool-group { margin-top: 26px; }
+  .tool-group h4 {
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--gray-light); margin-bottom: 12px; font-weight: 400;
+  }
+  .tools { display: flex; flex-wrap: wrap; gap: 11px; }
+  .tool {
+    font-family: 'Archivo Black', sans-serif; font-size: 13px;
+    background: var(--white); border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    padding: 9px 15px;
+    transition: transform .14s cubic-bezier(.34,1.5,.64,1), box-shadow .14s;
+  }
+  .tool:hover { transform: translate(-1px,-3px) rotate(-2.5deg); box-shadow: 6px 7px 0 var(--black); }
+
+  /* ─────────── PANNEAUX DE FIN ─────────── */
+  #end-panels {
+    position: fixed;
+    bottom: 0; left: 50%;
+    z-index: 90;
+    display: flex; align-items: flex-end; gap: 58px;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .ep {
+    display: flex; flex-direction: column; align-items: center;
+    background: none; border: none; padding: 0;
+    text-decoration: none;
+    filter: drop-shadow(6px 6px 0 var(--black));
+    transform: translateY(185%);
+    transition: transform .55s cubic-bezier(.34,1.22,.64,1);
+    pointer-events: none;
+  }
+  #end-panels.visible .ep { transform: translateY(0); pointer-events: all; }
+  #end-panels.visible .ep:nth-child(2) { transition-delay: .08s; }
+
+  .ep-board {
+    background: var(--orange);
+    border: 3px solid var(--black);
+    padding: 14px 20px;
+    margin-bottom: -3px;
+    position: relative; z-index: 2;
+    transition: transform .14s;
+  }
+  .ep:hover .ep-board { transform: translateY(-4px); }
+  .ep-board p {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 13px; letter-spacing: .04em;
+    color: var(--black); white-space: nowrap;
+  }
+  .ep-post {
+    background: var(--orange);
+    border: 3px solid var(--black); border-bottom: none;
+    width: 18px; height: 72px;
+    position: relative; z-index: 1;
+  }
+  .ep:nth-child(1) { transform-origin: bottom center; }
+  #end-panels.visible .ep:nth-child(1) { transform: translateY(0) rotate(-2.6deg); }
+  #end-panels.visible .ep:nth-child(2) { transform: translateY(0) rotate(2.6deg); }
+
+  /* ─────────── REVEAL ─────────── */
+  .rv { opacity: 0; transform: translateY(26px); }
+  .rv.in { animation: rvUp .55s cubic-bezier(.4,0,.2,1) forwards; }
+  @keyframes rvUp { to { opacity: 1; transform: translateY(0); } }
+
+  /* ─────────── RESPONSIVE ─────────── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; gap: 40px; padding-top: 120px; }
+    #carte-wrap { max-width: 340px; transform: rotate(-1.5deg); }
+    .duo { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    #bg { display: none; }
+    #header { top: 0; background: var(--yellow); border-bottom: var(--border); }
+    .hbtn.desktop-only { display: none; }
+    .hbtn-burger { display: flex; }
+    #user-cursor { display: none !important; }
+    * { cursor: auto !important; }
+    a, button { cursor: pointer !important; }
+    section { padding: 52px 0; }
+    #hero { padding-top: 104px; }
+    #outils { padding-bottom: 200px; }
+    #end-panels { gap: 20px; }
+    .ep-board { padding: 11px 14px; }
+    .ep-board p { font-size: 12px; }
+
+    .fr-item { grid-template-columns: 22px 1fr; gap: 0 14px; }
+    .fr-date {
+      grid-column: 2; text-align: left;
+      margin-bottom: 7px; font-size: 12px;
+    }
+    .fr-date span { display: inline; }
+    .fr-date span::before { content: ' '; }
+    .fr-rail { grid-column: 1; grid-row: 1 / span 2; }
+    .fr-content { grid-column: 2; padding-bottom: 32px; }
+  }
+  @media (min-width: 769px) { .mobile-only { display: none !important; } }
+  @media (prefers-reduced-motion: reduce) {
+    .rv { opacity: 1; transform: none; animation: none; }
+    html { scroll-behavior: auto; }
+    #carte { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="bg"></div>
+
+<header id="header">
+  <span class="mobile-only hbtn" style="font-family:'Archivo Black',sans-serif;font-size: 13px;letter-spacing:.05em">MAXDEJA</span>
+  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a href="index.html" class="hbtn hbtn-logo desktop-only"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
+  <a href="#carte-wrap" class="hbtn desktop-only">À propos / Contactez-moi</a>
+</header>
+
+<div id="mobile-menu">
+  <button id="menu-close" aria-label="Fermer le menu">✕</button>
+  <a href="index.html">Projets</a>
+  <a href="#parcours">Parcours</a>
+  <a href="#carte-wrap">Contact</a>
+</div>
+
+<main>
+
+  <!-- ══════════ HERO ══════════ -->
+  <div class="wrap">
+    <section id="hero">
+      <div>
+        <h1 class="hero-title">À propos</h1>
+
+        <p class="hero-lede">
+          UI/UX Designer à Lille. Je dessine des interfaces et des identités
+          visuelles qui tiennent debout, du premier croquis jusqu'à l'écran livré.
+        </p>
+
+        <p class="hero-text">
+          Diplômé d'un <strong>Master en Design Interactif</strong> à l'Académie royale des
+          Beaux-Arts de Tournai, obtenu avec la plus grande distinction du jury, je suis
+          <span class="hl">major de promotion</span> en filière Publicité et lauréat de la
+          fondation artistique Horlait-Dapsens 2023.
+        </p>
+
+        <p class="hero-text">
+          Au quotidien, je conçois sur <strong>Figma</strong> : interfaces, prototypes et
+          design systems. J'utilise la <strong>suite Adobe</strong> pour tout ce qui touche
+          au graphisme et au motion design. J'interviens sur des applications mobiles,
+          des plateformes web et des identités de marque, avec la même exigence : que
+          le résultat serve vraiment les gens qui s'en servent.
+        </p>
+      </div>
+
+      <!-- Carte de contact -->
+      <div id="carte-wrap">
+        <div id="carte">
+          <div class="idc-strip"></div>
+          <div class="idc-body">
+            <div class="idc-name">Maxence Dejaegher</div>
+            <div class="idc-role">UI/UX Designer &amp; Directeur artistique</div>
+
+            <div class="idc-rows">
+              <div class="idc-row"><span>Depuis</span><b>2021</b></div>
+              <div class="idc-row"><span>Langues</span><b>FR / EN</b></div>
+            </div>
+
+            <div class="idc-links">
+              <a class="idc-link" href="mailto:maxdeja@gmail.com">
+                E-mail <em>maxdeja@gmail.com</em>
+              </a>
+              <a class="idc-link" href="https://www.linkedin.com/in/maxence-dejaegher-46160622a" target="_blank" rel="noopener">
+                LinkedIn <em>profil →</em>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══════════ CHIFFRES ══════════ -->
+  <div class="wrap">
+    <section id="chiffres">
+      <h2 class="sec-title">En bref</h2>
+      <div class="stats">
+        <div class="stat rv">
+          <div class="stat-num" data-since="2021" data-suffix=" ans">0</div>
+          <div class="stat-lab">de pratique,<br/>depuis 2021</div>
+        </div>
+        <div class="stat rv" style="animation-delay:.07s">
+          <div class="stat-num" data-count-of="#parcours .fr-item">0</div>
+          <div class="stat-lab">expériences en<br/>studio &amp; agence</div>
+        </div>
+        <div class="stat rv" style="animation-delay:.14s">
+          <div class="stat-num" data-count-of=".award">0</div>
+          <div class="stat-lab">distinctions<br/>académiques</div>
+        </div>
+        <div class="stat rv" style="animation-delay:.21s">
+          <div class="stat-num" data-count="10" data-suffix="+">0</div>
+          <div class="stat-lab">outils &amp; savoir-faire<br/>maîtrisés</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══════════ PARCOURS ══════════ -->
+  <div class="wrap">
+    <section id="parcours">
+      <h2 class="sec-title">Expériences</h2>
+
+      <ol class="frise">
+
+        <li class="fr-item rv">
+          <div class="fr-date">Juil. 2024<span>aujourd'hui</span></div>
+          <div class="fr-rail"><div class="fr-dot"></div></div>
+          <div class="fr-content">
+            <h3 class="fr-role">UI/UX Designer</h3>
+            <div class="fr-org">Idéine &amp; Idélink <span class="fr-badge">CDI</span></div>
+            <div class="fr-place">Roubaix · Hybride</div>
+            <p class="fr-desc">
+              Conception d'interfaces et de parcours utilisateurs pour des produits
+              web et mobiles : recherche, wireframes, maquettes, prototypes et
+              design systems.
+            </p>
+          </div>
+        </li>
+
+        <li class="fr-item rv">
+          <div class="fr-date">Févr. 2024<span>juil. 2024</span></div>
+          <div class="fr-rail"><div class="fr-dot"></div></div>
+          <div class="fr-content">
+            <h3 class="fr-role">UI Designer</h3>
+            <div class="fr-org">Indépendant <span class="fr-badge">Freelance</span></div>
+            <div class="fr-place">Hybride</div>
+            <p class="fr-desc">
+              Création de sites vitrines de bout en bout, optimisation SEO et design
+              d'applications mobiles pour des clients directs.
+            </p>
+          </div>
+        </li>
+
+        <li class="fr-item rv">
+          <div class="fr-date">Oct. 2023<span>févr. 2024</span></div>
+          <div class="fr-rail"><div class="fr-dot"></div></div>
+          <div class="fr-content">
+            <h3 class="fr-role">Graphiste</h3>
+            <div class="fr-org">Tibelec <span class="fr-badge">CDD</span></div>
+            <div class="fr-place">Sainghin-en-Mélantois · Sur site</div>
+            <p class="fr-desc">
+              Conception de packaging, supports de communication et déclinaisons de
+              l'identité de marque sur l'ensemble de la gamme produits.
+            </p>
+          </div>
+        </li>
+
+        <li class="fr-item rv">
+          <div class="fr-date">Févr. 2023<span>mai 2023</span></div>
+          <div class="fr-rail"><div class="fr-dot"></div></div>
+          <div class="fr-content">
+            <h3 class="fr-role">UI Designer</h3>
+            <div class="fr-org">dps · Groupe Syneido <span class="fr-badge">Stage</span></div>
+            <div class="fr-place">Lille · Sur site</div>
+            <p class="fr-desc">
+              Design d'interfaces web dans le respect des standards d'accessibilité
+              et des guidelines de l'agence.
+            </p>
+          </div>
+        </li>
+
+        <li class="fr-item rv">
+          <div class="fr-date">Févr. 2022<span>mai 2022</span></div>
+          <div class="fr-rail"><div class="fr-dot"></div></div>
+          <div class="fr-content">
+            <h3 class="fr-role">Directeur artistique junior</h3>
+            <div class="fr-org">Conatus Production <span class="fr-badge">Stage</span></div>
+            <div class="fr-place">Roubaix</div>
+            <p class="fr-desc">
+              Identités visuelles, logos, flyers, brochures, newsletters, contenus
+              sociaux, pochettes de musique, webdesign et motion design.
+            </p>
+          </div>
+        </li>
+
+        <li class="fr-item rv">
+          <div class="fr-date">Mars 2021</div>
+          <div class="fr-rail"><div class="fr-dot"></div></div>
+          <div class="fr-content">
+            <h3 class="fr-role">Graphiste</h3>
+            <div class="fr-org">dps · Groupe Syneido <span class="fr-badge">Stage</span></div>
+            <div class="fr-place">Lille</div>
+            <p class="fr-desc">
+              Création de logos, d'affiches et de systèmes de pictogrammes.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+    </section>
+  </div>
+
+  <!-- ══════════ FORMATION & DISTINCTIONS ══════════ -->
+  <div class="wrap">
+    <section id="formation">
+      <h2 class="sec-title">Formation</h2>
+      <div class="duo">
+        <div class="block rv">
+          <h3>Master en Design Interactif, UI/UX Design</h3>
+          <div class="sub">Académie royale des Beaux-Arts et des Arts décoratifs de Tournai</div>
+          <div class="meta">2018 à 2023 · Belgique</div>
+          <p>
+            Cursus complet en design interactif et publicité : typographie, identité
+            de marque, design d'interface, motion design et stratégie de communication.
+            Diplôme obtenu avec <strong>la plus grande distinction du jury</strong>.
+          </p>
+        </div>
+
+        <div class="block block-yellow rv" style="animation-delay:.1s">
+          <div class="award">
+            <div class="award-badge">★</div>
+            <div>
+              <div class="award-t">Lauréat Horlait-Dapsens 2023</div>
+              <div class="award-d">Prix de la fondation artistique, décerné à un projet de fin d'études.</div>
+            </div>
+          </div>
+          <div class="award">
+            <div class="award-badge">1<sup>er</sup></div>
+            <div>
+              <div class="award-t">Major de promotion</div>
+              <div class="award-d">Premier de la filière Publicité sur l'ensemble du cursus.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══════════ OUTILS ══════════ -->
+  <div class="wrap">
+    <section id="outils">
+      <h2 class="sec-title">Compétences</h2>
+
+      <div class="tool-group rv">
+        <h4>Design d'interface</h4>
+        <div class="tools">
+          <span class="tool">Figma</span>
+          <span class="tool">FigJam</span>
+          <span class="tool">Prototypage</span>
+          <span class="tool">Design system</span>
+        </div>
+      </div>
+
+      <div class="tool-group rv" style="animation-delay:.08s">
+        <h4>Graphisme &amp; identité</h4>
+        <div class="tools">
+          <span class="tool">Photoshop</span>
+          <span class="tool">Illustrator</span>
+          <span class="tool">InDesign</span>
+          <span class="tool">Branding</span>
+        </div>
+      </div>
+
+      <div class="tool-group rv" style="animation-delay:.16s">
+        <h4>Motion &amp; animation</h4>
+        <div class="tools">
+          <span class="tool">After Effects</span>
+          <span class="tool">Figma Motion</span>
+          <span class="tool">Premiere Pro</span>
+          <span class="tool">Rive</span>
+        </div>
+      </div>
+
+      <div class="tool-group rv" style="animation-delay:.24s">
+        <h4>Web, IA &amp; production</h4>
+        <div class="tools">
+          <span class="tool">Vibe coding</span>
+          <span class="tool">Outils IA</span>
+          <span class="tool">HTML / CSS</span>
+          <span class="tool">Jira</span>
+          <span class="tool">Whimsical</span>
+          <span class="tool">Notion</span>
+          <span class="tool">SEO</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<!-- Panneaux de fin de page -->
+<div id="end-panels">
+  <a class="ep" href="index.html">
+    <div class="ep-board"><p>← Retour aux projets</p></div>
+    <div class="ep-post"></div>
+  </a>
+  <button class="ep" id="ep-top" type="button">
+    <div class="ep-board"><p>↑ Haut de page</p></div>
+    <div class="ep-post"></div>
+  </button>
+</div>
+
+<script>
+document.addEventListener('dragstart', e => e.preventDefault());
+
+/* ═══════════ CURSEUR UTILISATEUR ═══════════
+   Créé en tout premier : rien ne peut l'empêcher d'apparaître. */
+(function () {
+  var uc = document.createElement('div');
+  uc.id = 'user-cursor';
+  uc.innerHTML = '<svg width="27" height="27" viewBox="0 0 20 20" fill="none">' +
+    '<path d="M4 2L16 10L10 11.5L7.5 17L4 2Z" fill="#FF784E" stroke="white" ' +
+    'stroke-width="1.5" stroke-linejoin="round"/></svg>';
+  document.body.appendChild(uc);
+  document.addEventListener('mousemove', function (e) {
+    uc.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
+  }, { passive: true });
+})();
+</script>
+
+<script>
+/* ═══════════ MENU MOBILE ═══════════ */
+const mm = document.getElementById('mobile-menu');
+document.getElementById('burger').onclick = () => mm.classList.add('open');
+document.getElementById('menu-close').onclick = () => mm.classList.remove('open');
+mm.querySelectorAll('a').forEach(a => a.onclick = () => mm.classList.remove('open'));
+
+/* ═══════════ REVEAL AU SCROLL ═══════════ */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  });
+}, { threshold: .15 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+/* ═══════════ COMPTEURS ═══════════
+   data-since    : années écoulées depuis cette année
+   data-count-of : nombre d'éléments correspondant au sélecteur
+   data-count    : valeur fixe */
+function targetValue(el) {
+  if (el.dataset.since)   return new Date().getFullYear() - parseInt(el.dataset.since, 10);
+  if (el.dataset.countOf) return document.querySelectorAll(el.dataset.countOf).length;
+  return parseInt(el.dataset.count || '0', 10);
+}
+
+const cio = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    const el = en.target;
+    cio.unobserve(el);
+    const target = targetValue(el);
+    const suffix = el.dataset.suffix || '';
+    const dur = 1100, t0 = performance.now();
+    const tick = now => {
+      const p = Math.min((now - t0) / dur, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + (p === 1 ? suffix : '');
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}, { threshold: .5 });
+document.querySelectorAll('.stat-num').forEach(el => cio.observe(el));
+
+/* ═══════════ CARTE : ORIENTATION 3D ═══════════ */
+(function () {
+  const carte = document.getElementById('carte');
+  if (!carte || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const MAX = 9;          // inclinaison maximale en degrés
+  let raf = null, tx = 0, ty = 0, cx = 0, cy = 0;
+
+  function render() {
+    cx += (tx - cx) * 0.12;
+    cy += (ty - cy) * 0.12;
+    carte.style.transform = `rotateX(${cy.toFixed(2)}deg) rotateY(${cx.toFixed(2)}deg)`;
+    if (Math.abs(tx - cx) > 0.05 || Math.abs(ty - cy) > 0.05) {
+      raf = requestAnimationFrame(render);
+    } else { raf = null; }
+  }
+
+  document.addEventListener('mousemove', e => {
+    if (innerWidth <= 900) return;
+    const r = carte.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width / 2)) / (innerWidth / 2);
+    const dy = (e.clientY - (r.top + r.height / 2)) / (innerHeight / 2);
+    tx = Math.max(-1, Math.min(1, dx)) * MAX;
+    ty = Math.max(-1, Math.min(1, dy)) * -MAX;
+    if (!raf) raf = requestAnimationFrame(render);
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => {
+    tx = 0; ty = 0;
+    if (!raf) raf = requestAnimationFrame(render);
+  });
+})();
+
+/* ═══════════ PANNEAUX DE FIN ═══════════ */
+(function () {
+  const panels = document.getElementById('end-panels');
+  const top = document.getElementById('ep-top');
+
+  function check() {
+    const atBottom =
+      scrollY + innerHeight >= document.documentElement.scrollHeight - 8;
+    panels.classList.toggle('visible', atBottom);
+  }
+
+  addEventListener('scroll', check, { passive: true });
+  addEventListener('resize', check);
+  check();
+
+  top.addEventListener('click', () => {
+    scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+</body>
+</html>

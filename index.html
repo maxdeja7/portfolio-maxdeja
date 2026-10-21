@@ -3,11 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MAXDEJA — Portfolio</title>
+  <title>MAXDEJA : Portfolio UI/UX de Maxence Dejaegher</title>
+  <meta name="description" content="Portfolio de Maxence Dejaegher, UI/UX Designer à Lille. Études de cas en design d'interface, identité visuelle et motion design." />
+  <meta name="author" content="Maxence Dejaegher" />
+  <link rel="canonical" href="https://www.maxdeja.com/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="MAXDEJA : Portfolio UI/UX de Maxence Dejaegher" />
+  <meta property="og:title" content="MAXDEJA : Portfolio UI/UX de Maxence Dejaegher" />
+  <meta property="og:description" content="Études de cas en design d'interface, identité visuelle et motion design." />
+  <meta property="og:url" content="https://www.maxdeja.com/" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:image" content="https://www.maxdeja.com/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Portfolio MAXDEJA : cartes de projets UI/UX autour du monogramme MD" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="favicon.ico" sizes="32x32" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#F4EF9A" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "MAXDEJA : Portfolio UI/UX de Maxence Dejaegher",
+    "url": "https://www.maxdeja.com/",
+    "inLanguage": "fr-FR",
+    "author": {
+      "@type": "Person",
+      "name": "Maxence Dejaegher",
+      "jobTitle": "UI/UX Designer",
+      "url": "https://www.maxdeja.com/contact.html",
+      "sameAs": ["https://www.linkedin.com/in/maxence-dejaegher-46160622a"]
+    }
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono&display=swap" rel="stylesheet" />
   <style>
     * { cursor: none !important; }
+    /* Empêche le navigateur de lancer son propre glisser-déposer
+       sur les liens et les images, qui avalait les clics rapides. */
+    a, img, svg, button { -webkit-user-drag: none; user-drag: none; }
 
     :root {
       --yellow: #F4EF9A;
@@ -32,9 +74,10 @@
 
     /* ── BACKGROUND ── */
     #bg {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      position: fixed; inset: -40px; z-index: 0; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='40' fill='%23F4EF9A'/%3E%3Ccircle cx='20' cy='20' r='2' fill='black' fill-opacity='0.1'/%3E%3C/svg%3E");
       background-size: 40px 40px;
+      will-change: transform;
     }
 
     /* ── HEADER ── */
@@ -56,6 +99,16 @@
     }
     .hbtn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
     .hbtn:active { transform: translate(4px,4px); box-shadow: none; }
+    .hbtn.desktop-only { background: var(--white); }
+    .hbtn-logo {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 9px 16px; line-height: 1;
+      overflow: visible;
+    }
+    .hbtn-logo img {
+      height: 20px; width: auto; display: block;
+      object-fit: contain; flex-shrink: 0;
+    }
 
     /* ── CANVAS ── */
     #canvas {
@@ -118,6 +171,7 @@
       transform-origin: bottom center;
       cursor: pointer;
       will-change: transform;
+      text-decoration: none;
       filter: drop-shadow(7px 7px 0 var(--black));
     }
     #sign-board {
@@ -185,10 +239,12 @@
     }
     .panel-logo {
       font-family: 'Archivo Black', sans-serif;
-      font-size: 13px; letter-spacing: 0.52px;
+      font-size: 14px; letter-spacing: 0.4px;
       color: var(--black);
       background: none; border: none; box-shadow: none;
       padding: 0; text-decoration: none;
+      max-width: 62vw;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     #panel-close {
       font-family: 'Archivo Black', sans-serif;
@@ -204,6 +260,65 @@
     }
     #panel-close:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
     #panel-close svg { width: 20px; height: 20px; }
+
+    /* ── BOÎTE AUX LETTRES (détail projet) ── */
+    #sign-contact {
+      position: absolute;
+      bottom: -34px; left: 50%;
+      z-index: 20;
+      width: 190px;
+      transform: translate(-50%, 150%);
+      transform-origin: bottom center;
+      cursor: pointer;
+      transition: transform .5s cubic-bezier(.34,1.25,.64,1);
+      pointer-events: none;
+      filter: drop-shadow(6px 6px 0 rgba(13,13,13,.25));
+    }
+    #sign-contact.visible {
+      transform: translate(-50%, 0);
+      pointer-events: all;
+    }
+    #sign-contact svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+    /* Drapeau : pivote au survol */
+    #mb-flag {
+      transform-origin: 258px 86px;
+      transition: transform .45s cubic-bezier(.34,1.4,.64,1);
+    }
+    #sign-contact.hovered #mb-flag { transform: rotate(-32deg); }
+
+    /* Enveloppe : cachée dans la boîte, sort au survol */
+    #mb-letter {
+      transform: translate(0px, 10px) rotate(0deg);
+      transition: transform .55s cubic-bezier(.34,1.35,.64,1);
+    }
+    #sign-contact.hovered #mb-letter {
+      transform: translate(-215px, -18px) rotate(-8deg);
+    }
+
+    /* Légère bascule de toute la boîte au survol */
+    #mb-box { transition: transform .4s cubic-bezier(.34,1.3,.64,1); transform-origin: 200px 300px; }
+    #sign-contact.hovered #mb-box { transform: rotate(-1.5deg); }
+
+    /* Libellé sous la boîte */
+    #mb-label {
+      position: absolute;
+      bottom: 100%; left: 50%;
+      transform: translate(-50%, -6px);
+      background: var(--black);
+      color: var(--yellow);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 12px; letter-spacing: .5px;
+      padding: 7px 14px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity .25s ease, transform .25s ease;
+      pointer-events: none;
+    }
+    #sign-contact.hovered #mb-label {
+      opacity: 1;
+      transform: translate(-50%, -12px);
+    }
 
     /* Contenu scrollable */
     #panel-content {
@@ -241,7 +356,9 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #fff;
-      text-shadow: 0 4px 0 var(--black), 2px 0 0 var(--black), -2px 0 0 var(--black), 0 -2px 0 var(--black);
+      -webkit-text-stroke: 4px var(--black);
+      paint-order: stroke fill;
+      filter: drop-shadow(0 4px 0 var(--black));
       line-height: 1.1;
       margin: 0;
     }
@@ -283,18 +400,15 @@
     }
     .p-trio { grid-template-columns: repeat(3, 1fr); }
     .p-duo  { grid-template-columns: repeat(2, 1fr); }
-    .p-trio .p-cell { height: 240px; }
-    .p-duo  .p-cell { height: 320px; }
     .p-cell {
       background: #d9d9d9;
       overflow: hidden;
+      aspect-ratio: 16 / 9;
     }
     .p-cell img {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
-      transition: transform 0.5s;
     }
-    .p-cell:hover img { transform: scale(1.04); }
 
     /* Footer navigation projets */
     .p-nav {
@@ -320,7 +434,6 @@
 
     @media (max-width: 720px) {
       .p-trio, .p-duo { grid-template-columns: 1fr; }
-      .p-trio .p-cell, .p-duo .p-cell { height: 220px; }
       .p-head { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
 
@@ -339,17 +452,16 @@
     /* ── POUBELLE ── */
     #trash {
       position: fixed;
-      bottom: 32px; right: 32px;
+      bottom: 32px; right: 36px;
       z-index: 90;
-      width: 64px; height: 72px;
-      cursor: default;
-      transition: transform 0.2s;
+      width: 62px; height: 62px;
+      color: var(--black);
+      transition: transform 0.2s, color 0.2s;
     }
-    #trash .trash-body {
-      transition: fill 0.2s;
-    }
-    #trash.over .trash-body { fill: #E24B4A; }
-    #trash.over { transform: scale(1.12) rotate(-4deg); animation: trashShake 0.25s ease infinite alternate; }
+    #trash svg { width: 100%; height: 100%; display: block; fill: currentColor; }
+    /* Pendant un glisser, la poubelle passe devant la carte (z-index 300) */
+    #trash.front { z-index: 320; }
+    #trash.over { color: #E24B4A; transform: scale(1.12) rotate(-4deg); animation: trashShake 0.25s ease infinite alternate; }
     @keyframes trashShake {
       0% { transform: scale(1.12) rotate(-5deg); }
       100% { transform: scale(1.12) rotate(5deg); }
@@ -431,9 +543,27 @@
     /* ── LOADER ── */
     #loader {
       position: fixed; inset: 0; z-index: 400;
-      display: flex; align-items: center; justify-content: center;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 18px;
       background: var(--yellow);
-      font-family: 'Archivo Black', sans-serif; font-size: 20px; color: var(--black);
+      opacity: 1; transition: opacity .4s ease;
+    }
+    #loader.gone { opacity: 0; pointer-events: none; }
+    #spinner {
+      width: 52px; height: 52px;
+      border: 6px solid var(--black);
+      border-top-color: #FF693B;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loader-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--gray-light);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #spinner { animation-duration: 2.4s; }
     }
 
     /* ════════ MOBILE ════════ */
@@ -494,14 +624,17 @@
 <body>
 
 <div id="bg"></div>
-<div id="loader">Chargement…</div>
+<div id="loader">
+  <div id="spinner"></div>
+  <p id="loader-text">Chargement…</p>
+</div>
 
 <!-- HEADER -->
 <header id="header">
   <span class="mobile-only hbtn" style="font-family:'Archivo Black',sans-serif;font-size:13px;letter-spacing:.05em">MAXDEJA</span>
   <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-  <a href="#" class="hbtn desktop-only">MAXDEJA — PORTFOLIO</a>
-  <a href="#" class="hbtn desktop-only" id="about-btn">À propos / Contactez-moi</a>
+  <a href="#" class="hbtn hbtn-logo desktop-only"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
+  <a href="contact.html" class="hbtn desktop-only" id="about-btn">À propos / Contactez-moi</a>
 </header>
 
 <!-- Mobile menu -->
@@ -517,26 +650,21 @@
 </div>
 
 <!-- PANNEAU MENTIONS LÉGALES -->
-<div id="sign">
+<a id="sign" href="mentions-legales.html">
   <div id="sign-board">
     <p>Mentions légales</p>
     <p>© 2026 Maxence Dejaegher</p>
   </div>
   <div id="sign-post"></div>
-</div>
+</a>
 
 <!-- IMAGE CLONE pour transition zoom -->
 <img id="zoom-clone" src="" alt="" />
 
 <!-- POUBELLE -->
 <div id="trash" role="img" aria-label="Corbeille">
-  <svg viewBox="0 0 64 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="8" y="18" width="48" height="50" rx="3" class="trash-body" fill="#F4EF9A" stroke="#0D0D0D" stroke-width="3"/>
-    <rect x="2" y="10" width="60" height="11" rx="2" fill="#F4EF9A" stroke="#0D0D0D" stroke-width="3"/>
-    <rect x="22" y="2" width="20" height="10" rx="2" fill="#F4EF9A" stroke="#0D0D0D" stroke-width="3"/>
-    <line x1="22" y1="28" x2="22" y2="58" stroke="#0D0D0D" stroke-width="3" stroke-linecap="round"/>
-    <line x1="32" y1="28" x2="32" y2="58" stroke="#0D0D0D" stroke-width="3" stroke-linecap="round"/>
-    <line x1="42" y1="28" x2="42" y2="58" stroke="#0D0D0D" stroke-width="3" stroke-linecap="round"/>
+  <svg viewBox="0 0 753.23 753.23" xmlns="http://www.w3.org/2000/svg">
+    <path d="M494.308,659.077c12.993,0,23.538-10.546,23.538-23.539V353.077c0-12.993-10.545-23.539-23.538-23.539s-23.538,10.545-23.538,23.539v282.461C470.77,648.531,481.314,659.077,494.308,659.077z M635.538,94.154h-141.23V47.077C494.308,21.067,473.24,0,447.23,0H306c-26.01,0-47.077,21.067-47.077,47.077v47.077h-141.23c-26.01,0-47.077,21.067-47.077,47.077v47.077c0,25.986,21.067,47.077,47.077,47.077v423.692c0,51.996,42.157,94.153,94.154,94.153h329.539c51.996,0,94.153-42.157,94.153-94.153V235.385c26.01,0,47.077-21.091,47.077-47.077V141.23C682.615,115.221,661.548,94.154,635.538,94.154z M306,70.615c0-12.993,10.545-23.539,23.538-23.539h94.154c12.993,0,23.538,10.545,23.538,23.539v23.539c-22.809,0-141.23,0-141.23,0V70.615z M588.461,659.077c0,25.986-21.066,47.076-47.076,47.076H211.846c-26.01,0-47.077-21.09-47.077-47.076V235.385h423.692V659.077z M612,188.308H141.23c-12.993,0-23.538-10.545-23.538-23.539s10.545-23.539,23.538-23.539H612c12.993,0,23.538,10.545,23.538,23.539S624.993,188.308,612,188.308z M258.923,659.077c12.993,0,23.539-10.546,23.539-23.539V353.077c0-12.993-10.545-23.539-23.539-23.539s-23.539,10.545-23.539,23.539v282.461C235.384,648.531,245.93,659.077,258.923,659.077z M376.615,659.077c12.993,0,23.538-10.546,23.538-23.539V353.077c0-12.993-10.545-23.539-23.538-23.539s-23.539,10.545-23.539,23.539v282.461C353.077,648.531,363.622,659.077,376.615,659.077z"/>
   </svg>
 </div>
 <div id="trash-label">Glisser ici</div>
@@ -554,7 +682,7 @@
 <div id="projet-panel">
   <!-- Nav sticky -->
   <div id="panel-nav">
-    <span class="panel-logo">MAXDEJA — PORTFOLIO</span>
+    <span class="panel-logo" id="panel-title"></span>
     <button id="panel-close">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
         <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
@@ -569,6 +697,42 @@
     </div>
     <div id="panel-body"></div>
   </div>
+
+  <!-- Boîte aux lettres, sort du bas quand on atteint la fin -->
+  <a id="sign-contact" href="contact.html" aria-label="Contactez-moi">
+    <span id="mb-label">Contactez-moi !</span>
+    <svg viewBox="0 0 370 405" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Enveloppe (sort de la boîte au survol) -->
+      <g id="mb-letter">
+        <g transform="translate(150 95) scale(0.62)">
+          <rect x="2.32" y="29.79" width="154.33" height="99.36"
+                transform="rotate(-10.25 2.32 29.79)"
+                fill="#F47751" stroke="black" stroke-width="6"/>
+          <path d="M150.93 2.91L5.58 29.2L89.8 79.89L150.93 2.91Z"
+                fill="#F47751" stroke="black" stroke-width="6"/>
+        </g>
+      </g>
+
+      <!-- Boîte aux lettres -->
+      <g id="mb-box">
+        <!-- Poteau -->
+        <path d="M223 212H194V403H223V212Z" fill="#F47751" stroke="black" stroke-width="4" stroke-miterlimit="10"/>
+        <!-- Face avant claire -->
+        <path d="M180.693 149.176V225.112H16.7744V149.176C16.7744 98.8651 53.4718 58.0991 98.7339 58.0991C143.996 58.0991 180.693 98.8651 180.693 149.176Z" fill="#F9F3A2" stroke="black" stroke-width="4" stroke-miterlimit="10"/>
+        <!-- Corps -->
+        <path d="M366.937 154.309V225.112H180.693V149.176C180.693 98.8651 143.996 58.0991 98.7334 58.0991H280.345C328.168 58.0991 366.937 101.18 366.937 154.309Z" fill="#F47751" stroke="black" stroke-width="4" stroke-miterlimit="10"/>
+        <!-- Volet ouvert -->
+        <path d="M180.693 225.112L171.221 257.49C163.87 282.639 148.039 305.405 128.385 321.894C108.732 338.369 85.2673 348.567 62.6363 348.567C17.3742 348.567 -7.40115 307.788 7.30229 257.49L16.7738 225.112H180.693Z" fill="#F47751" stroke="black" stroke-width="4" stroke-miterlimit="10"/>
+      </g>
+
+      <!-- Drapeau (pivote au survol) -->
+      <g id="mb-flag">
+        <path d="M258.744 0V84.7181" stroke="black" stroke-width="4" stroke-miterlimit="10"/>
+        <path d="M301.58 11.9004H258.744V38.5331H301.58V11.9004Z" fill="#F9F3A2" stroke="black" stroke-width="4" stroke-miterlimit="10"/>
+        <path d="M258.744 99.9543C266.317 99.9543 272.455 93.1328 272.455 84.7181C272.455 76.3034 266.317 69.4819 258.744 69.4819C251.172 69.4819 245.033 76.3034 245.033 84.7181C245.033 93.1328 251.172 99.9543 258.744 99.9543Z" fill="#F9F3A2" stroke="black" stroke-width="4" stroke-miterlimit="10"/>
+      </g>
+    </svg>
+  </a>
 </div>
 
 <script>
@@ -688,8 +852,15 @@ function centerCanvas() {
   panY = (window.innerHeight - 3000) / 2;
   applyPan();
 }
+const worldEl = document.getElementById('world');
+const bgEl    = document.getElementById('bg');
+const TILE    = 40;   // taille du motif de fond
+
 function applyPan() {
-  document.getElementById('world').style.transform = `translate(${panX}px,${panY}px)`;
+  worldEl.style.transform = `translate(${panX}px,${panY}px)`;
+  // Le motif suit le plan au pixel près. Le modulo le ramène
+  // dans une seule tuile : le fond déborde de 40px, rien ne se découvre.
+  bgEl.style.transform = `translate(${panX % TILE}px,${panY % TILE}px)`;
 }
 
 const canvas = document.getElementById('canvas');
@@ -817,7 +988,8 @@ function renderPanelBody(page, id, fallbackImg, animated) {
   const duo1     = getProp(props,'Duo1','url');
   const duo2     = getProp(props,'Duo2','url');
 
-  document.title = `${titre} — MAXDEJA Portfolio`;
+  document.title = `${titre} — MAXDEJA`;
+  document.getElementById('panel-title').textContent = titre;
 
   const bandeauImg = document.getElementById('panel-bandeau-img');
   if (animated) bandeauImg.style.opacity = '0';
@@ -878,6 +1050,8 @@ function renderPanelBody(page, id, fallbackImg, animated) {
   `;
 
   document.getElementById('panel-content').scrollTop = 0;
+  const sc = document.getElementById('sign-contact');
+  if (sc) sc.classList.remove('visible');
 
   if (prev) document.getElementById('p-prev').addEventListener('click', () => switchProject(prev.id));
   if (next) document.getElementById('p-next').addEventListener('click', () => switchProject(next.id));
@@ -903,9 +1077,10 @@ async function switchProject(newId) {
 // ── CLOSE PROJECT ──
 function closeProject() {
   const panel = document.getElementById('projet-panel');
+  document.getElementById('sign-contact')?.classList.remove('visible');
   panel.style.opacity = '0';
   panel.style.transition = 'opacity .25s ease';
-  document.title = 'MAXDEJA — Portfolio';
+  document.title = 'MAXDEJA : Portfolio UI/UX de Maxence Dejaegher';
   history.pushState({}, 'Portfolio', window.location.pathname);
   setTimeout(() => {
     panel.style.display = 'none';
@@ -921,6 +1096,22 @@ function closeProject() {
 }
 
 document.getElementById('panel-close').addEventListener('click', closeProject);
+
+// ── PANNEAU CONTACT : apparaît en bas de page ──
+const signContact = document.getElementById('sign-contact');
+const panelContentEl = document.getElementById('panel-content');
+
+function checkSignContact() {
+  const el = panelContentEl;
+  const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 4;
+  signContact.classList.toggle('visible', atBottom);
+}
+
+panelContentEl.addEventListener('scroll', checkSignContact);
+
+// Survol de la boîte aux lettres : l'enveloppe sort, le drapeau se lève
+signContact.addEventListener('mouseenter', () => signContact.classList.add('hovered'));
+signContact.addEventListener('mouseleave', () => signContact.classList.remove('hovered'));
 
 // Retour navigateur
 window.addEventListener('popstate', e => {
@@ -989,12 +1180,19 @@ function signReactToPan() {
 }
 
 // ════════════════════════════════════════
+// GLISSER NATIF DÉSACTIVÉ
+// ════════════════════════════════════════
+// Firefox ignore -webkit-user-drag : on coupe l'évènement à la source,
+// sinon un clic un peu glissé sur un lien lance un drag et avale le clic.
+document.addEventListener('dragstart', e => e.preventDefault());
+
+// ════════════════════════════════════════
 // CURSEUR CUSTOM UTILISATEUR (orange)
 // ════════════════════════════════════════
 const userCursorEl = document.createElement('div');
 userCursorEl.id = 'user-cursor';
 userCursorEl.innerHTML = `<svg width="27" height="27" viewBox="0 0 20 20" fill="none">
-  <path d="M4 2L16 10L10 11.5L7.5 17L4 2Z" fill="#FFB347" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M4 2L16 10L10 11.5L7.5 17L4 2Z" fill="#FF784E" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
 </svg>`;
 userCursorEl.style.cssText = 'position:fixed;z-index:500;pointer-events:none;transform:translate(-100px,-100px);';
 document.body.appendChild(userCursorEl);
@@ -1089,6 +1287,7 @@ function startRealDrag(clientX, clientY) {
 
   dragGhost.classList.add('drag-ghost');
   trashLabel.classList.add('visible');
+  trash.classList.add('front');   // la poubelle passe devant la carte
 
   isDraggingCard = true;
   wasDragging = true;
@@ -1132,8 +1331,9 @@ window.addEventListener('mouseup', e => {
   trashLabel.classList.remove('visible');
 
   if (isOverTrash(e.clientX, e.clientY)) {
-    dropInTrash();
+    dropInTrash();   // 'front' est retiré à la fin de l'animation de chute
   } else {
+    trash.classList.remove('front');
     const newWorldX = e.clientX - dragOffX - panX;
     const newWorldY = e.clientY - dragOffY - panY;
     dragGhost.style.left = newWorldX + 'px';
@@ -1169,6 +1369,7 @@ function dropInTrash() {
 
   setTimeout(() => {
     cardClone.remove();
+    trash.classList.remove('front');
     // CRITIQUE : retire drag-ghost (qui porte pointer-events:none)
     ghostRef.classList.remove('drag-ghost');
     ghostRef.style.opacity    = '0';
@@ -1406,14 +1607,26 @@ document.getElementById('burger').addEventListener('click', () => document.getEl
 document.getElementById('menu-close').addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'));
 
 // ── INIT ──
+const LOADER_T0 = performance.now();
+const LOADER_MIN = 500;    // évite le clignotement si Notion répond vite
+
+function hideLoader() {
+  const el = document.getElementById('loader');
+  const wait = Math.max(0, LOADER_MIN - (performance.now() - LOADER_T0));
+  setTimeout(() => {
+    el.classList.add('gone');
+    setTimeout(() => { el.style.display = 'none'; }, 460);
+  }, wait);
+}
+
 async function init() {
   try {
     const data = await fetchProjects();
     buildCardsWithDrag(data);
-    document.getElementById('loader').style.display = 'none';
+    hideLoader();
     await openFromUrl();
   } catch(err) {
-    document.getElementById('loader').textContent = 'Erreur de chargement Notion.';
+    document.getElementById('loader-text').textContent = 'Erreur de chargement Notion.';
   }
 }
 
