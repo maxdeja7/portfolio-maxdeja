@@ -104,7 +104,8 @@
   }
   .hbtn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
   .hbtn:active { transform: translate(4px,4px); box-shadow: none; }
-  .hbtn.desktop-only { background: var(--white); }
+  .hbtn.desktop-only, .hbtn.mobile-only { background: var(--white); }
+  .mobile-only { display: none; }
   .hbtn-logo { background: var(--white); }
   .hbtn-logo {
     display: inline-flex; align-items: center; gap: 10px;
@@ -394,7 +395,7 @@
   @keyframes rvUp { to { opacity: 1; transform: translateY(0); } }
 
   /* ─────────── RESPONSIVE ─────────── */
-  @media (max-width: 900px) {
+  @media (max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
     #hero {
       grid-template-columns: 1fr;
       row-gap: 32px; padding-top: 120px;
@@ -409,11 +410,11 @@
     .duo { grid-template-columns: 1fr; }
     .stats { grid-template-columns: repeat(2, 1fr); }
   }
-  @media (max-width: 768px) {
+  @media (max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
     #bg { display: none; }
     #header { top: 0; background: var(--yellow); border-bottom: var(--border); }
-    .hbtn.desktop-only { display: none; }
-    .hbtn-burger { display: flex; }
+    .hbtn.desktop-only { display: none !important; }
+    .mobile-only { display: inline-block; }
     #user-cursor { display: none !important; }
     * { cursor: auto !important; }
     a, button { cursor: pointer !important; }
@@ -452,7 +453,6 @@
     .fr-rail { grid-column: 1; grid-row: 1 / span 2; }
     .fr-content { grid-column: 2; padding-bottom: 32px; }
   }
-  @media (min-width: 769px) { .mobile-only { display: none !important; } }
   @media (prefers-reduced-motion: reduce) {
     .rv { opacity: 1; transform: none; animation: none; }
     html { scroll-behavior: auto; }
@@ -467,15 +467,9 @@
 <header id="header">
   <a href="index.html" class="hbtn hbtn-logo"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
   <a href="#carte-wrap" class="hbtn desktop-only">À propos / Contactez-moi</a>
-  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a href="#carte-wrap" class="hbtn mobile-only">À propos</a>
 </header>
 
-<div id="mobile-menu">
-  <button id="menu-close" aria-label="Fermer le menu">✕</button>
-  <a href="index.html">Projets</a>
-  <a href="#parcours">Parcours</a>
-  <a href="#carte-wrap">Contact</a>
-</div>
 
 <main>
 
@@ -773,10 +767,6 @@ document.addEventListener('dragstart', e => e.preventDefault());
 
 <script>
 /* ═══════════ MENU MOBILE ═══════════ */
-const mm = document.getElementById('mobile-menu');
-document.getElementById('burger').onclick = () => mm.classList.add('open');
-document.getElementById('menu-close').onclick = () => mm.classList.remove('open');
-mm.querySelectorAll('a').forEach(a => a.onclick = () => mm.classList.remove('open'));
 
 /* ═══════════ REVEAL AU SCROLL ═══════════ */
 const io = new IntersectionObserver(entries => {
@@ -832,7 +822,7 @@ document.querySelectorAll('.stat-num').forEach(el => cio.observe(el));
   }
 
   document.addEventListener('mousemove', e => {
-    if (innerWidth <= 900) return;
+    if (matchMedia('(max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse)').matches) return;
     const r = carte.getBoundingClientRect();
     const dx = (e.clientX - (r.left + r.width / 2)) / (innerWidth / 2);
     const dy = (e.clientY - (r.top + r.height / 2)) / (innerHeight / 2);

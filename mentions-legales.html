@@ -74,7 +74,8 @@
   }
   .hbtn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
   .hbtn:active { transform: translate(4px,4px); box-shadow: none; }
-  .hbtn.desktop-only { background: var(--white); }
+  .hbtn.desktop-only, .hbtn.mobile-only { background: var(--white); }
+  .mobile-only { display: none; }
   .hbtn-logo { background: var(--white); }
   .hbtn-logo {
     display: inline-flex; align-items: center; gap: 10px;
@@ -158,11 +159,11 @@
   }
   .back:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
     #bg { display: none; }
     #header { top: 0; background: var(--yellow); border-bottom: var(--border); }
-    .hbtn.desktop-only { display: none; }
-    .hbtn-burger { display: flex; }
+    .hbtn.desktop-only { display: none !important; }
+    .mobile-only { display: inline-block; }
     #user-cursor { display: none !important; }
     * { cursor: auto !important; }
     a, button { cursor: pointer !important; }
@@ -186,7 +187,6 @@
     /* Aucun débordement horizontal possible */
     html, body { max-width: 100%; overflow-x: hidden; }
   }
-  @media (min-width: 769px) { .mobile-only { display: none !important; } }
 </style>
 </head>
 <body>
@@ -196,14 +196,9 @@
 <header id="header">
   <a href="index.html" class="hbtn hbtn-logo"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
   <a href="contact.html" class="hbtn desktop-only">À propos / Contactez-moi</a>
-  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a href="contact.html" class="hbtn mobile-only">À propos</a>
 </header>
 
-<div id="mobile-menu">
-  <button id="menu-close" aria-label="Fermer le menu">✕</button>
-  <a href="index.html">Projets</a>
-  <a href="contact.html">À propos / Contact</a>
-</div>
 
 <main>
   <div class="wrap">
@@ -387,10 +382,6 @@ document.addEventListener('dragstart', e => e.preventDefault());
   }, { passive: true });
 })();
 
-const mm = document.getElementById('mobile-menu');
-document.getElementById('burger').onclick = () => mm.classList.add('open');
-document.getElementById('menu-close').onclick = () => mm.classList.remove('open');
-mm.querySelectorAll('a').forEach(a => a.onclick = () => mm.classList.remove('open'));
 </script>
 </body>
 </html>

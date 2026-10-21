@@ -99,7 +99,8 @@
     }
     .hbtn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
     .hbtn:active { transform: translate(4px,4px); box-shadow: none; }
-    .hbtn.desktop-only { background: var(--white); }
+    .hbtn.desktop-only, .hbtn.mobile-only { background: var(--white); }
+    .mobile-only { display: none; }
     .hbtn-logo {
       display: inline-flex; align-items: center; gap: 10px;
       padding: 9px 16px; line-height: 1;
@@ -207,7 +208,7 @@
       z-index: 1;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
       #sign {
         left: 50%; bottom: -34px;
         transform: translate(-50%, 190%) rotate(3.44deg);
@@ -425,6 +426,7 @@
     .p-nav {
       display: flex; justify-content: space-between; align-items: center;
       gap: 16px; flex-wrap: wrap;
+      position: relative; z-index: 30;
     }
     .p-nav-btn {
       font-family: 'Archivo Black', sans-serif;
@@ -443,7 +445,7 @@
     .p-nav-btn:disabled { opacity: 0.35; cursor: default; }
     .p-nav-btn:disabled:hover { transform: none; box-shadow: 4px 4px 0 var(--black); }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
       .p-trio, .p-duo { grid-template-columns: 1fr; gap: 16px; }
       .p-head { flex-direction: column; align-items: flex-start; gap: 12px; }
       .p-title { -webkit-text-stroke-width: 3px; }
@@ -579,7 +581,7 @@
     }
 
     /* ════════ MOBILE ════════ */
-    @media (max-width: 768px) {
+    @media (max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
       html, body {
         height: auto; min-height: 100%;
         overflow-x: hidden; overflow-y: visible;
@@ -617,8 +619,8 @@
         border-bottom: var(--border);
         padding: 12px 24px; gap: 12px;
       }
-      .hbtn.desktop-only { display: none; }
-      #header .hbtn-burger { display: flex; }
+      .hbtn.desktop-only { display: none !important; }
+      .mobile-only { display: inline-block; }
       .hbtn-logo { padding: 7px 12px; gap: 8px; font-size: 12px; }
       .hbtn-logo img { height: 17px; }
 
@@ -635,15 +637,6 @@
       .s2-meta { grid-template-columns: 1fr; gap: 2rem; }
     }
 
-    /* ════════ TABLETTE ════════ */
-    @media (min-width: 769px) and (max-width: 1024px) {
-      #panel-body { padding: 24px; }
-      .p-trio { gap: 16px; }
-      .p-duo  { gap: 16px; }
-    }
-    @media (min-width: 769px) {
-      .mobile-only { display: none !important; }
-    }
 
     /* Burger mobile */
     .hbtn-burger {
@@ -683,15 +676,9 @@
 <header id="header">
   <a href="#" class="hbtn hbtn-logo"><img src="logo.svg" alt="Logo MAXDEJA" />Portfolio</a>
   <a href="contact.html" class="hbtn desktop-only" id="about-btn">À propos / Contactez-moi</a>
-  <button class="hbtn hbtn-burger mobile-only" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a href="contact.html" class="hbtn mobile-only" id="about-mobile">À propos</a>
 </header>
 
-<!-- Mobile menu -->
-<div id="mobile-menu">
-  <button id="menu-close">✕</button>
-  <a href="#">Projets</a>
-  <a href="#">À propos / Contactez-moi</a>
-</div>
 
 <!-- CANVAS -->
 <div id="canvas">
@@ -848,7 +835,7 @@ function buildCards(data) {
   pages = data;
   const world = document.getElementById('world');
   world.innerHTML = '';
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.matchMedia('(max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse)').matches;
   const positions = isMobile ? [] : layoutCards(data.length);
 
   data.forEach((page, i) => {
@@ -915,7 +902,7 @@ function applyPan() {
 const canvas = document.getElementById('canvas');
 
 canvas.addEventListener('mousedown', e => {
-  if (window.innerWidth <= 768) return;
+  if (window.matchMedia('(max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse)').matches) return;
   if (isDraggingCard) return;
   if (e.target.closest('.project-card')) return;
   isPanning = true; wasDragging = false;
@@ -937,12 +924,12 @@ window.addEventListener('mouseup', () => {
 // Touch
 let tx0, ty0, tpx, tpy, tmoved;
 canvas.addEventListener('touchstart', e => {
-  if (window.innerWidth <= 768) return;
+  if (window.matchMedia('(max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse)').matches) return;
   const t = e.touches[0];
   tx0 = t.clientX; ty0 = t.clientY; tpx = panX; tpy = panY; tmoved = false;
 }, { passive: true });
 canvas.addEventListener('touchmove', e => {
-  if (window.innerWidth <= 768) return;
+  if (window.matchMedia('(max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse)').matches) return;
   const t = e.touches[0];
   const dx = t.clientX - tx0, dy = t.clientY - ty0;
   if (Math.abs(dx) > 3 || Math.abs(dy) > 3) tmoved = true;
@@ -1099,6 +1086,8 @@ function renderPanelBody(page, id, fallbackImg, animated) {
   `;
 
   document.getElementById('panel-content').scrollTop = 0;
+  // Article court : pas de défilement, on évalue tout de suite
+  requestAnimationFrame(() => { if (typeof checkSignContact === 'function') checkSignContact(); });
   const sc = document.getElementById('sign-contact');
   if (sc) sc.classList.remove('visible');
 
@@ -1159,8 +1148,13 @@ function checkSignContact() {
 panelContentEl.addEventListener('scroll', checkSignContact);
 
 // Survol de la boîte aux lettres : l'enveloppe sort, le drapeau se lève
-signContact.addEventListener('mouseenter', () => signContact.classList.add('hovered'));
-signContact.addEventListener('mouseleave', () => signContact.classList.remove('hovered'));
+if (window.matchMedia('(max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse)').matches) {
+  // Tactile : pas de survol possible, la boîte est ouverte d'office
+  signContact.classList.add('hovered');
+} else {
+  signContact.addEventListener('mouseenter', () => signContact.classList.add('hovered'));
+  signContact.addEventListener('mouseleave', () => signContact.classList.remove('hovered'));
+}
 
 // Retour navigateur
 window.addEventListener('popstate', e => {
@@ -1205,7 +1199,8 @@ let signPush = 0;              // impulsion du pan
 let signPushVel = 0;
 let lastSignPanX = 0;
 
-const isMobile = () => window.innerWidth <= 768;
+const MOBILE_MQ = '(max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse)';
+const isMobile = () => window.matchMedia(MOBILE_MQ).matches;
 let signCleared = false;
 
 function signLoop(now) {
@@ -1685,8 +1680,6 @@ function buildCardsWithDrag(data) {
 }
 
 // ── BURGER MOBILE ──
-document.getElementById('burger').addEventListener('click', () => document.getElementById('mobile-menu').classList.add('open'));
-document.getElementById('menu-close').addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'));
 
 // ── INIT ──
 const LOADER_T0 = performance.now();
@@ -1712,7 +1705,7 @@ async function init() {
   }
 }
 
-window.addEventListener('resize', () => { if (window.innerWidth > 768) centerCanvas(); });
+window.addEventListener('resize', () => { if (!isMobile()) centerCanvas(); });
 init();
 </script>
 </body>
